@@ -1,0 +1,971 @@
+{
+  "Benefits": [
+    {
+      "uuid": "e0ea82d9-4cc9-4fd0-9199-4f10b2dd05ee",
+      "title": "Beneficios en Los Restaurantes de la cadena de Los Hoteles Oro Verde",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Benefits/ben.jpg",
+      "type": "No Transferible",
+      "item": [
+        "fa12f3fd-d7e5-487d-8cf3-14de15032846",
+        "6fb04fb3-a096-44d8-968c-fd78628126ff",
+        "7daf0de1-99a1-4033-8f80-e4c1f484076a",
+        "a0efff2b-533e-43af-85e7-21d4618f39eb",
+        "188c8229-d2ea-4e7a-9215-a0199ec1ed54",
+        "6ef5f0d7-ecf1-48d4-b3b0-620d217bdd9f"
+      ]
+    },
+    {
+      "uuid": "26cedeb9-ecb4-4e3d-b3f2-f682b3a17711",
+      "title": "Beneficios en Bares y Gourmet Deli de la Cadena de Hoteles Oro Verde",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Benefits/ben2.jpg",
+      "type": "No Transferible",
+      "item": [
+        "c82ee17b-8796-48da-99ef-5a26081c660b"
+      ]
+    },
+    {
+      "uuid": "27b66ada-8c19-4c23-a79b-90a5ea553903",
+      "title": "Beneficios en Banquetes y Eventos de Los Hoteles Oro Verde",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Benefits/buffet.jpg",
+      "type": "No Transferible",
+      "item": [
+        "72bb8add-00f9-4baa-99d1-be45de03240c"
+      ]
+    },
+    {
+      "uuid": "adc629ab-5483-46c3-8cad-8cf1e374ff17",
+      "title": "Beneficios en Habitaciones en Los Hoteles Oro Verde",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Benefits/ben3.jpg",
+      "type": "No Transferible",
+      "item": [
+        "9fa0884a-8875-4bf7-9c65-d0f5e946954c"
+      ]
+    }
+  ],
+  "Certificates": [
+    {
+      "uuid": "8a68ad4c-0904-4d98-b2b0-32b2e6ddc4a3",
+      "title": "Un día de entrenamiento",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "img": "https://josecruzal.000webhostapp.com/Sources/certif1.png",
+      "qr": null,
+      "status": "not used",
+      "description": "Este certificado transferible es válido por un (1) día de uso de las instalaciones del gimnasio de la propiedad Oro Verde Hotels de su elección hasta para dos personas.",
+      "quantity": 1,
+      "code": "AE213E"
+    },
+    {
+      "uuid": "9a87ebcd-f533-4d4e-bc42-083f0db9b142",
+      "title": "Suite de bodas",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "img": "https://josecruzal.000webhostapp.com/Sources/certif2.png",
+      "qr": null,
+      "status": "used",
+      "description": "Este certificado transferible es válido por una (1) noche de cortesía en una suite de bodas en cualquier propiedad de Oro Verde Hotels.",
+      "quantity": 1,
+      "code": "AE213E"
+    },
+    {
+      "uuid": "caf073f9-94ef-4841-8e51-5a5e0101b10d",
+      "title": "Un día de buffet",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "img": "https://josecruzal.000webhostapp.com/Sources/buffet.jpg",
+      "qr": null,
+      "status": "not used",
+      "description": "Reducción en la cuenta total de ALIMENTOS dependiendo del número de personas en la mesa, de acuerdo a la siguiente tabla: - 50% de reducción para el Miembro y 1 acompañante - 33.3% de reducción para el Miembro y 2 acompañantes - 25% de reducción para el Miembro y 3 acompañantes - 20% de reducción para el Miembro y 4 acompañantes - 15% de reducción para el Miembro con 5 o más acompañantes - 15% de reducción en la cuenta de alimentos, cuando el Miembro consuma sin acompañantes",
+      "quantity": 1,
+      "code": "AE213E"
+    },
+    {
+      "uuid": "bd0c9217-623c-4e1d-8eb9-78fd6314b416",
+      "title": "Movilización privada",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "img": "https://josecruzal.000webhostapp.com/Sources/servicio-taxi.jpg",
+      "qr": null,
+      "status": "not used",
+      "description": "Salida tardía del hotel de hasta tres horas después de la hora habitual (12PM)",
+      "quantity": 1,
+      "code": "AE213E"
+    },
+    {
+      "uuid": "90d99f3a-2d17-491d-9bf7-454b2063f084",
+      "title": "Work Meeting",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "img": "https://josecruzal.000webhostapp.com/Sources/Machala%201-IMG_6055.jpg",
+      "qr": null,
+      "status": "not used",
+      "description": "Este certificado transferible es por un 15% de descuento en la realización de juntas corporativas antes de las 12PM.",
+      "quantity": 1,
+      "code": "AE213E"
+    },
+    {
+      "uuid": "bf1affa5-dd1e-4d53-8141-6e276c8792a0",
+      "title": "Weekend Pool Day",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "img": "https://josecruzal.000webhostapp.com/Sources/Machala%202-DJI_0589%20(1).jpg",
+      "qr": null,
+      "status": "used",
+      "description": "Este certificado no transferible es válido para el uso de la piscina de la propiedad Oro Verde Hotels de su elección hasta por tres (3) horas.",
+      "quantity": 1,
+      "code": "AE213E"
+    }
+  ],
+  "Hotels": [
+    {
+      "uuid": "627160f3-f416-4e90-bf11-22c9da37a51c",
+      "name": "Oro Verde Guayaquil",
+      "city": "Guayaquil",
+      "address": "Av. 9 de Octubre 414 y García Moreno",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 4-381-1000",
+      "email": "reservas_gye@hotelesoroverde.com",
+      "images": [
+        "ab86385b-c14b-492d-9951-20c6d2c4b82d",
+        "44aef21a-bdcb-49ca-b8d9-b98a13563baf",
+        "a938863d-0264-4c3c-b094-619592c580c3",
+        "e765ca86-b381-4762-8cc8-41c38ed23718"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Presidencial%20sala%204.jpg",
+      "country": "Ecuador",
+      "location": "Guayaquil"
+    },
+    {
+      "uuid": "c4ae19df-3523-4677-a2f3-954b5b4af4e2",
+      "name": "Oro Verde Machala",
+      "city": "Machala",
+      "address": "General Telmo Sandoval y Av. Edgar Cordova",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 7 298 0074",
+      "email": "ov_mch@oroverdehotels.com",
+      "images": [
+        "19f62264-bedf-4a95-b7be-2a0350b8bd1f",
+        "02625037-3cec-441e-bed2-ae526c386d22",
+        "d98cca57-f77c-4de6-a954-4ba850185432",
+        "39d25d90-557b-4afc-8027-4825668a3c6a"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5812-HDR.jpg",
+      "country": "Ecuador",
+      "location": "Machala"
+    },
+    {
+      "uuid": "2b55def3-9e2b-413c-b2cf-f74f50719450",
+      "name": "Oro Verde Cuenca",
+      "city": "Cuenca",
+      "address": "Av Ordoñez Lasso s/n Cuenca, Azuay 10215",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 7 409 0000",
+      "email": "ov_cue@oroverdehotels.com",
+      "images": [
+        "484fd534-29b9-4e0c-b7d3-6adb37182d6a",
+        "711db267-c074-463b-a93c-b0a0678dc155",
+        "68455cec-074e-4691-ac13-8a913eb72693",
+        "f2a36b0e-40ea-491b-988e-5baf4a13195c",
+        "7becc504-e5f5-4c67-bd96-0684c1fbf784"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Manta/OV%20MANTA%200094.jpg",
+      "country": "Ecuador",
+      "location": "Cuenca"
+    },
+    {
+      "uuid": "bc2218df-2632-461e-9df4-63c59c56c0e5",
+      "name": "Oro Verde Manta",
+      "city": "Manta",
+      "address": "Malecón de Manta y Calle 23 Manta, Maine 130213",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 5 262 9200",
+      "email": "reservas_mta@oroverdehotels.com",
+      "images": [
+        "6fa0ea5a-f384-4a85-9c66-ac5aa1ed0f03",
+        "588c94d9-a17a-4122-b6f9-2eb140e5174e",
+        "8cbabf52-aeab-44f0-a231-859c97ac9909",
+        "c9783c80-758d-462c-ab41-94a93f25ccae",
+        "8203e4e2-2e24-4bbc-9a33-9cd9c4bb1bea"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-HotelOROVERDECuenca09.jpg",
+      "country": "Ecuador",
+      "location": "Manta"
+    },
+    {
+      "uuid": "11b54cd7-dd47-405e-a4fd-c5ade8e7b4b6",
+      "name": "Hotel del Parque",
+      "city": "Parque",
+      "address": "Km 1½ vía a Samborondón, Av. Los Arcos y Malta",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 4 372 5260",
+      "email": "hoteldelparque@hotelesoroverde.com",
+      "images": [
+        "14dbd6e8-2066-4ba3-9170-7a7c1147ea62",
+        "dcb32ad2-8340-4609-b8f2-ca02182ecce4",
+        "e92b97ff-a251-4ec2-8a50-7beb1de8af41",
+        "2121f4c3-c133-4eb6-b90b-e5a4a39497ea"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Delparque/Optimized-IMG_5222.jpg",
+      "country": "Ecuador",
+      "location": "Guayaquil"
+    },
+    {
+      "uuid": "817a8856-0bf4-40b4-9d3b-ae1c8debab10",
+      "name": "Hotel Unipark",
+      "city": "Unipark",
+      "address": "Clemente Ballén 406 y Chile, Guayaquil, Guayas 090313",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 4 2327 100",
+      "email": "reservas@uniparkhotel.com",
+      "images": [
+        "8990c535-c739-4cbd-87fe-7e013a0385cf",
+        "b38acd92-35ed-43c9-a70e-4de51d33ae78",
+        "473e46d8-fad3-45b3-9087-413934591d54",
+        "d55e4fb3-571e-41c7-9673-f055e5dd7f71"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Unipark/Optimized-IMG_3934.jpg",
+      "country": "Ecuador",
+      "location": "Guayaquil"
+    },
+    {
+      "uuid": "addaa6c2-61e4-4c35-bf09-d20d50436128",
+      "name": "Villa Escalesia",
+      "city": "Escalesia",
+      "address": "Barrio Pelican Bay Av. Charles Darwin y Seymour, Puerto Ayora, Isla Santa Cruz, Galápagos,",
+      "la": null,
+      "lo": null,
+      "stars": 5,
+      "phone": "593 4 2511 317",
+      "email": "villaescalesia@hotelesoroverde.com",
+      "images": [
+        "06a8b840-dfb9-4f48-be1d-22f66be940dc",
+        "3ce130cd-34f9-410b-818f-90372ce8ae48",
+        "66565bb1-ed59-422b-97a0-5b07d6786489",
+        "d877afee-ae8d-49d1-a266-4ebe7a512532"
+      ],
+      "img_main": "https://josecruzal.000webhostapp.com/Sources/Escalesia/Optimized-IMG_0198-HDR.jpg",
+      "country": "Ecuador",
+      "location": "Guayaquil"
+    }
+  ],
+  "Information": [
+    {
+      "uuid": "fa53e9fa-63f0-48c2-8d84-b760113745c1",
+      "address": "Blvd. 9 de Octubre 414 y, Guayaquil 090311",
+      "la": "aaaa",
+      "lo": "bbbb",
+      "phone": "(04) 381-1000"
+    }
+  ],
+  "ItemAdditional": [
+    {
+      "uuid": "4f257b16-0bf4-44d0-a303-7627330555d7",
+      "description": "Internet Wi-Fi ilimitado desde la habitación y en áreas publicas"
+    },
+    {
+      "uuid": "c8dd064d-dee2-4a62-af49-da6ed247ebe4",
+      "description": "Minibar con bebidas soft por estadía"
+    },
+    {
+      "uuid": "f7959288-3de7-4a85-86d0-571ae0057014",
+      "description": "Uso de todas las instalaciones"
+    }
+  ],
+  "ItemBenefit": [
+    {
+      "uuid": "fa12f3fd-d7e5-487d-8cf3-14de15032846",
+      "description": "1 personas – 15% de descuento - Descuento sólo sobre la cuenta total de alimentos."
+    },
+    {
+      "uuid": "6fb04fb3-a096-44d8-968c-fd78628126ff",
+      "description": "2 personas – 50% de descuento - No incluye bebidas, impuestos o propinas."
+    },
+    {
+      "uuid": "7daf0de1-99a1-4033-8f80-e4c1f484076a",
+      "description": "3 personas – 33.3% de descuento - No es válido en órdenes fuera del restaurante o en habitación."
+    },
+    {
+      "uuid": "a0efff2b-533e-43af-85e7-21d4618f39eb",
+      "description": "4 personas – 25% de descuento - Sólo una membresía por mesa, incluyendo cuentas separdas"
+    },
+    {
+      "uuid": "188c8229-d2ea-4e7a-9215-a0199ec1ed54",
+      "description": "5 personas – 20% de descuento - . Beneficio No Transferible."
+    },
+    {
+      "uuid": "6ef5f0d7-ecf1-48d4-b3b0-620d217bdd9f",
+      "description": "6 personas o más – 15% de descuento "
+    },
+    {
+      "uuid": "c82ee17b-8796-48da-99ef-5a26081c660b",
+      "description": "El Socio en los Bares siempre recibirá un 10% sobre la cuenta total en bebidas alcohólicas o no alcohólicas, sin importar el número de personas que lo acompañen o si viene solo."
+    },
+    {
+      "uuid": "72bb8add-00f9-4baa-99d1-be45de03240c",
+      "description": "Tarifas preferenciales por el Diez por ciento (10%) de descuento en la realización de Eventos o Banquetes en Los Hotel Oro Verde (sin incluir gratificaciones y servicios sub-contratados por el hotel). Descuento limitado a mil dólares americanos (US$1.000). "
+    },
+    {
+      "uuid": "9fa0884a-8875-4bf7-9c65-d0f5e946954c",
+      "description": "El Socio tendrá acceso a una Tarifa Preferencial para cada tipo o categoría de habitación. Descuento hasta de un Diez por ciento (10%), Beneficio sujeto a disponibilidad y previa reservación. "
+    }
+  ],
+  "ItemPackage": [
+    {
+      "uuid": "09630e43-6e6f-416d-84c2-860de6fc2d45",
+      "description": "Desayuno americano en la Habitación o Buffet en Cafetería El Patio"
+    },
+    {
+      "uuid": "1a7d8aec-4928-4e19-88b6-728a5658f5bd",
+      "description": "Botella de Champagne"
+    },
+    {
+      "uuid": "b800a736-4dd3-4e8b-bd42-3463c3605bbf",
+      "description": "Frutillas con Chocolate"
+    },
+    {
+      "uuid": "745d0a24-5726-4002-b624-527599e73f6e",
+      "description": "Late Check Out hasta las 16:00 "
+    },
+    {
+      "uuid": "0cf0a499-e31f-44a9-a5b4-f9a7099a9122",
+      "description": "Parqueo de Cortesía Durante la Estadía"
+    },
+    {
+      "uuid": "fad1bd0c-d233-48ab-88ab-1226f0085623",
+      "description": "Traslado Aeropuerto - Hotel - Aeropuerto"
+    },
+    {
+      "uuid": "fdd37c32-c4a4-4561-a320-b22c923b7107",
+      "description": "Opción de Cena Menú en La Fondue o Masaje para dos en nuestro Spa, treinta minutos cada uno"
+    },
+    {
+      "uuid": "1a246cd6-3c34-4a5f-8d09-b25fbeca620c",
+      "description": "Pequeño arreglo floral"
+    }
+  ],
+  "Membresy": [
+    {
+      "uuid": "39061629-03b9-4257-a202-9f10ba0e7882",
+      "name_card": "BRYAN CÓRDOVA A.",
+      "digits_card": "1010171566642401",
+      "date_expire": "2019-11-19T07:12:18.720Z",
+      "partner_from": "2018-11-19T07:12:18.720Z",
+      "visits": 1,
+      "consumption": 525.7000122070312,
+      "discount": 0,
+      "certificates": [
+        "8a68ad4c-0904-4d98-b2b0-32b2e6ddc4a3",
+        "9a87ebcd-f533-4d4e-bc42-083f0db9b142",
+        "caf073f9-94ef-4841-8e51-5a5e0101b10d",
+        "bd0c9217-623c-4e1d-8eb9-78fd6314b416",
+        "90d99f3a-2d17-491d-9bf7-454b2063f084",
+        "bf1affa5-dd1e-4d53-8141-6e276c8792a0"
+      ],
+      "transacctions": [
+        "8d2bb242-10fc-4598-80ac-ef1c52832fee",
+        "afc916d7-2b4e-4120-9e59-193fe3ae7498",
+        "59dcb0a2-97ee-430c-b094-315bf77276ea",
+        "d28bc68a-1a22-407c-8e6e-15328f2c30fc",
+        "b88a5b8a-045c-4810-a890-59fb372a0d60"
+      ]
+    },
+    {
+      "uuid": "8c14d61b-6437-453d-8219-7c1ad5db8c7a",
+      "name_card": "BRYAN CORDOVA",
+      "digits_card": "1010171566642401",
+      "date_expire": "2019-11-19T07:12:18.720Z",
+      "partner_from": "2018-11-19T07:12:18.720Z",
+      "visits": 0,
+      "consumption": 0,
+      "discount": 0,
+      "certificates": [
+        "8a68ad4c-0904-4d98-b2b0-32b2e6ddc4a3",
+        "9a87ebcd-f533-4d4e-bc42-083f0db9b142",
+        "caf073f9-94ef-4841-8e51-5a5e0101b10d",
+        "bd0c9217-623c-4e1d-8eb9-78fd6314b416",
+        "90d99f3a-2d17-491d-9bf7-454b2063f084",
+        "bf1affa5-dd1e-4d53-8141-6e276c8792a0"
+      ],
+      "transacctions": [
+        "8d2bb242-10fc-4598-80ac-ef1c52832fee",
+        "afc916d7-2b4e-4120-9e59-193fe3ae7498",
+        "59dcb0a2-97ee-430c-b094-315bf77276ea",
+        "d28bc68a-1a22-407c-8e6e-15328f2c30fc",
+        "b88a5b8a-045c-4810-a890-59fb372a0d60"
+      ]
+    }
+  ],
+  "Offers": [
+    {
+      "uuid": "f3af3888-e706-409f-a3f7-06a8285c8fee",
+      "name": "PAQUETE ROMÁNTICO",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Machala%201-IMG_5935.jpg",
+      "price_ini": 110,
+      "description": "Válido solo para viernes, sábado, domingo",
+      "disponibility": "Válido solo para viernes, sábado, domingo",
+      "types": [
+        "64fa2f67-b578-4360-8503-2e9a12cf0b81",
+        "28e7bfc3-1a3c-4cfe-9578-d1bc5ec11400",
+        "2b5ca2e4-fa49-4c99-9257-ce2efa643d1e"
+      ],
+      "items": [
+        "09630e43-6e6f-416d-84c2-860de6fc2d45",
+        "1a7d8aec-4928-4e19-88b6-728a5658f5bd",
+        "b800a736-4dd3-4e8b-bd42-3463c3605bbf",
+        "745d0a24-5726-4002-b624-527599e73f6e",
+        "0cf0a499-e31f-44a9-a5b4-f9a7099a9122",
+        "fad1bd0c-d233-48ab-88ab-1226f0085623",
+        "fdd37c32-c4a4-4561-a320-b22c923b7107",
+        "1a246cd6-3c34-4a5f-8d09-b25fbeca620c"
+      ],
+      "additionals": [
+        "4f257b16-0bf4-44d0-a303-7627330555d7",
+        "c8dd064d-dee2-4a62-af49-da6ed247ebe4",
+        "f7959288-3de7-4a85-86d0-571ae0057014"
+      ]
+    },
+    {
+      "uuid": "fb142860-1d86-4572-86e9-048af8ff8cf9",
+      "name": "ESCAPE ROMANTICO",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Boda%20-%20SALON%20ORO%20VERDE%20(12).jpg",
+      "price_ini": 180,
+      "description": "Válido solo para viernes, sábado, domingo ",
+      "disponibility": "Válido solo para viernes, sábado, domingo ",
+      "types": [
+        "fdbaeb54-e066-4fe2-adf2-1b2826b654b3",
+        "72f203c6-795f-4722-b48d-1d8528478fb5",
+        "21a623a1-4862-4f9e-b04e-e648d5225007"
+      ],
+      "items": [
+        "09630e43-6e6f-416d-84c2-860de6fc2d45",
+        "1a7d8aec-4928-4e19-88b6-728a5658f5bd",
+        "b800a736-4dd3-4e8b-bd42-3463c3605bbf",
+        "745d0a24-5726-4002-b624-527599e73f6e",
+        "0cf0a499-e31f-44a9-a5b4-f9a7099a9122",
+        "fad1bd0c-d233-48ab-88ab-1226f0085623",
+        "1a246cd6-3c34-4a5f-8d09-b25fbeca620c",
+        "fdd37c32-c4a4-4561-a320-b22c923b7107"
+      ],
+      "additionals": [
+        "4f257b16-0bf4-44d0-a303-7627330555d7",
+        "c8dd064d-dee2-4a62-af49-da6ed247ebe4",
+        "f7959288-3de7-4a85-86d0-571ae0057014"
+      ]
+    },
+    {
+      "uuid": "7c6f2a6d-2d96-4af6-be1b-194a7c52b73a",
+      "name": "DESAYUNO ESPECIAL",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Optimized-desayuno.jpg",
+      "price_ini": 60,
+      "description": "Válido solo para viernes, sábado, domingo ",
+      "disponibility": "Válido solo para viernes, sábado, domingo ",
+      "types": [
+        "b6d51b8e-4a51-4a87-9930-6b90cb1b83f9"
+      ],
+      "items": [
+        "09630e43-6e6f-416d-84c2-860de6fc2d45",
+        "b800a736-4dd3-4e8b-bd42-3463c3605bbf",
+        "0cf0a499-e31f-44a9-a5b4-f9a7099a9122",
+        "1a246cd6-3c34-4a5f-8d09-b25fbeca620c"
+      ],
+      "additionals": [
+        "4f257b16-0bf4-44d0-a303-7627330555d7",
+        "c8dd064d-dee2-4a62-af49-da6ed247ebe4"
+      ]
+    },
+    {
+      "uuid": "e53b4e62-a2e4-421f-88d6-46e7e5aa9b77",
+      "name": "DESAYUNO GOURMET",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Optimized-IMG_6810.jpg",
+      "price_ini": 90,
+      "description": "Válido para lunes, miercoles y viernes",
+      "disponibility": "Válido para lunes, miercoles y viernes",
+      "types": [
+        "b6d51b8e-4a51-4a87-9930-6b90cb1b83f9",
+        "3607d818-9bea-4471-bf02-bc737e07cc12",
+        "fcce2a9f-2273-435b-9b00-124e93d4ceb3"
+      ],
+      "items": [
+        "09630e43-6e6f-416d-84c2-860de6fc2d45",
+        "b800a736-4dd3-4e8b-bd42-3463c3605bbf",
+        "0cf0a499-e31f-44a9-a5b4-f9a7099a9122",
+        "fad1bd0c-d233-48ab-88ab-1226f0085623",
+        "fdd37c32-c4a4-4561-a320-b22c923b7107"
+      ],
+      "additionals": [
+        "c8dd064d-dee2-4a62-af49-da6ed247ebe4"
+      ]
+    }
+  ],
+  "PictureHotel": [
+    {
+      "uuid": "ab86385b-c14b-492d-9951-20c6d2c4b82d",
+      "name": "im1",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Presidencial%20sala%204.jpg",
+      "section": null,
+      "city": "Guayaquil"
+    },
+    {
+      "uuid": "44aef21a-bdcb-49ca-b8d9-b98a13563baf",
+      "name": "im2",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Presidencial%20sala%202.jpg",
+      "section": null,
+      "city": "Guayaquil"
+    },
+    {
+      "uuid": "a938863d-0264-4c3c-b094-619592c580c3",
+      "name": "im3",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Oro%20Verde%20Sala.jpg",
+      "section": null,
+      "city": "Guayaquil"
+    },
+    {
+      "uuid": "e765ca86-b381-4762-8cc8-41c38ed23718",
+      "name": "im4",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/OVG_Room%20Deluxe_Ban%CC%83o%202.jpg",
+      "section": null,
+      "city": "Guayaquil"
+    },
+    {
+      "uuid": "19f62264-bedf-4a95-b7be-2a0350b8bd1f",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5812-HDR.jpg",
+      "section": null,
+      "city": "Machala"
+    },
+    {
+      "uuid": "02625037-3cec-441e-bed2-ae526c386d22",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5808-HDR-Edit.jpg",
+      "section": null,
+      "city": "Machala"
+    },
+    {
+      "uuid": "d98cca57-f77c-4de6-a954-4ba850185432",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5792.jpg",
+      "section": null,
+      "city": "Machala"
+    },
+    {
+      "uuid": "39d25d90-557b-4afc-8027-4825668a3c6a",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5787-HDR.jpg",
+      "section": null,
+      "city": "Machala"
+    },
+    {
+      "uuid": "6fa0ea5a-f384-4a85-9c66-ac5aa1ed0f03",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/OV%20MANTA%200094.jpg",
+      "section": null,
+      "city": "Manta"
+    },
+    {
+      "uuid": "588c94d9-a17a-4122-b6f9-2eb140e5174e",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/OV%20MANTA%200300.jpg",
+      "section": null,
+      "city": "Manta"
+    },
+    {
+      "uuid": "8cbabf52-aeab-44f0-a231-859c97ac9909",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/JR%20SUITE.jpg",
+      "section": null,
+      "city": "Manta"
+    },
+    {
+      "uuid": "c9783c80-758d-462c-ab41-94a93f25ccae",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/IMG_5586.jpg",
+      "section": null,
+      "city": "Manta"
+    },
+    {
+      "uuid": "8203e4e2-2e24-4bbc-9a33-9cd9c4bb1bea",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/Grand%20Suite%202.jpg",
+      "section": null,
+      "city": "Manta"
+    },
+    {
+      "uuid": "484fd534-29b9-4e0c-b7d3-6adb37182d6a",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-HotelOROVERDECuenca09.jpg",
+      "section": null,
+      "city": "Cuenca"
+    },
+    {
+      "uuid": "711db267-c074-463b-a93c-b0a0678dc155",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-HotelOROVERDECuenca49.jpg",
+      "section": null,
+      "city": "Cuenca"
+    },
+    {
+      "uuid": "68455cec-074e-4691-ac13-8a913eb72693",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-OV%20CUENCA%200078.jpg",
+      "section": null,
+      "city": "Cuenca"
+    },
+    {
+      "uuid": "f2a36b0e-40ea-491b-988e-5baf4a13195c",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Parking-area.jpg",
+      "section": null,
+      "city": "Cuenca"
+    },
+    {
+      "uuid": "7becc504-e5f5-4c67-bd96-0684c1fbf784",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/P%C3%A9rgola%20OVC.jpg",
+      "section": null,
+      "city": "Cuenca"
+    },
+    {
+      "uuid": "14dbd6e8-2066-4ba3-9170-7a7c1147ea62",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Delparque/Optimized-_M3_8833%20(1).jpg",
+      "section": null,
+      "city": "Parque"
+    },
+    {
+      "uuid": "dcb32ad2-8340-4609-b8f2-ca02182ecce4",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Delparque/Optimized-IMG_5222.jpg",
+      "section": null,
+      "city": "Parque"
+    },
+    {
+      "uuid": "e92b97ff-a251-4ec2-8a50-7beb1de8af41",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Delparque/Optimized-_M3_8944.jpg",
+      "section": null,
+      "city": "Parque"
+    },
+    {
+      "uuid": "2121f4c3-c133-4eb6-b90b-e5a4a39497ea",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Delparque/Optimized-_M3_8966.jpg",
+      "section": null,
+      "city": "Parque"
+    },
+    {
+      "uuid": "8990c535-c739-4cbd-87fe-7e013a0385cf",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Unipark/Optimized-IMG_3934.jpg",
+      "section": null,
+      "city": "Unipark"
+    },
+    {
+      "uuid": "b38acd92-35ed-43c9-a70e-4de51d33ae78",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Unipark/Optimized-IMG_3295-Pano-Edit.jpg",
+      "section": null,
+      "city": "Unipark"
+    },
+    {
+      "uuid": "473e46d8-fad3-45b3-9087-413934591d54",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Unipark/Optimized-IMG_3361-HDR-Edit.jpg",
+      "section": null,
+      "city": "Unipark"
+    },
+    {
+      "uuid": "d55e4fb3-571e-41c7-9673-f055e5dd7f71",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Unipark/Optimized-IMG_3374-HDR.jpg",
+      "section": null,
+      "city": "Unipark"
+    },
+    {
+      "uuid": "06a8b840-dfb9-4f48-be1d-22f66be940dc",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Escalesia/Optimized-IMG_0198-HDR.jpg",
+      "section": null,
+      "city": "Escalesia"
+    },
+    {
+      "uuid": "3ce130cd-34f9-410b-818f-90372ce8ae48",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Escalesia/Optimized-IMG_1137-Edit.jpg",
+      "section": null,
+      "city": "Escalesia"
+    },
+    {
+      "uuid": "66565bb1-ed59-422b-97a0-5b07d6786489",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Escalesia/Optimized-IMG_1335-Edit.jpg",
+      "section": null,
+      "city": "Escalesia"
+    },
+    {
+      "uuid": "d877afee-ae8d-49d1-a266-4ebe7a512532",
+      "name": null,
+      "url": "https://josecruzal.000webhostapp.com/Sources/Escalesia/Optimized-IMG_1342-HDR-Edit.jpg",
+      "section": null,
+      "city": "Escalesia"
+    }
+  ],
+  "Restaurants": [
+    {
+      "uuid": "5c771920-ffee-4d2f-8a26-f359b65eb9fc",
+      "name": "Gourmet Deli",
+      "status": null,
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T12:34:18.762Z",
+      "schedule_fin": "2019-11-19T14:00:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-Deli%20Gourmet_OVG-min.JPG"
+    },
+    {
+      "uuid": "75b48613-92c4-4806-9f59-167e9d350145",
+      "name": "El patio",
+      "status": null,
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T12:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg"
+    },
+    {
+      "uuid": "8f9332db-e5f0-4979-86ec-a7e022a6f2ba",
+      "name": "Bar El capitán",
+      "status": null,
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T21:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/_MG_2969.jpg"
+    },
+    {
+      "uuid": "fc6d8774-ca4f-47b3-bf60-72edba77fc22",
+      "name": "La Fondue",
+      "status": null,
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T12:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/La_fondue_1_Retouch2019.jpg"
+    },
+    {
+      "uuid": "ef66ad93-293d-4f0d-9717-cd7a3d37b376",
+      "name": "Le Gourmet",
+      "status": null,
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T21:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Le_Gourmet_2_actual.jpg"
+    },
+    {
+      "uuid": "f405900c-477c-4131-94d8-687f28d20ca3",
+      "name": "Café Oro Verde",
+      "status": "",
+      "city": "Manta",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T21:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://mosaicapi.blob.core.windows.net/images/6f6c2bdf-b3d0-479f-9fef-0e7dbde5868d.jpg"
+    },
+    {
+      "uuid": "c22b6955-e99f-4ded-9714-8a64a6bc629a",
+      "name": "Oro Mar",
+      "status": null,
+      "city": "Manta",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T21:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://mosaicapi.blob.core.windows.net/images/3943c977-7a4a-464c-8c2c-f7ee9853626c.jpg"
+    },
+    {
+      "uuid": "9dcfd5f4-b7ee-43df-97c1-f70e934d7b33",
+      "name": "Piano Bar",
+      "status": null,
+      "city": "Machala",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T21:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "address": null,
+      "image": "https://mosaicapi.blob.core.windows.net/images/6a753825-f3e1-44f2-8ad0-74386f5c0447.jpg"
+    }
+  ],
+  "Transacctions": [
+    {
+      "uuid": "8d2bb242-10fc-4598-80ac-ef1c52832fee",
+      "concept": "Paseo en bus turístico",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 50.349998474121094
+    },
+    {
+      "uuid": "afc916d7-2b4e-4120-9e59-193fe3ae7498",
+      "concept": "Servicio a la habitación",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 60.9900016784668
+    },
+    {
+      "uuid": "59dcb0a2-97ee-430c-b094-315bf77276ea",
+      "concept": "Hospedaje 2 días ",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 220.4499969482422
+    },
+    {
+      "uuid": "d28bc68a-1a22-407c-8e6e-15328f2c30fc",
+      "concept": "Cena familiar",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 140.5
+    },
+    {
+      "uuid": "b88a5b8a-045c-4810-a890-59fb372a0d60",
+      "concept": "Alquiler de Suite 2 días",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 520.5999755859375
+    }
+  ],
+  "TypeOffer": [
+    {
+      "uuid": "64fa2f67-b578-4360-8503-2e9a12cf0b81",
+      "id": null,
+      "description": "Habitación Deluxe King",
+      "name": "CLASICO",
+      "price": 110
+    },
+    {
+      "uuid": "28e7bfc3-1a3c-4cfe-9578-d1bc5ec11400",
+      "id": null,
+      "description": "Leading Suite King",
+      "name": "DE LUJO",
+      "price": 130
+    },
+    {
+      "uuid": "2b5ca2e4-fa49-4c99-9257-ce2efa643d1e",
+      "id": null,
+      "description": "Premium Floor King",
+      "name": "INOLVIDABLE",
+      "price": 120
+    },
+    {
+      "uuid": "fdbaeb54-e066-4fe2-adf2-1b2826b654b3",
+      "id": null,
+      "description": "Habitación Deluxe King",
+      "name": "DELUXE",
+      "price": 180
+    },
+    {
+      "uuid": "72f203c6-795f-4722-b48d-1d8528478fb5",
+      "id": null,
+      "description": "Leading Suite King",
+      "name": "LEADING",
+      "price": 200
+    },
+    {
+      "uuid": "21a623a1-4862-4f9e-b04e-e648d5225007",
+      "id": null,
+      "description": "Premium Floor King",
+      "name": "LUXURY",
+      "price": 250
+    },
+    {
+      "uuid": "b6d51b8e-4a51-4a87-9930-6b90cb1b83f9",
+      "id": null,
+      "description": "Desayuno Gourmet Clasico",
+      "name": "CLASICO",
+      "price": 90
+    },
+    {
+      "uuid": "3607d818-9bea-4471-bf02-bc737e07cc12",
+      "id": null,
+      "description": "Desayuno Gourmet Platinum",
+      "name": "PLATINO",
+      "price": 120
+    },
+    {
+      "uuid": "fcce2a9f-2273-435b-9b00-124e93d4ceb3",
+      "id": null,
+      "description": "Desayuno Gourmet Gold",
+      "name": "GOLD",
+      "price": 150
+    }
+  ],
+  "User": [
+    {
+      "uuid": "91939095-9766-4b31-a4f7-efb4de683e4a",
+      "membresy": "39061629-03b9-4257-a202-9f10ba0e7882",
+      "name": "BRYAN",
+      "lastname": "CORDOVA A",
+      "password": "5bits",
+      "username": "5bits",
+      "email": "bryanc@5bits.com",
+      "country": "Ecuador",
+      "address": "Blvd. 9 de Octubre 414 y, Guayaquil 090311",
+      "phone": "(04)3811000"
+    },
+    {
+      "uuid": "061b1283-01a2-4002-8119-25816f26e83a",
+      "membresy": "8c14d61b-6437-453d-8219-7c1ad5db8c7a",
+      "name": "JOSE ALEJANDRO",
+      "lastname": "CRUZ ALVARADO",
+      "password": "alex",
+      "username": "alex",
+      "email": "alex@5bits.com",
+      "country": "Ecuador",
+      "address": "Isidro Ayora",
+      "phone": "0912312312"
+    }
+  ]
+}

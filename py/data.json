@@ -1,0 +1,1327 @@
+{
+  "Certificates": [
+    {
+      "uuid": "ec3ada30-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 1,
+      "title": "Un día de entrenamiento",
+      "img": "https://josecruzal.000webhostapp.com/Sources/certif1.png",
+      "qr": "underline",
+      "status": "not used",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "description": "Este certificado transferible es válido por un (1) día de uso de las instalaciones del gimnasio de la propiedad Oro Verde Hotels de su elección hasta para dos personas.",
+      "quantity": 1
+    },
+    {
+      "uuid": "ec3ada31-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 2,
+      "title": "Suite de bodas",
+      "img": "https://josecruzal.000webhostapp.com/Sources/certif2.png",
+      "qr": "correct",
+      "status": "not used",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "description": "Este certificado transferible es válido por una (1) noche de cortesía en una suite de bodas en cualquier propiedad de Oro Verde Hotels.",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3ada32-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 3,
+      "title": "Un día de buffet",
+      "img": "https://josecruzal.000webhostapp.com/Sources/buffet.jpg",
+      "qr": "entirely",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.771Z",
+      "description": "Reducción en la cuenta total de ALIMENTOS dependiendo del número de personas en la mesa, de acuerdo a la siguiente tabla: - 50% de reducción para el Miembro y 1 acompañante - 33.3% de reducción para el Miembro y 2 acompañantes - 25% de reducción para el Miembro y 3 acompañantes - 20% de reducción para el Miembro y 4 acompañantes - 15% de reducción para el Miembro con 5 o más acompañantes - 15% de reducción en la cuenta de alimentos, cuando el Miembro consuma sin acompañantes",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b0140-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 4,
+      "title": "Movilización privada",
+      "img": "https://josecruzal.000webhostapp.com/Sources/servicio-taxi.jpg",
+      "qr": "note",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.772Z",
+      "description": "Salida tardía del hotel de hasta tres horas después de la hora habitual (12PM)",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b0141-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 5,
+      "title": "Work Meeting",
+      "img": "https://josecruzal.000webhostapp.com/Sources/Machala%201-IMG_6055.jpg",
+      "qr": "finger",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.772Z",
+      "description": "Este certificado transferible es por un 15% de descuento en la realización de juntas corporativas antes de las 12PM.",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b0142-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 6,
+      "title": "Weekend Pool Day",
+      "img": "https://josecruzal.000webhostapp.com/Sources/Machala%202-DJI_0589%20(1).jpg",
+      "qr": "lamp",
+      "status": "not used",
+      "date_expire": "2019-11-19T07:12:18.772Z",
+      "description": "Este certificado no transferible es válido para el uso de la piscina de la propiedad Oro Verde Hotels de su elección hasta por tres (3) horas.",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b2850-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 7,
+      "title": "Gracias por su confianza",
+      "img": "https://josecruzal.000webhostapp.com/Sources/Machala%202-IMG_6125%20(1).jpg",
+      "qr": "tube",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.773Z",
+      "description": "Este certificado no transferible es válido por un (1) desayuno buffet en cortesía hasta para dos (2) personas en los restaurantes de las propiedades Oro Verde Hotels, como agradecimiento por su recomendación y confianza.",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b2851-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 8,
+      "title": "Internet de Cortesía durante su estancia",
+      "img": "https://josecruzal.000webhostapp.com/Sources/IMG_3043%20(1).jpg",
+      "qr": "around",
+      "status": "not used",
+      "date_expire": "2019-11-19T07:12:18.773Z",
+      "description": "Internet de Cortesía durante su estancia",
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b2852-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 9,
+      "title": "gray",
+      "img": "afternoon",
+      "qr": "both",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.773Z",
+      "description": null,
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b4f60-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 10,
+      "title": "compare",
+      "img": "damage",
+      "qr": "condition",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.774Z",
+      "description": null,
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b4f61-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 11,
+      "title": "repeat",
+      "img": "palace",
+      "qr": "heard",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.774Z",
+      "description": null,
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b7670-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 12,
+      "title": "aware",
+      "img": "base",
+      "qr": "next",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.775Z",
+      "description": null,
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b7671-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 13,
+      "title": "closer",
+      "img": "honor",
+      "qr": "alphabet",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.775Z",
+      "description": null,
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b7672-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 14,
+      "title": "bound",
+      "img": "having",
+      "qr": "cloud",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.775Z",
+      "description": null,
+      "quantity": null
+    },
+    {
+      "uuid": "ec3b9d80-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 15,
+      "title": "wolf",
+      "img": "build",
+      "qr": "gray",
+      "status": "used",
+      "date_expire": "2019-11-19T07:12:18.776Z",
+      "description": null,
+      "quantity": null
+    }
+  ],
+  "Hotels": [
+    {
+      "uuid": "ec3c60d3-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 1,
+      "name": "Oro Verde Guayaquil",
+      "city": "Guayaquil",
+      "address": null,
+      "la": null,
+      "lo": null,
+      "stars": null,
+      "phone": null,
+      "email": null,
+      "images": [
+        "ec3b9d81-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3b9d82-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3bc490-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3bc491-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3bc492-0a9b-11ea-82b1-e37e650f4e3b"
+      ]
+    },
+    {
+      "uuid": "ec3c87e0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 2,
+      "name": "Oro Verde Machala",
+      "city": "Machala",
+      "address": null,
+      "la": null,
+      "lo": null,
+      "stars": null,
+      "phone": null,
+      "email": null,
+      "images": [
+        "ec3bc493-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3beba0-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3beba1-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3beba2-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c12b0-0a9b-11ea-82b1-e37e650f4e3b"
+      ]
+    },
+    {
+      "uuid": "ec3c87e1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 3,
+      "name": "Oro Verde Cuenca",
+      "city": "Cuenca",
+      "address": null,
+      "la": null,
+      "lo": null,
+      "stars": null,
+      "phone": null,
+      "email": null,
+      "images": [
+        "ec3c39c2-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c39c3-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c60d0-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c60d1-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c60d2-0a9b-11ea-82b1-e37e650f4e3b"
+      ]
+    },
+    {
+      "uuid": "ec3c87e2-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 4,
+      "name": "Oro Verde Manta",
+      "city": "Manta",
+      "address": null,
+      "la": null,
+      "lo": null,
+      "stars": null,
+      "phone": null,
+      "email": null,
+      "images": [
+        "ec3c12b1-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c12b2-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c12b3-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c39c0-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3c39c1-0a9b-11ea-82b1-e37e650f4e3b"
+      ]
+    }
+  ],
+  "Information": [
+    {
+      "uuid": "ceea860c-d96d-45a1-8b61-002382d7aa64",
+      "id": 1,
+      "address": "Blvd. 9 de Octubre 414 y, Guayaquil 090311",
+      "la": null,
+      "lo": null,
+      "phone": "(04) 381-1000"
+    }
+  ],
+  "ItemAdditional": [
+    {
+      "uuid": "f1bf1b1b-69ef-46fb-80ea-9eda1280e9bc",
+      "id": 1,
+      "description": "Internet Wi-Fi ilimitado desde la habitación y en áreas publicas"
+    },
+    {
+      "uuid": "829b2984-a14e-4510-949f-13d3099c275f",
+      "id": 2,
+      "description": "Minibar con bebidas soft por estadía"
+    },
+    {
+      "uuid": "55d4c11d-688b-467f-8de3-e1b95c36eecb",
+      "id": 3,
+      "description": "Uso de todas las instalaciones"
+    }
+  ],
+  "ItemPackage": [
+    {
+      "uuid": "437b10c9-9ab0-442f-be65-13e9051c2d38",
+      "id": 1,
+      "description": "Desayuno americano en la Habitación o Buffet en Cafetería El Patio"
+    },
+    {
+      "uuid": "cda2b08b-8fde-4dd6-9d66-4260b31dbe3d",
+      "id": 2,
+      "description": "Botella de Champagne"
+    },
+    {
+      "uuid": "114adb0b-5cce-4307-b6af-8205c04a8e30",
+      "id": 3,
+      "description": "Frutillas con Chocolate"
+    },
+    {
+      "uuid": "7ab76a31-46f1-46f4-af85-b4674b4edf67",
+      "id": 4,
+      "description": "Late Check Out hasta las 16:00 "
+    },
+    {
+      "uuid": "06e709ab-7844-415f-8705-d9b0b047c01a",
+      "id": 5,
+      "description": "Parqueo de Cortesía Durante la Estadía"
+    },
+    {
+      "uuid": "ca84b718-6a87-4806-8641-f03f170106e3",
+      "id": 6,
+      "description": "Traslado Aeropuerto - Hotel - Aeropuerto"
+    },
+    {
+      "uuid": "dcb33264-1ecc-4f29-a478-56bd3c00fb46",
+      "id": 10,
+      "description": "Opción de Cena Menú en La Fondue o Masaje para dos en nuestro Spa, treinta minutos cada uno"
+    },
+    {
+      "uuid": "a3c00ba1-e131-40fe-8f89-392998519adc",
+      "id": 9,
+      "description": "Pequeño arreglo floral"
+    }
+  ],
+  "Membresy": [
+    {
+      "uuid": "ec329cd0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 1,
+      "name_card": "BRYAN CORDOVA A.",
+      "digits_card": "1010171566642401",
+      "date_expire": "2019-11-19T07:12:18.720Z",
+      "partner_from": "2018-11-19T07:12:18.720Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [
+        "ec3ada30-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3ada31-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3ada32-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3b0140-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3b0141-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3b0142-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3b2850-0a9b-11ea-82b1-e37e650f4e3b",
+        "ec3b2851-0a9b-11ea-82b1-e37e650f4e3b"
+      ],
+      "transacctions": [
+        "4575cb80-da49-4005-a095-17bf4c934d0b",
+        "64433cc6-dc84-4189-8dbd-73924312788a",
+        "0bcf18fc-d1d7-40e7-86d5-6fa3cbecc0d5",
+        "b7beb4fa-941e-42b6-b8f9-554209b98200",
+        "459659c2-226a-4b43-9168-508aa3a9b7fa"
+      ]
+    },
+    {
+      "uuid": "ec33d550-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 2,
+      "name_card": "sugar",
+      "digits_card": "1010120223456473",
+      "date_expire": "2019-11-19T07:12:18.725Z",
+      "partner_from": "2019-11-19T07:12:18.725Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec33fc60-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 3,
+      "name_card": "chief",
+      "digits_card": "1010120223456475",
+      "date_expire": "2019-11-19T07:12:18.726Z",
+      "partner_from": "2019-11-19T07:12:18.726Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec342370-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 4,
+      "name_card": "pleasant",
+      "digits_card": "1010120223456477",
+      "date_expire": "2019-11-19T07:12:18.727Z",
+      "partner_from": "2019-11-19T07:12:18.727Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec342371-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 5,
+      "name_card": "nice",
+      "digits_card": "1010120223456478",
+      "date_expire": "2019-11-19T07:12:18.727Z",
+      "partner_from": "2019-11-19T07:12:18.727Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec344a80-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 6,
+      "name_card": "rice",
+      "digits_card": "1010120223456422",
+      "date_expire": "2019-11-19T07:12:18.728Z",
+      "partner_from": "2019-11-19T07:12:18.728Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec344a81-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 7,
+      "name_card": "afraid",
+      "digits_card": "123456789123490",
+      "date_expire": "2019-11-19T07:12:18.728Z",
+      "partner_from": "2019-11-19T07:12:18.728Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec347190-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 8,
+      "name_card": "meal",
+      "digits_card": "123456789123412",
+      "date_expire": "2019-11-19T07:12:18.729Z",
+      "partner_from": "2019-11-19T07:12:18.729Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec347191-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 9,
+      "name_card": "writing",
+      "digits_card": "123456789123488",
+      "date_expire": "2019-11-19T07:12:18.729Z",
+      "partner_from": "2019-11-19T07:12:18.729Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec3498a0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 10,
+      "name_card": "discussion",
+      "digits_card": "123456789123495",
+      "date_expire": "2019-11-19T07:12:18.730Z",
+      "partner_from": "2019-11-19T07:12:18.730Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec3498a1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 11,
+      "name_card": "correct",
+      "digits_card": "1234567891234",
+      "date_expire": "2019-11-19T07:12:18.730Z",
+      "partner_from": "2019-11-19T07:12:18.730Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec3498a2-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 12,
+      "name_card": "eye",
+      "digits_card": "1234567891234",
+      "date_expire": "2019-11-19T07:12:18.730Z",
+      "partner_from": "2019-11-19T07:12:18.730Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec34bfb0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 13,
+      "name_card": "likely",
+      "digits_card": "1234567891234",
+      "date_expire": "2019-11-19T07:12:18.731Z",
+      "partner_from": "2019-11-19T07:12:18.731Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec34bfb1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 14,
+      "name_card": "remain",
+      "digits_card": "1234567891234",
+      "date_expire": "2019-11-19T07:12:18.731Z",
+      "partner_from": "2019-11-19T07:12:18.731Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    },
+    {
+      "uuid": "ec34e6c0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 15,
+      "name_card": "collect",
+      "digits_card": "1234567891234",
+      "date_expire": "2019-11-19T07:12:18.732Z",
+      "partner_from": "2019-11-19T07:12:18.732Z",
+      "visits": 0,
+      "consumption": 5000,
+      "discount": 250,
+      "certificates": [],
+      "transacctions": []
+    }
+  ],
+  "Offers": [
+    {
+      "uuid": "6e23696c-2dc3-4da2-972c-6997d0838185",
+      "id": 1,
+      "name": "PAQUETE ROMÁNTICO",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Machala%201-IMG_5935.jpg",
+      "price_ini": 110,
+      "description": "Válido solo para viernes, sábado, domingo",
+      "disponibility": "Válido solo para viernes, sábado, domingo",
+      "types": [
+        "a9290062-1810-4183-8645-c4d49264fec4",
+        "ad5e3f25-0f86-4f20-92e5-fe0e51450ecc",
+        "09c6e675-2db7-4e16-9516-2337e58e9734"
+      ],
+      "items": [
+        "437b10c9-9ab0-442f-be65-13e9051c2d38",
+        "cda2b08b-8fde-4dd6-9d66-4260b31dbe3d",
+        "114adb0b-5cce-4307-b6af-8205c04a8e30",
+        "7ab76a31-46f1-46f4-af85-b4674b4edf67",
+        "06e709ab-7844-415f-8705-d9b0b047c01a",
+        "ca84b718-6a87-4806-8641-f03f170106e3"
+      ],
+      "additionals": []
+    },
+    {
+      "uuid": "3e1780ee-05b8-46cc-85d5-7ed4e22bdf89",
+      "id": 2,
+      "name": "ESCAPE ROMANTICO",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Boda%20-%20SALON%20ORO%20VERDE%20(12).jpg",
+      "price_ini": 180,
+      "description": "Válido solo para viernes, sábado, domingo ",
+      "disponibility": "Válido solo para viernes, sábado, domingo ",
+      "types": [
+        "a81e4b32-65a2-4e07-9d21-95dda6abc5d1",
+        "a50e8d8f-1e6d-48c8-a5a6-f228b541f17d",
+        "f8187ec7-5800-420a-85cb-e10aad3c0fca"
+      ],
+      "items": [
+        "437b10c9-9ab0-442f-be65-13e9051c2d38",
+        "cda2b08b-8fde-4dd6-9d66-4260b31dbe3d",
+        "114adb0b-5cce-4307-b6af-8205c04a8e30",
+        "7ab76a31-46f1-46f4-af85-b4674b4edf67",
+        "06e709ab-7844-415f-8705-d9b0b047c01a",
+        "ca84b718-6a87-4806-8641-f03f170106e3",
+        "dcb33264-1ecc-4f29-a478-56bd3c00fb46",
+        "a3c00ba1-e131-40fe-8f89-392998519adc"
+      ],
+      "additionals": [
+        "f1bf1b1b-69ef-46fb-80ea-9eda1280e9bc",
+        "829b2984-a14e-4510-949f-13d3099c275f",
+        "55d4c11d-688b-467f-8de3-e1b95c36eecb"
+      ]
+    },
+    {
+      "uuid": "a2efcdb1-1a1e-46be-b025-b0e7bc2e2dff",
+      "id": 3,
+      "name": "DESAYUNO ESPECIAL",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Optimized-desayuno.jpg",
+      "price_ini": 60,
+      "description": "Válido solo para sábado y domingo",
+      "disponibility": "Válido solo para sábado y domingo",
+      "types": [
+        "8020b907-684a-4b58-8848-f2699ec5f337",
+        "8e757bec-06d0-4d25-be18-67dcfaccd113",
+        "80d985fa-ac23-4707-823e-57048c928154"
+      ],
+      "items": [
+        "437b10c9-9ab0-442f-be65-13e9051c2d38",
+        "114adb0b-5cce-4307-b6af-8205c04a8e30",
+        "06e709ab-7844-415f-8705-d9b0b047c01a",
+        "ca84b718-6a87-4806-8641-f03f170106e3",
+        "a3c00ba1-e131-40fe-8f89-392998519adc"
+      ],
+      "additionals": []
+    },
+    {
+      "uuid": "bf43eac1-6c08-4bf8-a522-234128853d93",
+      "id": 4,
+      "name": "DESAYUNO GOURMET",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Offers/Optimized-IMG_6810.jpg",
+      "price_ini": 90,
+      "description": "Válido para lunes, miercoles y viernes",
+      "disponibility": "Válido para lunes, miércoles y viernes",
+      "types": [
+        "8020b907-684a-4b58-8848-f2699ec5f337",
+        "8e757bec-06d0-4d25-be18-67dcfaccd113",
+        "80d985fa-ac23-4707-823e-57048c928154"
+      ],
+      "items": [
+        "437b10c9-9ab0-442f-be65-13e9051c2d38",
+        "114adb0b-5cce-4307-b6af-8205c04a8e30",
+        "06e709ab-7844-415f-8705-d9b0b047c01a",
+        "a3c00ba1-e131-40fe-8f89-392998519adc"
+      ],
+      "additionals": [
+        "f1bf1b1b-69ef-46fb-80ea-9eda1280e9bc"
+      ]
+    }
+  ],
+  "PictureHotel": [
+    {
+      "uuid": "ec3b9d81-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 1,
+      "name": "primitive",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Presidencial%20sala%204.jpg",
+      "section": "depend",
+      "type": "Guayaquil"
+    },
+    {
+      "uuid": "ec3b9d82-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 2,
+      "name": "product",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Presidencial%20sala%202.jpg",
+      "section": "mice",
+      "type": "Guayaquil"
+    },
+    {
+      "uuid": "ec3bc490-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 3,
+      "name": "electricity",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/Suite%20Oro%20Verde%20Sala.jpg",
+      "section": "experience",
+      "type": "Guayaquil"
+    },
+    {
+      "uuid": "ec3bc491-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 4,
+      "name": "grown",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/OVG_Room%20Deluxe_Ban%CC%83o%202.jpg",
+      "section": "function",
+      "type": "Guayaquil"
+    },
+    {
+      "uuid": "ec3bc492-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 5,
+      "name": "appropriate",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Gye/OVG_Suite%20Premium%20Floor_805%20Ban%CC%83o.jpg",
+      "section": "share",
+      "type": "Guayaquil"
+    },
+    {
+      "uuid": "ec3bc493-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 6,
+      "name": "real",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5812-HDR.jpg",
+      "section": "spent",
+      "type": "Machala"
+    },
+    {
+      "uuid": "ec3beba0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 7,
+      "name": "happened",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5808-HDR-Edit.jpg",
+      "section": "order",
+      "type": "Machala"
+    },
+    {
+      "uuid": "ec3beba1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 8,
+      "name": "old",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5792.jpg",
+      "section": "wool",
+      "type": "Machala"
+    },
+    {
+      "uuid": "ec3beba2-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 9,
+      "name": "castle",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5787-HDR.jpg",
+      "section": "happy",
+      "type": "Machala"
+    },
+    {
+      "uuid": "ec3c12b0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 10,
+      "name": "trip",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Machala/Machala%201-IMG_5655.jpg",
+      "section": "dirty",
+      "type": "Machala"
+    },
+    {
+      "uuid": "ec3c12b1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 11,
+      "name": "globe",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/OV%20MANTA%200094.jpg",
+      "section": "right",
+      "type": "Manta"
+    },
+    {
+      "uuid": "ec3c12b2-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 12,
+      "name": "gate",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/OV%20MANTA%200300.jpg",
+      "section": "driven",
+      "type": "Manta"
+    },
+    {
+      "uuid": "ec3c12b3-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 13,
+      "name": "primitive",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/JR%20SUITE.jpg",
+      "section": "slope",
+      "type": "Manta"
+    },
+    {
+      "uuid": "ec3c39c0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 14,
+      "name": "sunlight",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/IMG_5586.jpg",
+      "section": "garage",
+      "type": "Manta"
+    },
+    {
+      "uuid": "ec3c39c1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 15,
+      "name": "week",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Manta/Grand%20Suite%202.jpg",
+      "section": "cream",
+      "type": "Manta"
+    },
+    {
+      "uuid": "ec3c39c2-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 16,
+      "name": "pan",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-HotelOROVERDECuenca09.jpg",
+      "section": "copper",
+      "type": "Cuenca"
+    },
+    {
+      "uuid": "ec3c39c3-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 17,
+      "name": "cause",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-HotelOROVERDECuenca49.jpg",
+      "section": "busy",
+      "type": "Cuenca"
+    },
+    {
+      "uuid": "ec3c60d0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 18,
+      "name": "neck",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Optimized-OV%20CUENCA%200078.jpg",
+      "section": "quarter",
+      "type": "Cuenca"
+    },
+    {
+      "uuid": "ec3c60d1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 19,
+      "name": "sugar",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/Parking-area.jpg",
+      "section": "alive",
+      "type": "Cuenca"
+    },
+    {
+      "uuid": "ec3c60d2-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 20,
+      "name": "stairs",
+      "url": "https://josecruzal.000webhostapp.com/Sources/Cuenca/P%C3%A9rgola%20OVC.jpg",
+      "section": "ready",
+      "type": "Cuenca"
+    }
+  ],
+  "Restaurants": [
+    {
+      "uuid": "ec397aa1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 1,
+      "name": "Gourmet Deli",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Deli%20Gourmet_OVG-min.JPG",
+      "status": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-Deli%20Gourmet_OVG-min.JPG",
+      "schedule_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_fin": "2019-11-19T21:30:30.762Z",
+      "schedule_weekend_ini": "2019-11-19T07:30:18.762Z",
+      "schedule_weekend_fin": "2019-11-19T20:30:18.762Z",
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "religious",
+      "longitude": "any",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Blvd. 9 de Octubre 414 y, Guayaquil 090311"
+    },
+    {
+      "uuid": "ec39a1b0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 2,
+      "name": "El patio",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg",
+      "status": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg",
+      "schedule_ini": "2019-11-19T05:30:18.763Z",
+      "schedule_fin": "2019-11-19T23:59:18.763Z",
+      "schedule_weekend_ini": "2019-11-19T05:30:18.763Z",
+      "schedule_weekend_fin": "2019-11-19T23:59:18.763Z",
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "ancient",
+      "longitude": "share",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 de Blvd. 9 de Octubre 414 y, Guayaquil 090311 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec39a1b1-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 3,
+      "name": "Bar El capitán",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Deli%20Gourmet_OVG-min.JPG",
+      "status": "https://josecruzal.000webhostapp.com/Sources/Restaurants/_MG_2969.jpg",
+      "schedule_ini": "2019-11-19T10:00:18.763Z",
+      "schedule_fin": "2019-11-19T23:59:18.763Z",
+      "schedule_weekend_ini": "2019-11-19T10:00:18.763Z",
+      "schedule_weekend_fin": "2019-11-19T01:00:18.763Z",
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "major",
+      "longitude": "jump",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 de Blvd. 9 de Octubre 414 y, Guayaquil 090311 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec39c8c0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 4,
+      "name": "La Fondue",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg",
+      "status": "https://josecruzal.000webhostapp.com/Sources/Restaurants/La_fondue_1_Retouch2019.jpg",
+      "schedule_ini": "2019-11-19T19:00:18.766Z",
+      "schedule_fin": "2019-11-19T23:59:18.766Z",
+      "schedule_weekend_ini": "2019-11-19T19:00:18.766Z",
+      "schedule_weekend_fin": "2019-11-19T23:59:18.766Z",
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "blood",
+      "longitude": "native",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 de Blvd. 9 de Octubre 414 y, Guayaquil 090311 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec3a3df0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 5,
+      "name": "Le Gourmet",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Deli%20Gourmet_OVG-min.JPG",
+      "status": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Le_Gourmet_2_actual.jpg",
+      "schedule_ini": "2019-11-19T19:00:18.766Z",
+      "schedule_fin": "2019-11-19T23:59:18.766Z",
+      "schedule_weekend_ini": "2019-11-19T19:00:18.766Z",
+      "schedule_weekend_fin": "2019-11-19T23:59:18.766Z",
+      "city": "Guayaquil",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "hurt",
+      "longitude": "sick",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec3a6500-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 6,
+      "name": "Hotel Oro Verde",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg",
+      "status": "https://josecruzal.000webhostapp.com/Sources/Restaurants/DJI_0256.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.768Z",
+      "schedule_fin": "2019-11-19T07:12:18.768Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.768Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.768Z",
+      "city": "Cuenca",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "arrangement",
+      "longitude": "tropical",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec3a6501-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 7,
+      "name": "Café Oro Verde",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Deli%20Gourmet_OVG-min.JPG",
+      "status": "https://mosaicapi.blob.core.windows.net/images/6f6c2bdf-b3d0-479f-9fef-0e7dbde5868d.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.768Z",
+      "schedule_fin": "2019-11-19T07:12:18.768Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.768Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.768Z",
+      "city": "Cuenca",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "attached",
+      "longitude": "uncle",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec3a8c10-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 8,
+      "name": "Oro Mar",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg",
+      "status": "https://mosaicapi.blob.core.windows.net/images/3943c977-7a4a-464c-8c2c-f7ee9853626c.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.769Z",
+      "schedule_fin": "2019-11-19T07:12:18.769Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.769Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.769Z",
+      "city": "Machala",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "terrible",
+      "longitude": "living",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec3a8c11-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 9,
+      "name": "Piano Bar",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Deli%20Gourmet_OVG-min.JPG",
+      "status": "https://mosaicapi.blob.core.windows.net/images/6a753825-f3e1-44f2-8ad0-74386f5c0447.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.769Z",
+      "schedule_fin": "2019-11-19T07:12:18.769Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.769Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.769Z",
+      "city": "Machala",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "labor",
+      "longitude": "chamber",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "ec3ab320-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 10,
+      "name": "Restaurante Buena Vista",
+      "image": "https://josecruzal.000webhostapp.com/Sources/Restaurants/Optimized-_MG_2976.jpg",
+      "status": "https://mosaicapi.blob.core.windows.net/images/01cd400d-8b03-4d7a-9cf7-a8fa6c6a11f4.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.770Z",
+      "schedule_fin": "2019-11-19T07:12:18.770Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.770Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.770Z",
+      "city": "Machala",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": "unit",
+      "longitude": "market",
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "1b09b476-e876-4a8e-b42b-5ca27b25e615",
+      "id": 11,
+      "name": "Lobby Bar Milenium",
+      "image": "https://mosaicapi.blob.core.windows.net/images/f8cb58f0-efb2-4143-9b07-b9dc22cc1f77.jpg",
+      "status": "https://mosaicapi.blob.core.windows.net/images/f8cb58f0-efb2-4143-9b07-b9dc22cc1f77.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.770Z",
+      "schedule_fin": "2019-11-19T07:12:18.770Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.770Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.770Z",
+      "city": "Machala",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    },
+    {
+      "uuid": "18de3b45-092c-49ae-9311-f2d9d02474fb",
+      "id": 12,
+      "name": "Jardín del Mar",
+      "image": "https://mosaicapi.blob.core.windows.net/images/8e60a01a-47cc-4a43-971c-e90b2f85c116.jpg",
+      "status": "https://mosaicapi.blob.core.windows.net/images/8e60a01a-47cc-4a43-971c-e90b2f85c116.jpg",
+      "schedule_ini": "2019-11-19T07:12:18.770Z",
+      "schedule_fin": "2019-11-19T07:12:18.770Z",
+      "schedule_weekend_ini": "2019-11-19T07:12:18.770Z",
+      "schedule_weekend_fin": "2019-11-19T07:12:18.770Z",
+      "city": "Manta",
+      "stars": 5,
+      "phone": "(04) 381-1000",
+      "latitude": null,
+      "longitude": null,
+      "schedule_weekend": null,
+      "schedule": null,
+      "address": "Guayaquil, Av. 9 deBlvd. 9 de Octubre 414 y, Guayaquil 090311Octubre 414 y García Moreno, Guayas, Ecuador"
+    }
+  ],
+  "Transacctions": [
+    {
+      "uuid": "4575cb80-da49-4005-a095-17bf4c934d0b",
+      "id": 1,
+      "concept": "Paseo en bus turístico",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 50
+    },
+    {
+      "uuid": "64433cc6-dc84-4189-8dbd-73924312788a",
+      "id": 2,
+      "concept": "Servicio a la habitación",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 60
+    },
+    {
+      "uuid": "0bcf18fc-d1d7-40e7-86d5-6fa3cbecc0d5",
+      "id": 3,
+      "concept": "Hospedaje 2 días ",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 220.5
+    },
+    {
+      "uuid": "b7beb4fa-941e-42b6-b8f9-554209b98200",
+      "id": 4,
+      "concept": "Cena familiar",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 120
+    },
+    {
+      "uuid": "459659c2-226a-4b43-9168-508aa3a9b7fa",
+      "id": 5,
+      "concept": "Alquiler de Suite 2 días",
+      "date_purchase": "2019-11-10T05:00:00.000Z",
+      "amount": 520
+    }
+  ],
+  "TypeOffer": [
+    {
+      "uuid": "a9290062-1810-4183-8645-c4d49264fec4",
+      "id": 1,
+      "description": "Habitación Deluxe King",
+      "price": "110",
+      "name": "CLASICO",
+      "price2": 110
+    },
+    {
+      "uuid": "ad5e3f25-0f86-4f20-92e5-fe0e51450ecc",
+      "id": 2,
+      "description": "Leading Suite King",
+      "price": "130",
+      "name": "DE LUJO",
+      "price2": 130
+    },
+    {
+      "uuid": "09c6e675-2db7-4e16-9516-2337e58e9734",
+      "id": 3,
+      "description": "Premium Floor King",
+      "price": "120",
+      "name": "INOLVIDABLE",
+      "price2": 120
+    },
+    {
+      "uuid": "a81e4b32-65a2-4e07-9d21-95dda6abc5d1",
+      "id": 4,
+      "description": "Habitación Deluxe King",
+      "price": null,
+      "name": "DELUXE",
+      "price2": 180
+    },
+    {
+      "uuid": "a50e8d8f-1e6d-48c8-a5a6-f228b541f17d",
+      "id": 5,
+      "description": "Leading Suite King",
+      "price": null,
+      "name": "LEADING",
+      "price2": 200
+    },
+    {
+      "uuid": "f8187ec7-5800-420a-85cb-e10aad3c0fca",
+      "id": 6,
+      "description": "Premium Floor King",
+      "price": null,
+      "name": "LUXURY",
+      "price2": 190
+    },
+    {
+      "uuid": "8020b907-684a-4b58-8848-f2699ec5f337",
+      "id": 7,
+      "description": "Desayuno Gourmet Clasico",
+      "price": null,
+      "name": "CLASICO",
+      "price2": 60
+    },
+    {
+      "uuid": "8e757bec-06d0-4d25-be18-67dcfaccd113",
+      "id": 8,
+      "description": "Desayuno Gourmet Platinum",
+      "price": null,
+      "name": "PLATINO",
+      "price2": 80
+    },
+    {
+      "uuid": "80d985fa-ac23-4707-823e-57048c928154",
+      "id": 9,
+      "description": "Desayuno Gourmet Gold",
+      "price": null,
+      "name": "GOLD",
+      "price2": 100
+    }
+  ],
+  "User": [
+    {
+      "uuid": "ec366d60-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 1,
+      "membresy": "ec329cd0-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "jcruz",
+      "lastname": "BRYAN CORDOVA ANDRADE",
+      "password": "jcruz123",
+      "phone": "0996802892",
+      "username": "jcruz",
+      "email": "jcruz@outlook.com",
+      "country": "Ecuador",
+      "address": "Blvd. 9 de Octubre 414 y, Guayaquil 090311"
+    },
+    {
+      "uuid": "ec369470-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 2,
+      "membresy": "ec33d550-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "nation",
+      "lastname": "development",
+      "password": "tip",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec36bb80-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 3,
+      "membresy": "ec33fc60-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "dish",
+      "lastname": "sum",
+      "password": "sing",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec36e290-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 4,
+      "membresy": "ec342370-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "cookies",
+      "lastname": "physical",
+      "password": "purple",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec3709a0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 5,
+      "membresy": "ec342371-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "country",
+      "lastname": "leg",
+      "password": "stay",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec3730b0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 6,
+      "membresy": "ec344a80-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "began",
+      "lastname": "aboard",
+      "password": "warm",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec3757c0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 7,
+      "membresy": "ec344a81-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "prevent",
+      "lastname": "joy",
+      "password": "corner",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec37ccf0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 8,
+      "membresy": "ec347190-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "correctly",
+      "lastname": "tell",
+      "password": "paint",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec381b10-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 9,
+      "membresy": "ec347191-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "did",
+      "lastname": "sing",
+      "password": "gather",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec38b750-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 10,
+      "membresy": "ec3498a0-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "pencil",
+      "lastname": "center",
+      "password": "dress",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec38de60-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 11,
+      "membresy": "ec3498a1-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "special",
+      "lastname": "wind",
+      "password": "distance",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec390570-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 12,
+      "membresy": "ec3498a2-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "union",
+      "lastname": "religious",
+      "password": "previous",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec392c80-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 13,
+      "membresy": "ec34bfb0-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "level",
+      "lastname": "constantly",
+      "password": "ground",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec395390-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 14,
+      "membresy": "ec34bfb1-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "potatoes",
+      "lastname": "atmosphere",
+      "password": "strip",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    },
+    {
+      "uuid": "ec397aa0-0a9b-11ea-82b1-e37e650f4e3b",
+      "id": 15,
+      "membresy": "ec34e6c0-0a9b-11ea-82b1-e37e650f4e3b",
+      "name": "famous",
+      "lastname": "practical",
+      "password": "love",
+      "phone": null,
+      "username": null,
+      "email": null,
+      "country": null,
+      "address": null
+    }
+  ]
+}

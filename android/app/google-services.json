@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "253581692222",
+    "firebase_url": "https://adopcionapppets.firebaseio.com",
+    "project_id": "adopcionapppets",
+    "storage_bucket": "adopcionapppets.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253581692222:android:32b2eccd99b1036904b06f",
+        "android_client_info": {
+          "package_name": "com.adopcion.pets"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253581692222-rcef85ci32mc2jbbmgiemmfiq9h2r8pl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-SF_q7fsX-AHXjqTCkh-V5kieN_EVWFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253581692222-rcef85ci32mc2jbbmgiemmfiq9h2r8pl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
