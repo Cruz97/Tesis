@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, TextInput, TouchableHighlight ,ActivityIndicator, Alert,ImageBackground } from 'react-native'
+import { Text, 
+    View, 
+    StyleSheet, 
+    Image, TextInput, TouchableHighlight ,ActivityIndicator, Alert,ImageBackground,TouchableOpacity } from 'react-native'
 // import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
 import Database from '../database'
@@ -17,7 +20,7 @@ import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import {myTheme} from '../src/assets/styles/Theme'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 
 
@@ -39,8 +42,8 @@ export class LoginAdoptante extends Component {
     
     
     this.state = {
-        usuario: 'josecruz@outlook.com',
-        contrasena: 'abc123',
+        usuario: 'jose.cruzal@outlook.com',
+        contrasena: 'Barce@97',
         // usuario: '',
         // contrasena: '',
         // usuario: 'josecruz@outlook.com',
@@ -49,6 +52,8 @@ export class LoginAdoptante extends Component {
         loading: true,
         show: false,
         user: null,
+        showPassword: false,
+        alertCorreo: false
         
         
     }
@@ -95,6 +100,11 @@ Login = () => {
      handlePassword = (text) => this.setState({contrasena: text})
 
     handleCode = (text) => this.setState({inputcode: text})
+
+    validateEmail = (email) => {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
+      };
 
     render() {
         return (
@@ -152,6 +162,21 @@ Login = () => {
                         ref='usuarioInput'
                         keyboardType='email-address'
                         value={this.state.usuario}
+                        onBlur = {
+                            ()=>
+                           {
+                            if(this.state.usuario.length > 0){
+                              if (!this.validateEmail(this.state.usuario)) {
+                                // not a valid email
+                                this.setState({ alertCorreo: true})
+                                //alert('El correo ingresado no es válido',)
+                              }
+                              else{
+                                this.setState({alertCorreo: false})
+                              }
+                            }
+                           }
+                          }
                         // maxLength={13}
                         placeholderTextColor='#000'
                         onChangeText={this.handleUser}
@@ -174,17 +199,25 @@ Login = () => {
                         
                         
                         />
+                        <Text style={{
+                          textAlign:'center', 
+                          color: 'red', 
+                          display: this.state.alertCorreo ? 'flex' : 'none'}}>
+                          Ingrese un correo electrónico válido
+                        </Text>
 
+                        <View style={{flexDirection: 'row', marginRight: '15%', alignItems: 'center'}}>
                         <Input
                         placeholder=' Contraseña'
-                        secureTextEntry={true}
+                        secureTextEntry={!this.state.showPassword}
                         value={this.state.contrasena}
                         onChangeText={this.handlePassword}
                         placeholderTextColor='#000'
                         inputStyle={
                             {
                             color: '#000',
-                            fontSize: 18
+                            fontSize: 18,
+                            
                             }
                         }
                         leftIcon={
@@ -196,6 +229,20 @@ Login = () => {
                             />
                         }
                         />
+                        <TouchableOpacity 
+                        style={{}} 
+                        onPress={()=>{this.setState({showPassword: !this.state.showPassword})}} >
+                            <Icon 
+                                name='remove-red-eye'
+                                size={30}
+                                color={myTheme['color-material-primary-500']}
+                            />
+
+                    </TouchableOpacity  >
+                        </View>
+
+
+
                         <View style={{marginTop: '10%'}}>
 
                         <ButtonCustom  

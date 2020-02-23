@@ -37,7 +37,7 @@ export class HomeAdoptante extends Component {
        
         
         this.state = {
-            mascotas: null
+            mascotas: []
         }
        
 
@@ -66,14 +66,15 @@ export class HomeAdoptante extends Component {
 
        
         //alert('didmount')
-        const fundacion = firebase.auth().currentUser;
+        //const fundacion = firebase.auth().currentUser;
         //alert(JSON.stringify(this.props.navigation))
         //ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
         //let mascotas = [];
         let refFoundation = firebase.database().ref('publicaciones/')
         //alert(refFoundation.key);
         refFoundation.on('value',(snapshot) => {
-           
+            this.setState({mascotas: []})
+        //    alert(JSON.stringify(snapshot,null,4))
             var arrayKeyFoundation = [];
             snapshot.forEach((childSnapshot) =>{
                 // key will be "ada" the first time and "alan" the second time
@@ -82,24 +83,42 @@ export class HomeAdoptante extends Component {
                 var childData = childSnapshot.val();
                 arrayKeyFoundation.push(key)
             });
-            //alert(arrayKeyFoundation)
+            //alert(JSON.stringify(arrayKeyFoundation,null,4))
             let arraymascotas = [];
+
             arrayKeyFoundation.map((keyfoundation)=>{
                 
                 let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
-            refMascotas.on('value',(snapshot)=>{
-                //alert(JSON.stringify(snapshot,null,4))
-                snapshot.forEach((childSnapshot) =>{
-                    // key will be "ada" the first time and "alan" the second time
-                    var key = childSnapshot.key;
-                    // childData will be the actual contents of the child
-                    var dataMascota = childSnapshot.val();
-                    arraymascotas.push({key: key, value: dataMascota, keyfoundation: keyfoundation})
-                });
-                
-            })
+                refMascotas.on('value',(snapshot)=>{
+                    //alert(snapshot)
+                    //alert(JSON.stringify(snapshot,null,4))
+                    //let arrayChilds = [];
+                    var arraymascotasstate = this.state.mascotas;
+                    snapshot.forEach((childSnapshot) =>{
+                        // key will be "ada" the first time and "alan" the second time
+                        var key = childSnapshot.key;
+                        //alert(key)
+                        // childData will be the actual contents of the child
+                        var dataMascota = childSnapshot.val();
+                        //alert(JSON.stringify(childSnapshot,null,4))
+                        var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
+                        
+                        
+                        arraymascotasstate.push(objMascota)
+                        
+                    });
+
+                    this.setState({mascotas: arraymascotasstate})
+
+                    //alert(JSON.stringify(arrayChilds,null,4))
+                    
+                })
+
+           
 
             })
+
+            //alert(JSON.stringify(arraymascotas,null,4))
 
             // arrayKeyFoundation.map((keyfoundation)=>{
                 
@@ -119,9 +138,9 @@ export class HomeAdoptante extends Component {
             // })
 
 
-            this.setState({
-                mascotas: arraymascotas
-            })
+            // this.setState({
+            //     mascotas: arraymascotas
+            // })
         })
 
 
@@ -151,7 +170,7 @@ export class HomeAdoptante extends Component {
             let arraymascotas = [];
             arrayKeyFoundation.map((keyfoundation)=>{
                 
-                let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
+            let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
             refMascotas.on('value',(snapshot)=>{
                 //alert(JSON.stringify(snapshot,null,4))
                 snapshot.forEach((childSnapshot) =>{
@@ -159,29 +178,13 @@ export class HomeAdoptante extends Component {
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
                     var dataMascota = childSnapshot.val();
-                    arraymascotas.push({key: key, value: dataMascota, keyfoundation: keyfoundation})
+                    var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
+                    arraymascotas.push(objMascota)
                 });
                 
             })
 
             })
-
-            // arrayKeyFoundation.map((keyfoundation)=>{
-                
-            //     let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
-            // refMascotas.on('child_added',(snapshot)=>{
-            //     //alert(JSON.stringify(snapshot,null,4))
-            //     //snapshot.forEach((childSnapshot) =>{
-            //         // key will be "ada" the first time and "alan" the second time
-            //         var key = snapshot.key;
-            //         // childData will be the actual contents of the child
-            //         var dataMascota = snapshot.val();
-            //         arraymascotas.push({key: key, value: dataMascota, keyfoundation: keyfoundation})
-            //    // });
-                
-            // })
-
-            // })
 
 
             this.setState({
@@ -226,28 +229,30 @@ export class HomeAdoptante extends Component {
                     </TouchableOpacity>
 
                 </View>
-            {/* <ScrollView style={{flex:1}}> */}
-            {/* <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
-            {
-                    mascotas.map((item)=>{
-                       return(
-                           
-                                this.renderItem(item)
-                           
-                       )
-                    })
-                }
-                 </View> */}
-
+                    {
+                        mascotas.length > 0 ?
+                        (
+                            <FlatList
+                                style={{flex:1}}
+                                data={mascotas}
+                                keyExtractor={this._keyExtractor}     //has to be unique   
+                                renderItem={this._renderItem} //method to render the data in the way you want using styling u need
+                                horizontal={false}
+                                numColumns={3}
+                                        />
+                        ):
+                        (
+                            <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontSize:20, marginHorizontal: '10%', textAlign: 'center'}}>
+                                    No existen publicaciones de mascotas
+                                </Text>
+                            </View>
+                        )
+                        
+                        
+                    }
                  
-                     <FlatList
-                     style={{flex:1}}
-                     data={this.state.mascotas}
-                     keyExtractor={this._keyExtractor}     //has to be unique   
-                     renderItem={this._renderItem} //method to render the data in the way you want using styling u need
-                     horizontal={false}
-                     numColumns={3}
-                               />
+                     
                     
 
                 

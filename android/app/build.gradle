@@ -193,8 +193,10 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation 'com.google.firebase:firebase-dynamic-links:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
     implementation 'com.facebook.fresco:animated-gif:2.0.0'
     implementation project(':react-native-svg')
+    
     
     implementation project(':react-native-send-intent')
     implementation fileTree(dir: "libs", include: ["*.jar"])

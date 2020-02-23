@@ -103,16 +103,19 @@ export default class Loading extends Component {
     const {navigation} = this.props;
     const email = navigation.getParam('email','');
     const password = navigation.getParam('password','');
-
+    //const typelogin = navigation.getParam('typelogin','');
 
     
 
     // alert(password)
-    if(email == '' || password == ''){
+    if(email == '' || password == '' ){
       setTimeout(()=>{
         if(firebase.auth().currentUser){
           //alert(JSON.stringify(firebase.auth().currentUser,null,4))
           const uid = firebase.auth().currentUser.uid
+
+          //let refString = typelogin == 'foundation' ? 'fundaciones/'+uid : 'usuarios/'+uid;
+          //alert(refString)
           let refUser = firebase.database().ref('usuarios/'+uid)
           refUser.on('value',(snapshot)=>{
             // alert(JSON.stringify(snapshot,null,4))
@@ -135,8 +138,11 @@ export default class Loading extends Component {
       firebase.auth().signInWithEmailAndPassword(email,password).then(
         userCredential =>{
             if(userCredential.user){
+              
                 setTimeout(() => {
                   const uid = userCredential.user.uid
+                  //let refString = typelogin == 'foundation' ? 'fundaciones/'+uid : 'usuarios/'+uid;
+                  //alert(refString)
                   let refUser = firebase.database().ref('usuarios/'+uid)
                   refUser.on('value',(snapshot)=>{
                     let tipo = snapshot.val().typeUser;

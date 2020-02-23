@@ -48,6 +48,7 @@ import MascotasF from '../../containers/Fundacion/MascotasF';
 import SolicitudesF from '../../containers/Fundacion/SolicitudesF';
 import Publication from '../../containers/Fundacion/Publication';
 import About from '../../containers/Fundacion/About';
+import InfoSolicitud from '../../containers/Fundacion/InfoSolicitud';
 import HeaderFundacion from '../components/HeaderFundacion';
 
 
@@ -114,6 +115,7 @@ const stackAppFundacion = createStackNavigator(
     SolicitudesF,
     HomeFundacion,
     Publication,
+    InfoSolicitud,
     About
       // Hotels2,
       //ConsumptionsCenter,

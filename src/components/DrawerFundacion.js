@@ -111,7 +111,7 @@ class DraweFundacion extends Component {
       <ScrollView style={{ flex: 1 }}>
          <Layout style={{alignItems: 'center'}} >
        <Image
-        source={{uri: this.state.foundation.photo}}
+        source={{uri: this.state.foundation.img}}
         style={{
           resizeMode: 'stretch',
           height: 180,

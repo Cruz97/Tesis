@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image,ImageBackground, TextInput, TouchableHighlight ,ActivityIndicator, Alert, Platform } from 'react-native'
+import { Text, View, StyleSheet, Image,ImageBackground, TouchableOpacity,TextInput, TouchableHighlight ,ActivityIndicator, Alert, Platform } from 'react-native'
 // import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
 import Database from '../database'
@@ -10,6 +10,11 @@ import {Dialog} from 'react-native-simple-dialogs'
 import moment from 'moment';
 import {ButtonCustom} from '../components/index'
 import {myTheme} from '../src/assets/styles/Theme'
+import firebase from '@react-native-firebase/app'
+import LinearGradient from 'react-native-linear-gradient';
+import messaging from '@react-native-firebase/messaging'
+import auth from '@react-native-firebase/auth'
+
 
 
 
@@ -30,7 +35,6 @@ import {myTheme} from '../src/assets/styles/Theme'
 // }
 
 
-
 export class Welcome extends Component {
   static navigationOptions = {
     header: null
@@ -44,54 +48,134 @@ export class Welcome extends Component {
 
 }
 
+createFundaciones = () => {
+
+let email = "amigosconcola@gmail.com";
+let password = "amigosconcola"
+let name = "Amigos con Cola"
+let img =  'https://josecruzal.000webhostapp.com/fundaciones/amigosconcola.jpg'
+let zone = "Centro"
+let phone = '0995684828'
+let manager = 'Javier Cevallos'
+
+// let email = "refugiopana@gmail.com";
+// let password = "refugiopana"
+// let name = "Refugio PANA"
+// let img = 'https://josecruzal.000webhostapp.com/fundaciones/pana.jpg'
+// let zone = "Sur"
+// let phone = '0991882949'
+// let manager = 'Psi. katiuska Delgado'
+
+// let email = "gpaclaudiapoppe@gmail.com";
+// let password = "gpaclaudiapoppe"
+// let name = "GPA Claudia Poppe"
+// let img = 'https://josecruzal.000webhostapp.com/fundaciones/gpaclaudiapoppe.jpg'
+// let zone = "Norte"
+// let phone = '0967416653'
+// let manager = 'Lcda. Monica Santos'
+
+//CREAR USUARIO PARA FUNDACIONES
+firebase.auth().createUserWithEmailAndPassword(
+    email, password
+).then(userCredentials => {
+    //Si es un nuevo usuario
+    if(userCredentials.additionalUserInfo.isNewUser){
+        //Se guarda en la DB Real Time
+        let uid = userCredentials.user.uid;
+        let refFoundation = firebase.database().ref('fundaciones/'+uid)
+
+        //Crea un objeto usuario sino existe, y si existe modifica sus campos
+        refFoundation.set({
+            name,
+            img,
+            zone,
+            phone,
+            manager,
+            email: userCredentials.user.email,
+            photo: userCredentials.user.photoURL,
+            displayName: userCredentials.user.displayName,
+            typeUser: 'foundation',
+          }).then((value)=>{
+              alert('success: '+JSON.stringify(value,null,4))
+
+          }).catch(error =>{
+              alert('Ocurrio algo '+JSON.stringify(error.message,null,4))
+          });
+
+
+
+          let refUser = firebase.database().ref('usuarios/'+uid)
+
+        //Crea un objeto usuario sino existe, y si existe modifica sus campos
+        refUser.set({
+            name,
+            img,
+            zone,
+            phone,
+            manager,
+            email: userCredentials.user.email,
+            photo: userCredentials.user.photoURL,
+            displayName: userCredentials.user.displayName,
+            typeUser: 'foundation',
+          }).then((value)=>{
+              alert('success: '+JSON.stringify(value,null,4))
+
+          }).catch(error =>{
+              alert('Ocurrio algo '+JSON.stringify(error.message,null,4))
+          });
+    }
+
+    // let uid = userCredentials.user.uid
+    // alert(JSON.stringify(userCredentials.additionalUserInfo,null,4))
+}).catch(error => {
+    let errorCode = error.code;
+    let errorMessage = error.message;
+    let mensaje = ''
+    switch(errorCode){
+      case 'auth/email-already-in-use':
+        mensaje = 'Ya existe una cuenta con ésta dirección de correo electrónico'
+        break;
+      case 'auth/invalid-email':
+        mensaje = 'La dirección de correo electrónico no es válida.'
+        break;
+      case 'auth/operation-not-allowed':
+        mensaje = 'La cuenta de correo electrónico / contraseña no están habilitadas';
+        break;
+      case 'auth/weak-password':
+        mensaje = 'La contraseña no es lo suficientemente segura';
+        break;
+      default:
+        mensaje = 'Ha ocurrido un error'
+}
+alert('Error al registrar : '+mensaje)
+})
+}
+
  
 
     render() {
         return (
           
           <ImageBackground
-               source={require('../assets/img/gradient2.jpg')}
-              style={{width: '100%', height: '100%', flex: 1, backgroundColor: '#b3d9ff', }}
+            //   source={require('../assets/img/Mascotas-Felices-1.jpg')}
+              style={{width: '100%', height: '100%', flex: 1}}
             > 
+            {/* <View style={style.box}>
+            </View> */}
 
-            <Text style={style.textWelcome}>
-              Bienvenidos a
-            </Text>
-            <Text style={style.textApp}>
-              PGAdopcion
-            </Text>
             <View style={style.boxlogo}>
                         <Image source={require('../assets/img/img_menu.jpeg')} style={style.logo}/>
                     </View>
-            {/* <Text style={style.textEslogan}>
-              No compres uno de raza,           adopta uno sin casa
-            </Text> */}
-            {/* <View style={style.box}>
-
-            </View> */}
-
-           
 
            
                     
                     <View style={style.form} >
-                        <ButtonCustom  
+                        {/* <ButtonCustom  
                             title="Quiero Adoptar"
-                            //primary
-                            colorcustom='#fff'
-                            titleStyle={{
-                              fontSize: 16,
-                              color: '#780C88',
-                              textTransform: 'uppercase',
-                              fontWeight: 'bold'
-                          }}
+                            primary
                             buttonStyle={
                                 {
-                                  height: 50,
                                     marginTop:30,
-                                    borderRadius: 25,
-                                    borderColor: '#780C88',
-                                    borderWidth: 2
                                     
                                 }
 
@@ -102,21 +186,11 @@ export class Welcome extends Component {
                             />
 
                         <ButtonCustom  
-                            title="Soy Fundación"
-                            titleStyle={{
-                              fontSize: 16,
-                              color: '#fff',
-                              textTransform: 'uppercase',
-                              fontWeight: 'bold'
-                          }}
-                            colorcustom={'#8B038C'}
+                            title="Soy Fundacion"
+                            colorcustom={myTheme['color-primary-600']}
                             buttonStyle={
                                 {
-                                    height: 50,
-                                    marginTop:30,
-                                    borderRadius: 25,
-                                    borderColor: '#fff',
-                                    borderWidth: 1
+                                    marginTop:10,
                                 
                                 }
 
@@ -125,7 +199,90 @@ export class Welcome extends Component {
                                 this.props.navigation.navigate('LoginFundacion')
                             }}
                             
-                           />
+                           /> */}
+
+              <TouchableOpacity onPress={()=>{
+                this.props.navigation.navigate('LoginAdoptante')
+              }}>
+              <LinearGradient colors={['#ba7e0c', '#ab8708', '#9c8f12', '#8c9620', '#7b9c30']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Quiero Adoptar
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={()=>{
+                this.props.navigation.navigate('LoginFundacion')
+              }}>
+              <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Soy Fundación
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={()=>{
+                          const FIREBASE_API_KEY = "AAAAOwqljT4:APA91bF8EG_orGbo4DXJUmT5Tq6YS973pkFjPUE18DH_HOkkUiTKrBRTNYE64zq8joJGci3b_tFt_skS1ejMy2ukPYUL6nRX-c-itAtlPvRyNeTjTYYlpHmwr3mb3LWJodD0Zx75D-lH";
+                          var registrationToken = 'daUtcIhJM44:APA91bGtkGHDDQy9iSKBZNd33f-s6KYpbHgClFtYWrOb7oM18igH9QuUfF9XRlG0WsOIpFAech_L72TES1r9mHJbF0wSGly_hLFoFrTYi8LHAxcmhzkTZROCALBSTrX-DVPSzpibkuLq';
+                          const message = {
+                            registration_ids: [registrationToken], 
+                             notification: {
+                               title: "AdopcionPG",
+                               body:"Una Nueva Mascota ha sido publicada",
+                               "vibrate": 1,
+                               "sound": 1,
+                               "show_in_foreground": true,
+                               "priority": "high",
+                               "content_available": true,
+                             },
+                         }
+
+                         let headers = new Headers({
+                          "Content-Type": "application/json",
+                          "Authorization": "key=" + FIREBASE_API_KEY
+                        });
+                      
+                        fetch("https://fcm.googleapis.com/fcm/send", { method: "POST", headers, body: JSON.stringify(message) }).then((value)=>{
+                            //var r = value.json();
+                            if(value.ok){
+                              alert('Se han enviado las notificaciones')
+                            }else{
+                              alert('ocurrio un error')
+                            }
+                        }).catch(error=>{
+                          alert(error.message)
+                        })
+                        //response =  response.json();
+                        //alert(JSON.stringify(response,null,4))
+
+                
+                
+              }}>
+              <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Prueba
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
+
+                          {/* <ButtonCustom  
+                            title="Crear Fundacion"
+                            colorcustom={myTheme['color-primary-600']}
+                            buttonStyle={
+                                {
+                                    marginTop:10,
+                                
+                                }
+
+                            }
+                            onPress={()=>{
+                                this.createFundaciones()
+                            }}
+                            
+                           /> */}
+
+
+  
                     </View>
   
             </ImageBackground>  
@@ -139,27 +296,6 @@ export class Welcome extends Component {
 const style = StyleSheet.create({
     main:{
         flex:1,
-        
-    },
-    textWelcome:{
-      fontSize: 20,
-      color: 'white',
-      marginTop: '20%',
-      marginLeft: '10%'
-    },
-    textApp:{
-      fontSize: 30,
-      color: 'white',
-      marginTop: '1%',
-      marginLeft: '10%'
-    },
-    textEslogan:{
-      fontSize: 20,
-      fontStyle: 'italic',
-      color: 'white',
-      marginTop: '10%',
-      marginHorizontal: '10%',
-      textAlign: 'center'
     },
     boxheader:{
         flex:2,
@@ -209,11 +345,11 @@ const style = StyleSheet.create({
 
       ...Platform.select({
         ios:{
-          marginTop: '2%',
+          marginTop: '40%',
 
         },
         android:{
-          marginTop: '15%',
+          marginTop: '40%',
         }
       }),
         //marg
@@ -234,9 +370,8 @@ const style = StyleSheet.create({
     },
     logo:{
         resizeMode: 'stretch',
-        height: 100,
-        width: 200,
-        borderRadius: 5
+        height: 150,
+        width: 300,
        // alignContent: 'center'
         //backgroundColor: 'white',
         //marginTop:20,
@@ -263,15 +398,13 @@ const style = StyleSheet.create({
         //flex: 1,
         //alignItems: 'center',
         alignSelf: 'center',
-        position: 'absolute',
-        bottom: 80,
-        //backgroundColor: '#fff',
+        
         //justifyContent: 'center',
         //alignContent: 'center',
         //position: 'absolute',
-        width: '60%',
+        width: '70%',
         height: '30%',
-        borderTopStartRadius: 25,
+
         ...Platform.select({
           ios:{
             marginTop: 40,
@@ -322,7 +455,23 @@ const style = StyleSheet.create({
         width: null,
         height: null,
         resizeMode: 'cover'
-    }
+    },
+    linearGradient: {
+      //flex: 1,
+      marginTop: 20,
+      paddingLeft: 15,
+      paddingRight: 15,
+      paddingVertical: 5,
+      borderRadius: 25
+    },
+    buttonText: {
+      fontSize: 18,
+      fontFamily: 'Gill Sans',
+      textAlign: 'center',
+      margin: 10,
+      color: '#ffffff',
+      backgroundColor: 'transparent',
+    },
       
     
 })

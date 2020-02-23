@@ -1,6 +1,6 @@
         import React, { Component } from 'react'
         import { Text, ScrollView,View, StyleSheet,TextInput, Picker, ImageBackground, Image, Alert, TouchableHighlight, TouchableOpacity} from 'react-native'
-
+        import AlertConfirmCustom from '../../components/AlertConfirmCustom';
         import { SafeAreaView } from 'react-navigation'
         import { ButtonGroup, Icon, Overlay} from 'react-native-elements'
         import { RadioButton,Title,Headline, List, Checkbox  } from 'react-native-paper';
@@ -38,36 +38,42 @@
                 const idFoundation = navigation.getParam('idFoundation','');
                 
                 const idUser = firebase.auth().currentUser.uid;
+                let refUser = firebase.database().ref('usuarios/'+idUser);
+                
+
+
                 this.state = {
                     modalVisible: false,
+                    modalConfirm: false,
                     idPet: idPet,
                     idFoundation: idFoundation,
                     idUser: idUser,
-                    nombres: 'Jose Alejandro',
-                    apellidos: 'Cruz Alvarado',
-                    cedula: '0921839023',
-                    celular: '0996802892',
+                    objUser: {},
+                    nombres: '',
+                    apellidos: '',
+                    cedula: '',
+                    celular: '',
                     fechanacimiento: '1999-01-01',
                     ocupacion: 'Programador',
-                    correo: 'jose.cruzal@outlook.com',
-                    estadocivil: 'soltero',
+                    correo: '',
+                    estadocivil: '',
 
 
-                    direccion: 'AV Las Mercedes',
+                    direccion: '',
                     referencia: 'Frente a Mecánica Automotríz',
-                    telefono: '042 706 385',
-                    tipo_inmueble: 'Casa',
-                    origen_inmueble: 'Propio',
-                    tiene_patio: 0,
+                    telefono: '',
+                    tipo_inmueble: '',
+                    origen_inmueble: '',
+                    tiene_patio: -1,
                     motivo: 'Necesito una mascota de compañia',
-                    numero_personas: 4,
+                    numero_personas: '',
                     
                     
-                    deacuerdo: 0,
+                    deacuerdo: -1,
                     alergia: 'No nadie tiene alergias',
-                    tiene_espacio: 0,
+                    tiene_espacio: -1,
                     tiempo_solo: '1 hora por dia al menos',
-                    tiene_recursos: 0,
+                    tiene_recursos: -1,
                     expanded: false,
                     expanded2: false,
                     expanded3: true,
@@ -129,9 +135,17 @@
                     allergy: this.state.alergia.toUpperCase(),
                     space: this.state.tiene_espacio  == 0 ? true : false,
                     time_alone: this.state.tiempo_solo.toUpperCase(),
-                    has_resources: this.state.tiene_recursos  == 0 ? true : false
+                    has_resources: this.state.tiene_recursos  == 0 ? true : false,
+                    status_request: 'NEW REQUEST'
                     //typepublish: typepublish
-                }).then(()=>{
+                }).then((value)  =>{
+                   let keyNewRequest = value.key;
+                   let refUser = firebase.database().ref('usuarios/'+firebase.auth().currentUser.uid);
+                   let userProp = refUser.child('myrequests');
+                   userProp.push({
+                       idRequest: keyNewRequest,
+                       idFoundation: this.state.idFoundation
+                   })
                    // setTimeout(() => {
                     //alert('Se ha enviado la solicitud')
                         this.setState({
@@ -142,6 +156,7 @@
                 }).catch(error=>{
                     alert(error.message)
                 });
+               // alert(refSolicitud.key);
             }
 
         showState = () => {
@@ -165,7 +180,25 @@
         });
 
             componentDidMount(){
-            //alert(this.state.nombres)
+                let refUser = firebase.database().ref('usuarios/'+this.state.idUser)
+                refUser.on('value', (snapshot)=>{
+                    let user = snapshot.val()
+                    this.setState({
+                        nombres: user.name,
+                        apellidos: user.lastname,
+                        cedula: user.card_identification,
+                        celular: user.phone_mobile,
+                        telefono: user.phone_conventional,
+                        fechanacimiento: user.date_of_birth,
+                        //ocupacion: 'Programador',
+                        correo: user.email,
+                        estadocivil: user.marital_status,
+                        direccion: user.address,
+                        referencia: user.reference,
+                        //telefono: user.
+                        
+                    })
+                })
             }
 
             changeNombres = (text) => {
@@ -200,7 +233,7 @@
             }
 
             changeConvivientes= (text) => {
-                this.setState({numero_personas: parseInt(text)})
+                this.setState({numero_personas: text})
             }
 
             changeAlergia= (text) => {
@@ -307,13 +340,28 @@
                 return false
             }
 
+            validaDatosDomicilio = () => {
+                if(this.state.direccion == '' || this.state.referencia=='' || this.state.telefono==''
+                || this.state.celular == '' || (this.state.tipo_inmueble == '' || this.state.tipo_inmueble=='null')
+                || (this.state.origen_inmueble == '' || this.state.origen_inmueble=='null') || this.state.tiene_patio == -1)
+                    return true
+                return false
+            }
+
+            validaInfoAdicional = () => {
+                if(this.state.motivo == '' || this.state.numero_personas == '' || this.state.deacuerdo == -1 ||
+                this.state.alergia == '' || this.state.tiene_espacio == -1 || this.state.tiempo_solo == '' || this.state.tiene_recursos == -1)
+                    return true
+                return false
+            }
+
 
             
 
             render() {
                 const {themedStyle} = this.props;
 
-                const response = ['Si','No'];
+                const response = ['No','Si'];
                 const buttonsGender = ['Hembra', 'Macho']
                 const buttonsType = ['Canina', 'Felina']
                 const { selectedIndexGender } = this.state
@@ -330,9 +378,26 @@
                     onPress={()=>{
                         this.setModalVisible(false)
                         this.props.navigation.navigate('HomeAdoptante')
-                    }}
+                    }}/>
 
-                />
+                    <AlertConfirmCustom 
+                        modalVisible={this.state.modalConfirm}
+                        onBackdropPress={()=>{this.setState({modalConfirm: false}); }}
+                        source={require('../../assets/img/successgif.gif')}
+                        title='Adoptar mascota'
+                        subtitle='Al presionar Aceptar, usted declara que toda la información proporcionada es real, y además que iniciará el proceso de adopción de una mascota'
+                        textOK='Aceptar'
+                        textCancel='Cancelar'
+                        onPressOK={()=>{
+                            this.setState({modalConfirm: false})
+                            this.sendSolicitud()
+
+                        }}
+                        onPressCancel = {()=>{
+                            this.setState({modalConfirm: false})
+                        }}
+
+                    />
                 
                         <KeyboardAwareScrollView>
                     <View style={{flex: 1}}>
@@ -354,51 +419,62 @@
                     justifyContent: 'center'
                 }}
                 >
-                <View style={style.form}>                    
+                <View style={style.form}>    
+                <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Nombres</Text>                
         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.nombres}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
                 placeholder = "Nombres"
-                
+                editable={false}
                 placeholderTextColor = {themedStyle.text.primary}
                 //autoCapitalize = "none"
                 onChangeText = {this.changeNombres}/>
+    <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Apellidos</Text>  
         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.apellidos}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
                 placeholder = "Apellidos"
-                
+                editable={false}
                 placeholderTextColor = {themedStyle.text.primary}
                 //autoCapitalize = "none"
                 onChangeText = {this.changeApellidos}/>
         <View style={[style.boxinput,{paddingLeft: -64}]}>
+       <View style={{flexDirection: 'column', flex:1, marginRight: '3%'}}>
+       <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Cédula</Text>   
         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1, marginRight:10}]}
                 value={this.state.cedula}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
                 placeholder = "Cédula"
                 maxLength={10}
+                editable={false}
                 keyboardType='number-pad'
                 placeholderTextColor = {themedStyle.text.primary}
                 //autoCapitalize = "none"
                 onChangeText = {this.changecedula}/>
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1, }]}
-                value={this.state.celular}
-                returnKeyType='next'
-                underlineColorAndroid = "transparent"
-                placeholder = "Telf. celular"
-                maxLength={10}
-                keyboardType='number-pad'
-                placeholderTextColor = {themedStyle.text.primary}
-                //autoCapitalize = "none"
-                onChangeText = {this.changeCelular}/>
+       </View>
+       <View style={{flexDirection: 'column', flex:1}} >
+        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Telf. Móvil</Text> 
+            <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1, }]}
+                    value={this.state.celular}
+                    returnKeyType='next'
+                    underlineColorAndroid = "transparent"
+                    placeholder = "Telf. celular"
+                    maxLength={10}
+                    editable={false}
+                    keyboardType='number-pad'
+                    placeholderTextColor = {themedStyle.text.primary}
+                    //autoCapitalize = "none"
+                    onChangeText = {this.changeCelular}/>
+       </View>
         </View>
-        <View style={[style.boxinput,{paddingLeft: -64}]}>
+        <View style={[style.boxinput,{paddingLeft: -64, alignItems: 'center'}]}>
         <Text style={[style.label,{alignSelf: 'center', marginRight: 10}]}>Fecha de Nacimiento</Text>
 
         <DatePicker
+                disabled={true}
                 style={{
                     flex:1,
                     //width: '100%',
@@ -454,20 +530,23 @@
                 onDateChange={(date) => {this.setState({fechanacimiento: date})}}
             />
         </View>
+        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Ocupación</Text> 
         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.ocupacion}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
                 placeholder = "Ocupación"
-                
+                editable={false}
                 placeholderTextColor = {themedStyle.text.primary}
                 //autoCapitalize = "none"
                 onChangeText = {this.changeOcupacion}/>
+        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Correo electrónico</Text> 
         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.correo}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
                 placeholder = "Correo electrónico"
+                editable={false}
                 keyboardType='email-address'
                 placeholderTextColor = {themedStyle.text.primary}
                 //autoCapitalize = "none"
@@ -484,7 +563,7 @@
 
         <Picker
         style={[style.internalPickerContainer,{marginTop:10}]}
-
+        enabled={false}
         mode='dialog'
         iosHeader="Select Type "
         selectedValue={this.state.estadocivil}
@@ -496,6 +575,8 @@
         <Picker.Item label="Seleccione" value="null" />
         <Picker.Item label="Soltero" value="soltero" />
         <Picker.Item label="Casado" value="casado" />
+        <Picker.Item label="Divorciado" value="divorciado" />
+        <Picker.Item label="Viudo" value="viudo" />
         </Picker>
         </View>
 
@@ -504,6 +585,7 @@
                 </ProgressStep>
                 
                 <ProgressStep label="Datos Domiciliarios" 
+                nextBtnDisabled={this.validaDatosDomicilio() ? true : false}
                 nextBtnText="Siguiente" 
                 previousBtnText="Anterior" 
                 onPrevious= {()=>{
@@ -537,32 +619,34 @@
                 <View style={style.form}>
 
 
-
+        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Dirección</Text>  
         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                         value={this.state.direccion}
                         returnKeyType='next'
                         underlineColorAndroid = "transparent"
                         placeholder = "Dirección"
-                        
+                        editable={false}
                         placeholderTextColor = {themedStyle.text.primary}
                         //autoCapitalize = "none"
                         onChangeText = {this.changeDireccion}/>
+        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Referencia</Text>  
                     <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
                         value={this.state.referencia}
                         returnKeyType='next'
                         underlineColorAndroid = "transparent"
                         placeholder = "Referencia"
-                        
+                        editable={false}
                         placeholderTextColor = {themedStyle.text.primary}
                         //autoCapitalize = "none"
                         onChangeText = {this.changeReferencia}/>
+        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Teléfono Convencional</Text> 
                     <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
                         value={this.state.telefono}
                         returnKeyType='next'
                         underlineColorAndroid = "transparent"
                         placeholder = "Telf. domiciliario"
                         keyboardType='number-pad'
-                        
+                        editable={false}
                         placeholderTextColor = {themedStyle.text.primary}
                         //autoCapitalize = "none"
                         onChangeText = {this.changeTelefono}/>
@@ -635,6 +719,7 @@
                 </ProgressStep>
                 
                 <ProgressStep label="Información Adicional" 
+                nextBtnDisabled={false}
                 previousBtnText="Anterior" 
                 finishBtnText="Enviar" 
                 previousBtnTextStyle={{
@@ -649,7 +734,16 @@
                     flexDirection: 'row',
                     justifyContent: 'center'
                 }}
-                onSubmit={()=>this.sendSolicitud()}
+                onSubmit={()=>{
+                    if(this.validaInfoAdicional()){
+                        alert('hay campos vacios')
+                    }
+                    else{
+                        this.setState({modalConfirm:true})
+                        //this.sendSolicitud()
+                    }
+                    //this.sendSolicitud()
+                }}
                 nextBtnTextStyle={{
                     color: '#fff',
                     //textAlign: 'center',
@@ -686,7 +780,7 @@
                                                 {alignSelf: 'flex-start', marginTop: 10}]
                                                 }>Cuántas personas conviven en casa?</Text>
                                 <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
-                                        value={this.state.numero_personas.toString()}
+                                        value={this.state.numero_personas}
                                         returnKeyType='next'
                                         underlineColorAndroid = "transparent"
                                         placeholder = ""
@@ -808,7 +902,7 @@
                 fontSize: 17,
                 color: myTheme['color-primary-700'],
                 //margin: 10,
-                marginTop: 15,
+                marginTop: 5,
             height: 35,
             width: '100%',
                 margin:0,
@@ -864,6 +958,13 @@
             },
             label:{
                 fontSize: 18,
+                //fontWeight: 'bold',
+                color:myTheme['color-material-primary-400']
+                
+            },
+            labelTitle:{
+                fontSize: 18,
+                marginTop: '3%',
                 //fontWeight: 'bold',
                 color:myTheme['color-material-primary-400']
                 

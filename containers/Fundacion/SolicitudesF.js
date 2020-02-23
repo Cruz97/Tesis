@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, StyleSheet } from 'react-native'
+import { Text, View, FlatList, StyleSheet,TouchableOpacity } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import firebase from '@react-native-firebase/app'
 import database from '@react-native-firebase/database'
 import auth from '@react-native-firebase/auth'
+import {myTheme} from '../../src/assets/styles/Theme'
 
 export class SolicitudesF extends Component {
 
@@ -74,7 +75,7 @@ export class SolicitudesF extends Component {
     _renderItem = ({ item }) => this._renderItemSolicitud(item)
 
     _renderItemSolicitud = (item) => {
-
+       
         const {key,data} = item;
         var obj = {}
         let idFoundation = firebase.auth().currentUser.uid;
@@ -82,10 +83,13 @@ export class SolicitudesF extends Component {
         let user = this.state.usuarios[data.idUser];
 
         //alert(JSON.stringify(pet,null,4))
-
-        
         return(
-            pet && user ? <ListItem
+            pet && user ? 
+            (
+                <TouchableOpacity
+                onPress={()=>{}} 
+                 >
+                    <ListItem
             title={'Mascota: '+pet.name}
             subtitle={'Adoptante: '+user.name+ ' '+user.lastname}
             leftAvatar={{
@@ -95,8 +99,28 @@ export class SolicitudesF extends Component {
             }}
             bottomDivider
             chevron
-            onPress={()=>{}}
-        /> : null
+            rightElement={data.status_request === 'NEW REQUEST' ? 
+            <TouchableOpacity
+                onPress={data.status_request === 'NEW REQUEST' || 'IN REVIEW' ? 
+                ()=>this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key}) : ()=>{}}
+            
+
+            ><Text style={style.new}>Revisar</Text></TouchableOpacity> : 
+            data.status_request === 'REJECTED' ? 
+            <Text style={style.rejected}>Rechazada</Text> : data.status_request === 'APPROVED' ?  
+            <Text style={style.approved}>Aprobada</Text> : 
+            <TouchableOpacity
+            onPress={data.status_request === 'NEW REQUEST' || 'IN REVIEW' ? 
+            ()=>this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key}) : ()=>{}}
+    
+        ><Text style={style.review}>En Revisión</Text></TouchableOpacity>
+            }
+            
+            
+           
+        /> 
+                </TouchableOpacity>
+            ): null
         )
     }
 
@@ -117,6 +141,34 @@ export class SolicitudesF extends Component {
 const style = StyleSheet.create({
     main: {
         flex:1
+    },
+    approved:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-success-500'],
+        color: '#fff'
+    },
+    rejected:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-danger-500'],
+        color: '#fff'
+    },
+    new:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-primary-700'],
+        color: '#fff'
+    },
+    review:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-warning-600'],
+        color: '#fff'
     }
 })
 

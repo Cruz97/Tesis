@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image } from 'react-native'
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import {Card, Button, Divider} from 'react-native-paper';
 import { myTheme } from '../../src/assets/styles/Theme'
 import { Avatar, Icon } from "react-native-elements";
@@ -7,6 +7,7 @@ import ButtonCustom from '../../components/ButtonCustom';
 import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
+import LinearGradient from 'react-native-linear-gradient'
 
 export class PetDetails extends Component {
 
@@ -173,8 +174,26 @@ export class PetDetails extends Component {
                </View>
                <View style={style.boxbuttons}>
                      
-                     <View style={{width: '100%', alignItems: 'center'}}>
-                     <ButtonCustom
+                <View style={{width: '100%', alignItems: 'center'}}>
+                
+                <TouchableOpacity onPress={()=>{
+                this.props.navigation.push('PersonalInformation',{idPet: pet.key, idFoundation: pet.keyfoundation})
+              }}>
+              <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
+                        <Icon
+                        name='open-in-new'
+                        type='material-community'
+                        size={25}
+                        color='#fff'
+                    />
+                <Text style={style.buttonText}>
+                  Quiero Adoptar
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
+
+
+                     {/* <ButtonCustom
                         onPress={()=>{this.props.navigation.push('PersonalInformation',{idPet: pet.key, idFoundation: pet.keyfoundation})}}
                        title='Adoptar' 
                        colorcustom={'#8B038C'}
@@ -196,7 +215,7 @@ export class PetDetails extends Component {
                     ></Icon>
                        }
 
-                       />
+                       /> */}
                      </View>
 
 
@@ -272,7 +291,7 @@ const style = StyleSheet.create({
     boxdetails:{
         //backgroundColor: 'red',
         width: '100%',
-        
+        flex:1,
         height: '80%',
         //margin: 20
     },
@@ -297,7 +316,7 @@ const style = StyleSheet.create({
         //alignItems: 'center'
     },
     details:{
-        flex:2,
+        flex:1,
         marginHorizontal: 30,
         marginVertical: 10,
         //backgroundColor: myTheme['color-info-800'],
@@ -341,8 +360,27 @@ const style = StyleSheet.create({
     },
     boxbuttons:{
         //marginTop: 20,
-        flexDirection: 'row'
-    }
+        flexDirection: 'row',
+        paddingBottom: 20,
+    },
+    linearGradient: {
+        //flex: 1,
+        marginTop: 20,
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingVertical: 5,
+        borderRadius: 25,
+        flexDirection: 'row',
+        alignItems: 'center'
+      },
+      buttonText: {
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+      },
 
 })
 

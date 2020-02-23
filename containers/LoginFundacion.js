@@ -26,7 +26,7 @@ export class LoginFundacion extends Component {
     const {navigation} = props;
     
     this.state = {
-        correo: 'gpa.claudiapoppe@gmail.com',
+        correo: 'gpaclaudiapoppe@gmail.com',
         contrasena: 'gpaclaudiapoppe',
         // correo: 'amigosconcola@gmail.com',
         // contrasena: 'amigosconcola',
@@ -128,7 +128,7 @@ Login = () => {
     }
 
     this.props.navigation.navigate('Loading',{
-       email: email, password: password
+       email: email, password: password, typelogin: 'foundation'
     })
 }
 

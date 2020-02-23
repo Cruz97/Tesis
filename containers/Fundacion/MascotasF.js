@@ -11,6 +11,7 @@ import database from '@react-native-firebase/database'
 import AlertDeleteCustom from '../../components/AlertDeleteCustom';
 
 
+
 const dropdownlist = [
     {
         key: '1',
@@ -44,6 +45,19 @@ export class MascotasF extends Component {
 
 
     componentDidMount(){
+       
+          
+      
+           
+          
+
+        // if (!firebase.messaging().isRegisteredForRemoteNotifications) {
+        //      firebase.messaging().registerForRemoteNotifications();
+        //   }
+        //firebase.messaging().set
+
+        //alert(JSON.stringify(fcmToken))
+        
         //alert(JSON.stringify(this.props.navigation))
         //alert('didmount')
         //this.setState({mascotas: []})
