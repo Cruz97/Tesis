@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native'
+import { Text, View, StyleSheet, TouchableHighlight, ScrollView } from 'react-native'
 import { myTheme } from '../../src/assets/styles/Theme';
 import {ListItem, Icon} from 'react-native-elements';
 
@@ -63,7 +63,7 @@ export class About extends Component {
 
     render() {
         return (
-            <View style={style.main}>
+            <ScrollView style={style.main}>
                 <View style={style.boxitem}>
                     {/* <View style={style.item}> */}
                         <ListItem
@@ -128,7 +128,7 @@ export class About extends Component {
                         <ItemAbout title='Copyright' subtitle='2020 ©AdopciónPG' iconName='copyright' />
                     </View>
                 
-            </View>
+            </ScrollView>
         )
     }
 }

@@ -98,19 +98,7 @@ export default class App extends Component {
    }
 
   componentDidMount(){
-      firebase.messaging().getToken()
-    .then(fcmToken => {
-      if (fcmToken) {
-        let refToken = firebase.database().ref('token');
-      refToken.set({
-        "id": fcmToken
-      });
-        alert(fcmToken)
-        // user has a device token
-      } else {
-        // user doesn't have a device token yet
-      } 
-    });
+     
 
     if(!firebase.messaging().isRegisteredForRemoteNotifications){
       firebase.messaging().registerForRemoteNotifications().then((value)=>{

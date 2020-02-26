@@ -50,6 +50,7 @@ import Publication from '../../containers/Fundacion/Publication';
 import About from '../../containers/Fundacion/About';
 import InfoSolicitud from '../../containers/Fundacion/InfoSolicitud';
 import HeaderFundacion from '../components/HeaderFundacion';
+import Reports from '../../containers/Fundacion/Reports';
 
 
 
@@ -115,6 +116,7 @@ const stackAppFundacion = createStackNavigator(
     SolicitudesF,
     HomeFundacion,
     Publication,
+    Reports,
     InfoSolicitud,
     About
       // Hotels2,

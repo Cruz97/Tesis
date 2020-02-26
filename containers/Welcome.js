@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image,ImageBackground, TouchableOpacity,TextInput, TouchableHighlight ,ActivityIndicator, Alert, Platform } from 'react-native'
+import { Text,ScrollView, View, StyleSheet, Image,ImageBackground, TouchableOpacity,TextInput, TouchableHighlight ,ActivityIndicator, Alert, Platform } from 'react-native'
 // import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
 import Database from '../database'
@@ -155,7 +155,7 @@ alert('Error al registrar : '+mensaje)
 
     render() {
         return (
-          
+          <ScrollView style={{flex:1}}>
           <ImageBackground
             //   source={require('../assets/img/Mascotas-Felices-1.jpg')}
               style={{width: '100%', height: '100%', flex: 1}}
@@ -204,7 +204,7 @@ alert('Error al registrar : '+mensaje)
               <TouchableOpacity onPress={()=>{
                 this.props.navigation.navigate('LoginAdoptante')
               }}>
-              <LinearGradient colors={['#ba7e0c', '#ab8708', '#9c8f12', '#8c9620', '#7b9c30']} style={style.linearGradient}>
+              <LinearGradient colors={['#0673AC', '#0998CD', '#0DC3EF', '#0998CD', '#0673AC']} style={style.linearGradient}>
                 <Text style={style.buttonText}>
                   Quiero Adoptar
                 </Text>
@@ -221,49 +221,7 @@ alert('Error al registrar : '+mensaje)
               </LinearGradient>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={()=>{
-                          const FIREBASE_API_KEY = "AAAAOwqljT4:APA91bF8EG_orGbo4DXJUmT5Tq6YS973pkFjPUE18DH_HOkkUiTKrBRTNYE64zq8joJGci3b_tFt_skS1ejMy2ukPYUL6nRX-c-itAtlPvRyNeTjTYYlpHmwr3mb3LWJodD0Zx75D-lH";
-                          var registrationToken = 'daUtcIhJM44:APA91bGtkGHDDQy9iSKBZNd33f-s6KYpbHgClFtYWrOb7oM18igH9QuUfF9XRlG0WsOIpFAech_L72TES1r9mHJbF0wSGly_hLFoFrTYi8LHAxcmhzkTZROCALBSTrX-DVPSzpibkuLq';
-                          const message = {
-                            registration_ids: [registrationToken], 
-                             notification: {
-                               title: "AdopcionPG",
-                               body:"Una Nueva Mascota ha sido publicada",
-                               "vibrate": 1,
-                               "sound": 1,
-                               "show_in_foreground": true,
-                               "priority": "high",
-                               "content_available": true,
-                             },
-                         }
-
-                         let headers = new Headers({
-                          "Content-Type": "application/json",
-                          "Authorization": "key=" + FIREBASE_API_KEY
-                        });
-                      
-                        fetch("https://fcm.googleapis.com/fcm/send", { method: "POST", headers, body: JSON.stringify(message) }).then((value)=>{
-                            //var r = value.json();
-                            if(value.ok){
-                              alert('Se han enviado las notificaciones')
-                            }else{
-                              alert('ocurrio un error')
-                            }
-                        }).catch(error=>{
-                          alert(error.message)
-                        })
-                        //response =  response.json();
-                        //alert(JSON.stringify(response,null,4))
-
-                
-                
-              }}>
-              <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
-                <Text style={style.buttonText}>
-                  Prueba
-                </Text>
-              </LinearGradient>
-              </TouchableOpacity>
+            
 
                           {/* <ButtonCustom  
                             title="Crear Fundacion"
@@ -286,6 +244,7 @@ alert('Error al registrar : '+mensaje)
                     </View>
   
             </ImageBackground>  
+            </ScrollView>
            
         )
     }

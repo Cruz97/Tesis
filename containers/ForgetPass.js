@@ -39,7 +39,8 @@ export class ForgetPass extends Component {
         super(props);
         this.state = {
             email: '',
-            loading: false
+            loading: false,
+            alertCorreo: false
         }
 
     }
@@ -61,12 +62,18 @@ export class ForgetPass extends Component {
             
             catch((error)=>{
                 this.openModalLoading(false);
+                this.setState({email: ''})
                 Alert.alert('Error de reestablecimiento', 'No se ha podido validar el correo electrónico. No hay un usuario que corresponda al correo proporcionado/ El usuario pudo haber sido eliminado')
             })
         },2500)
         //this.openModalLoading(false);
        
     }
+
+    validateEmail = (email) => {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
+      };
 
     render() {
         return (
@@ -85,6 +92,19 @@ export class ForgetPass extends Component {
                         value={this.state.email}
                         onChangeText={this.handleEmail}
                         placeholderTextColor='black'
+                        onBlur = {
+                            ()=>
+                           {
+                            if(this.state.email.length > 0){
+                              if (!this.validateEmail(this.state.email)) {
+                                this.setState({ alertCorreo: true})
+                              }
+                              else{
+                                this.setState({alertCorreo: false})
+                              }
+                            }
+                           }
+                          }
                         inputStyle={
                             {
                             color: 'black',
@@ -100,6 +120,12 @@ export class ForgetPass extends Component {
                             />
                         }
                         />
+                        <Text style={{
+                          textAlign:'center', 
+                          color: 'red', 
+                          display: this.state.alertCorreo ? 'flex' : 'none'}}>
+                          El correo ingresado no es válido
+                        </Text>
                 </View>
 
                 <View style={style.btn}>

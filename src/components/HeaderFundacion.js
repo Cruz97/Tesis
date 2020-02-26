@@ -9,7 +9,9 @@ import { Icon } from 'react-native-elements';
 import { Image, View, Animated } from 'react-native';
 import { animate } from '../utils';
 import AwesomeIcon from './AwesomeIcon';
+import {myTheme} from '../assets/styles/Theme';
 
+const colorPrimary = myTheme['color-primary-700']
 
 class NavAction extends Component {
   render() {
@@ -185,6 +187,6 @@ class HeaderFundacion extends Component {
 export default withStyles(HeaderFundacion, theme => ({
   navStyle: {
     text: theme['color-basic-100'],
-    backgroundColor: '#FA7C1B'
+    backgroundColor: colorPrimary
   }
 }));

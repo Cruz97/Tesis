@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, TextInput, TouchableHighlight ,ActivityIndicator, Alert, ImageBackground } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity,Image, TextInput, TouchableHighlight ,ActivityIndicator, Alert, ImageBackground } from 'react-native'
 // import {TouchableOpacity} from 'react-native-gesture-handler'
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
 import Database from '../database'
@@ -26,13 +26,15 @@ export class LoginFundacion extends Component {
     const {navigation} = props;
     
     this.state = {
-        correo: 'gpaclaudiapoppe@gmail.com',
-        contrasena: 'gpaclaudiapoppe',
-        // correo: 'amigosconcola@gmail.com',
-        // contrasena: 'amigosconcola',
+        // correo: 'gpaclaudiapoppe@gmail.com',
+        // contrasena: 'gpaclaudiapoppe',
+        // correo: '',
+        // contrasena: '',
+        correo: 'amigosconcola@gmail.com',
+        contrasena: 'amigosconcola',
         // correo: 'refugiopana@gmail.com',
         // contrasena: 'refugiopana',
-        
+        showPassword: false,
         loading: true,
         show: false,
         
@@ -193,10 +195,11 @@ Login = () => {
                         
                         
                         />
-
+ <View style={{flexDirection: 'row', marginRight: '15%', alignItems: 'center'}}>
+                      
                         <Input
                         placeholder=' Contraseña'
-                        secureTextEntry={true}
+                        secureTextEntry={!this.state.showPassword}
                         value={this.state.contrasena}
                         onChangeText={this. handlePassword}
                         placeholderTextColor='black'
@@ -215,6 +218,17 @@ Login = () => {
                             />
                         }
                         />
+                         <TouchableOpacity 
+                        style={{}} 
+                        onPress={()=>{this.setState({showPassword: !this.state.showPassword})}} >
+                            <Icon 
+                                name='remove-red-eye'
+                                size={30}
+                                color={this.state.showPassword ? myTheme['color-material-primary-700'] : myTheme['color-material-primary-200']}
+                            />
+
+                    </TouchableOpacity  >
+                    </View>
                         
                         <ButtonCustom  
                             title="Ingresar"

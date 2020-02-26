@@ -20,6 +20,8 @@
         import LoadingCustom from '../../components/LoadingCustom';
         import DatePicker from 'react-native-datepicker'
         import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+        import {sendNotification} from '../../src/utils/PushNotifications';
+        import Slider from '@react-native-community/slider';
 
 
 
@@ -45,6 +47,7 @@
                 this.state = {
                     modalVisible: false,
                     modalConfirm: false,
+                    tokenFoundation: '',
                     idPet: idPet,
                     idFoundation: idFoundation,
                     idUser: idUser,
@@ -54,25 +57,27 @@
                     cedula: '',
                     celular: '',
                     fechanacimiento: '1999-01-01',
-                    ocupacion: 'Programador',
+                    ocupacion: '',
                     correo: '',
                     estadocivil: '',
 
 
                     direccion: '',
-                    referencia: 'Frente a Mecánica Automotríz',
+                    referencia: '',
                     telefono: '',
                     tipo_inmueble: '',
                     origen_inmueble: '',
                     tiene_patio: -1,
-                    motivo: 'Necesito una mascota de compañia',
-                    numero_personas: '',
+                    motivo: '',
+                    numero_personas: 0,
+                    value_ini:1,
+                    value_fin: 15,
                     
-                    
+                    alergia: -1,
                     deacuerdo: -1,
-                    alergia: 'No nadie tiene alergias',
+                    //alergia: '',
                     tiene_espacio: -1,
-                    tiempo_solo: '1 hora por dia al menos',
+                    tiempo_solo: '',
                     tiene_recursos: -1,
                     expanded: false,
                     expanded2: false,
@@ -88,6 +93,7 @@
 
                 }
                 this.updateIndexTienePatio = this.updateIndexTienePatio.bind(this)
+                this.updateIndexAlergia = this.updateIndexAlergia.bind(this)
                 this.updateIndexDeAcuerdo = this.updateIndexDeAcuerdo.bind(this)
                 this.updateIndexTieneEspacio = this.updateIndexTieneEspacio.bind(this)
                 this.updateIndexTieneRecursos = this.updateIndexTieneRecursos.bind(this)
@@ -132,7 +138,7 @@
                     adoption_reason: this.state.motivo.toUpperCase(),
                     cohabiting_number: this.state.numero_personas,
                     agreement: this.state.deacuerdo  == 0 ? true : false,
-                    allergy: this.state.alergia.toUpperCase(),
+                    allergy: this.state.alergia == 0 ? true : false,
                     space: this.state.tiene_espacio  == 0 ? true : false,
                     time_alone: this.state.tiempo_solo.toUpperCase(),
                     has_resources: this.state.tiene_recursos  == 0 ? true : false,
@@ -146,12 +152,18 @@
                        idRequest: keyNewRequest,
                        idFoundation: this.state.idFoundation
                    })
-                   // setTimeout(() => {
-                    //alert('Se ha enviado la solicitud')
-                        this.setState({
-                            //loadVisible: false,
-                            modalVisible: true
-                        })
+                   var arrayTokens = [this.state.tokenFoundation];
+                   sendNotification(
+                       arrayTokens,
+                       'Solicitud de Adopción',
+                       'Alguien quiere adoptar una mascota, revisa su solicitud pronto!'
+                       )
+                       this.setState({
+                        //loadVisible: false,
+                        modalVisible: true
+                    })
+             
+                      
 
                 }).catch(error=>{
                     alert(error.message)
@@ -190,14 +202,20 @@
                         celular: user.phone_mobile,
                         telefono: user.phone_conventional,
                         fechanacimiento: user.date_of_birth,
-                        //ocupacion: 'Programador',
+                        ocupacion: user.ocupation,
                         correo: user.email,
-                        estadocivil: user.marital_status,
+                        estadocivil: user.marital_status.toLowerCase(),
                         direccion: user.address,
                         referencia: user.reference,
                         //telefono: user.
                         
                     })
+                })
+                var idFoundation = this.state.idFoundation;
+                //alert(idFoundation)
+                let refToken = firebase.database().ref('tokens/'+idFoundation);
+                refToken.on('value',(snapshot)=>{
+                    this.setState({tokenFoundation: snapshot.val().token})
                 })
             }
 
@@ -236,9 +254,9 @@
                 this.setState({numero_personas: text})
             }
 
-            changeAlergia= (text) => {
-                this.setState({alergia: text})
-            }
+            // changeAlergia= (text) => {
+            //     this.setState({alergia: text})
+            // }
 
             changeTiempoSolo= (text) => {
                 this.setState({tiempo_solo: text})
@@ -255,6 +273,10 @@
 
             updateIndexDeAcuerdo (selectedIndex) {
                 this.setState({deacuerdo: selectedIndex})
+            }
+
+            updateIndexAlergia(selectedIndex) {
+                this.setState({alergia: selectedIndex})
             }
 
             updateIndexTieneEspacio (selectedIndex) {
@@ -350,7 +372,7 @@
 
             validaInfoAdicional = () => {
                 if(this.state.motivo == '' || this.state.numero_personas == '' || this.state.deacuerdo == -1 ||
-                this.state.alergia == '' || this.state.tiene_espacio == -1 || this.state.tiempo_solo == '' || this.state.tiene_recursos == -1)
+                this.state.alergia === -1 || this.state.tiene_espacio == -1 || this.state.tiempo_solo == '' || this.state.tiene_recursos == -1)
                     return true
                 return false
             }
@@ -421,7 +443,7 @@
                 >
                 <View style={style.form}>    
                 <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Nombres</Text>                
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+        <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.nombres}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
@@ -431,7 +453,7 @@
                 //autoCapitalize = "none"
                 onChangeText = {this.changeNombres}/>
     <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Apellidos</Text>  
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+        <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.apellidos}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
@@ -443,7 +465,7 @@
         <View style={[style.boxinput,{paddingLeft: -64}]}>
        <View style={{flexDirection: 'column', flex:1, marginRight: '3%'}}>
        <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Cédula</Text>   
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1, marginRight:10}]}
+        <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,flex:1, marginRight:10}]}
                 value={this.state.cedula}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
@@ -457,7 +479,7 @@
        </View>
        <View style={{flexDirection: 'column', flex:1}} >
         <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Telf. Móvil</Text> 
-            <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1, }]}
+            <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,flex:1, }]}
                     value={this.state.celular}
                     returnKeyType='next'
                     underlineColorAndroid = "transparent"
@@ -531,7 +553,7 @@
             />
         </View>
         <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Ocupación</Text> 
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+        <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.ocupacion}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
@@ -541,7 +563,7 @@
                 //autoCapitalize = "none"
                 onChangeText = {this.changeOcupacion}/>
         <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Correo electrónico</Text> 
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+        <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,}]}
                 value={this.state.correo}
                 returnKeyType='next'
                 underlineColorAndroid = "transparent"
@@ -620,7 +642,7 @@
 
 
         <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Dirección</Text>  
-        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+        <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,}]}
                         value={this.state.direccion}
                         returnKeyType='next'
                         underlineColorAndroid = "transparent"
@@ -630,7 +652,7 @@
                         //autoCapitalize = "none"
                         onChangeText = {this.changeDireccion}/>
         <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Referencia</Text>  
-                    <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
+                    <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,flex:1}]}
                         value={this.state.referencia}
                         returnKeyType='next'
                         underlineColorAndroid = "transparent"
@@ -640,7 +662,7 @@
                         //autoCapitalize = "none"
                         onChangeText = {this.changeReferencia}/>
         <Text style={[style.labelTitle,{alignSelf: 'flex-start', marginRight: 10}]}>Teléfono Convencional</Text> 
-                    <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
+                    <TextInput style = {[style.inputDisable,{ borderColor: themedStyle.colors.primary,flex:1}]}
                         value={this.state.telefono}
                         returnKeyType='next'
                         underlineColorAndroid = "transparent"
@@ -702,6 +724,7 @@
                                 [style.label,
                                 {alignSelf: 'center', marginRight: 10}]
                                 }>Tiene patio?</Text>
+                   
                     <ButtonGroup
                         onPress={this.updateIndexTienePatio}
                         selectedIndex={this.state.tiene_patio}
@@ -711,6 +734,7 @@
                             style.buttongroup
                         }
                     />
+                  
 
 
                     </View>
@@ -764,9 +788,21 @@
                                                 [style.label,
                                                 {alignSelf: 'flex-start', marginTop: 0}]
                                                 }>Motivo de la adopción</Text>
+                                <TextInput style = {[style.inputArea,{ borderColor: themedStyle.colors.primary,}]}
+                            returnKeyType='next'
+                            underlineColorAndroid = "transparent"
+                            multiline={true}
+                            numberOfLines={10}
+                            textAlignVertical='top'
+                            textAlign='left'
+                            //placeholder = "Nombre de la mascota"
+                            placeholderTextColor = {themedStyle.text.primary}
+                            autoCapitalize = "none"
+                            value={this.state.motivo}
+                            onChangeText = {this.changeMotivo}/>
                             
                                 
-                                <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+                                {/* <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                                         value={this.state.motivo}
                                         //returnKeyType='next'
                                         underlineColorAndroid = "transparent"
@@ -774,12 +810,31 @@
                                         
                                         placeholderTextColor = {themedStyle.text.primary}
                                         //autoCapitalize = "none"
-                                        onChangeText = {this.changeMotivo}/>
+                                        onChangeText = {this.changeMotivo}/> */}
                                 <Text style={
                                                 [style.label,
                                                 {alignSelf: 'flex-start', marginTop: 10}]
                                                 }>Cuántas personas conviven en casa?</Text>
-                                <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
+                                            <Text style={
+                                                [
+                                                {alignItems: 'center', textAlign: 'center',
+                                                marginTop: 10, 
+                                                color: 'green',
+                                                fontSize: 18
+                                            }]
+                                                }>{  this.state.numero_personas   }</Text>
+                                    <Slider
+                                        style={{flex:1, display: 'flex'}}
+                                        minimumValue={this.state.value_ini}
+                                        maximumValue={this.state.value_fin}
+                                        minimumTrackTintColor="green"
+                                        maximumTrackTintColor="red"
+                                        value={this.state.numero_personas}
+                                        onValueChange={(n)=>{
+                                            this.setState({numero_personas:parseInt(n)})
+                                        }}
+                                    />
+                                {/* <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
                                         value={this.state.numero_personas}
                                         returnKeyType='next'
                                         underlineColorAndroid = "transparent"
@@ -787,11 +842,12 @@
                                         
                                         placeholderTextColor = {themedStyle.text.primary}
                                         //autoCapitalize = "none"
-                                        onChangeText = {this.changeConvivientes}/>
+                                        onChangeText = {this.changeConvivientes}/> */}
                                 <Text style={
                                                 [style.label,
                                                 {alignSelf: 'center', marginTop: 10}]
-                                                }>Están todos de acuerdo en adoptar una mascota?</Text>
+                                                }>¿En su hogar, están todos de acuerdo en adoptar una mascota?</Text>
+                                    <View style={{alignItems: 'center'}}>
                                     <ButtonGroup
                                         onPress={this.updateIndexDeAcuerdo}
                                         selectedIndex={this.state.deacuerdo}
@@ -801,11 +857,23 @@
                                             style.buttongroup
                                         }
                                     />
+                                    </View>
                                 <Text style={
                                                 [style.label,
                                                 {alignSelf: 'flex-start', marginTop: 10}]
-                                                }>Alguien es alérgico a los animales?</Text>
-                                <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
+                                                }>¿En su hogar, alguien es alérgico a los animales?</Text>
+                                 <View style={{alignItems: 'center'}}>
+                                 <ButtonGroup
+                                        onPress={this.updateIndexAlergia}
+                                        selectedIndex={this.state.alergia}
+                                        buttons={response}
+                                        textStyle={style.txtbtngroup}
+                                        containerStyle={
+                                            style.buttongroup
+                                        }
+                                    />
+                                    </View>
+                                {/* <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
                                         value={this.state.alergia}
                                         returnKeyType='next'
                                         underlineColorAndroid = "transparent"
@@ -813,11 +881,12 @@
                                         
                                         placeholderTextColor = {themedStyle.text.primary}
                                         //autoCapitalize = "none"
-                                        onChangeText = {this.changeAlergia}/>
+                                        onChangeText = {this.changeAlergia}/> */}
                                 <Text style={
                                                 [style.label,
                                                 {alignSelf: 'flex-start', marginTop: 10}]
-                                                }>El animalito gozará de espacio suficiente?</Text>
+                                                }>¿La mascota gozará de espacio suficiente?</Text>
+                            <View style={{alignItems: 'center'}}>
                             <ButtonGroup
                                         onPress={this.updateIndexTieneEspacio}
                                         selectedIndex={this.state.tiene_espacio}
@@ -827,10 +896,11 @@
                                             style.buttongroup
                                         }
                                     />
+                            </View>
                                 <Text style={
                                                 [style.label,
                                                 {alignSelf: 'flex-start', marginTop: 10}]
-                                                }>Cuánto tiempo solo pasará el animalito?</Text>
+                                                }>Cuánto tiempo pasará sola la mascota?</Text>
                                 <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,flex:1}]}
                                         value={this.state.tiempo_solo}
                                         returnKeyType='next'
@@ -844,7 +914,8 @@
                                                 [style.label,
                                                 {alignSelf: 'center', marginTop: 10}]
                                                 }>Cuenta con los recursos económicos necesarios para afrontar gastos de veterinaria?</Text>
-                                    <ButtonGroup
+                                   <View style={{alignItems: 'center'}}>
+                                   <ButtonGroup
                                         onPress={this.updateIndexTieneRecursos}
                                         selectedIndex={this.state.tiene_recursos}
                                         buttons={response}
@@ -853,6 +924,23 @@
                                             style.buttongroup
                                         }
                                     />
+                                   </View>
+
+                                   <Text style={
+                                                [style.label,
+                                                {alignSelf: 'center', marginTop: 10}]
+                                                }>¿Está usted                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         de acuerdo, en realizar el proceso de esterilización de la mascota?</Text>
+                                   <View style={{alignItems: 'center'}}>
+                                   <ButtonGroup
+                                        onPress={this.updateIndexTieneRecursos}
+                                        selectedIndex={this.state.tiene_recursos}
+                                        buttons={response}
+                                        textStyle={style.txtbtngroup}
+                                        containerStyle={
+                                            style.buttongroup
+                                        }
+                                    />
+                                   </View>
                                 </View>
                                         
                 </ProgressStep>
@@ -911,6 +999,22 @@
             borderRadius: 5,
             paddingLeft:-64
             //textAlign: 'right'
+            
+            },
+            inputDisable:{
+                //backgroundColor: myTheme['color-primary-100'],
+                fontSize: 17,
+                color: '#999999',
+                //margin: 10,
+                marginTop: 5,
+                height: 35,
+                width: '100%',
+                margin:0,
+                padding: 5,
+                borderWidth: 1,
+                borderRadius: 5,
+                paddingLeft:-64
+                //textAlign: 'right'
             
             },
             inputArea:{
@@ -982,7 +1086,7 @@
                 color: myTheme['color-primary-700'],
                 textAlign: 'center',
                 fontWeight: 'bold',
-            
+                
                 
                 //fontSize: 25
             },

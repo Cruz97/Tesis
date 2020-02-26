@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, ScrollView } from 'react-native';
 import {Button, Text, withStyles} from 'react-native-ui-kitten';
 import { LabelInput, Load } from '../components';
 import { authenticate } from '../utils';

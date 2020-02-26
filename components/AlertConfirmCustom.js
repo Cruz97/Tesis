@@ -37,7 +37,7 @@ export class AlertConfirmCustom extends Component {
                     }
                     />
                     <View style={{alignItems: 'center', marginTop: 20}}>
-                <Text style={{color: myTheme['color-material-primary-700'], fontWeight: 'bold', fontSize: 18}}>{title}</Text>
+                <Text style={{color: myTheme['color-material-primary-700'], fontWeight: 'bold', fontSize: 18, textAlign: 'center'}}>{title}</Text>
                     </View>
 
                     <View style={{alignItems: 'center', marginVertical: 5}}>

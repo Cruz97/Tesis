@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity,ScrollView } from 'react-native'
 import { Avatar, Icon, Input, Button } from 'react-native-elements';
 import Database from '../database'
 import {WebView} from 'react-native-webview'
@@ -109,7 +109,7 @@ export class Login extends Component {
 
     render() {
         return (
-            <View style={style.main}>
+            <ScrollView style={style.main}>
                 
                 <View style={style.boxheader}>
 
@@ -199,7 +199,7 @@ export class Login extends Component {
 
          
                
-            </View>
+            </ScrollView>
         )
     }
 }

@@ -197,7 +197,8 @@ export class MascotasF extends Component {
                     
 
             
-            <ActionButton
+          
+                <ActionButton
                     buttonColor={'#780C88'}
                     onPress={() => this.props.navigation.push('Publication') }
                     
@@ -206,6 +207,7 @@ export class MascotasF extends Component {
                     offsetY={40}
                     
                     />
+           
             
             </View>
         )
@@ -216,7 +218,7 @@ export class MascotasF extends Component {
         return(
             <View style={style.boxitem}>
            
-        <View style={style.item}>
+        <View style={[style.item,{borderColor: value.status === 'ADOPTED' ? 'red' : 'green', borderWidth:1}]}>
 
             {/* <TouchableOpacity> */}
                <View style={[style.boximg]}>
@@ -225,7 +227,7 @@ export class MascotasF extends Component {
                        </TouchableOpacity>
                </View>
               
-              <View style={style.boxinfo}>
+              <View style={[style.boxinfo]}>
                     <Text style={style.title}>{value.name}</Text>
                     <TouchableOpacity style={{marginRight: 10}}
                         onPress={()=>{
@@ -234,8 +236,11 @@ export class MascotasF extends Component {
                     >
                         <Icon name='edit' size={26} color={myTheme['color-material-primary-400']} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={
+                    <TouchableOpacity 
+                    disabled = {value.status === 'ADOPTED'? true : false}
+                    onPress={
                         ()=>{
+                            
                             this.setState({
                                 modalVisible: true, 
                                 key

@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements'
 import firebase from '@react-native-firebase/app'
 import database from '@react-native-firebase/database'
 import auth from '@react-native-firebase/auth'
+import {myTheme} from '../../src/assets/styles/Theme'
 
 export class Solicitudes extends Component {
 
@@ -107,12 +108,13 @@ export class Solicitudes extends Component {
     _renderItem = ({ item }) => this._renderItemSolicitud(item)
 
     _renderItemSolicitud = (item) => {
+      
        
         const {key,data, idFoundation} = item;
         //var obj = {}
         //alert(data.idPet)
         //let idFoundation = firebase.auth().currentUser.uid;
-        let pet = this.state.publicaciones[data.idPet];
+        let pet = data ? this.state.publicaciones[data.idPet] : null;
         let user = this.state.usuario;
         let foundation = this.state.fundaciones[idFoundation];
 
@@ -137,7 +139,42 @@ export class Solicitudes extends Component {
             }}
             bottomDivider
             chevron
-            children={<Text>text</Text>}
+            rightElement={
+                ()=>{
+                    switch (data.status_request) {
+                        case 'NEW REQUEST':
+                            return(
+                             <Text style={style.new}>Enviada</Text>
+                            )
+                            break;
+                         case 'IN REVIEW':
+                             return(
+                                <Text style={style.review}>Revisada</Text>
+                             )
+                             break;
+                         case 'REJECTED':
+                             return(
+                                 <Text style={style.rejected}>Rechazada</Text> 
+                             )
+                             break;
+                         case 'APPROVED':
+                             return(
+                                <Text style={style.approved}>Aprobada</Text> 
+                              
+                             )
+                             break;
+                         case 'SUCCESS':
+                             return(
+                                 <Text style={style.approved}>Adoptado</Text>
+                             )
+ 
+                    
+                        default:
+                            break;
+                    }
+ 
+                }
+             }
             
            
         /> 
@@ -150,12 +187,25 @@ export class Solicitudes extends Component {
         //alert(JSON.stringify(this.state.myrequests,null,4))
         return (
             <View style={style.main}>
-                <FlatList 
+                {
+                    this.state.myrequests.length > 0 ?
+                    (
+                        <FlatList 
                     style={{flex:1}}
                     data={this.state.myrequests}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                 />
+                    ) :
+                    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{
+                            fontWeight: 'bold', 
+                            fontSize: 22, 
+                            color: '#999999'
+                            }}>No se encontraron solicitudes</Text>
+                    </View>
+
+                }
             </View>
         )
     }
@@ -164,6 +214,34 @@ export class Solicitudes extends Component {
 const style = StyleSheet.create({
     main: {
         flex:1
+    },
+    approved:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-success-500'],
+        color: '#fff'
+    },
+    rejected:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-danger-500'],
+        color: '#fff'
+    },
+    new:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-primary-700'],
+        color: '#fff'
+    },
+    review:{
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius:10,
+        backgroundColor: myTheme['color-warning-600'],
+        color: '#fff'
     }
 })
 

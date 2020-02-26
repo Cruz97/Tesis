@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, StyleSheet,TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, StyleSheet,TouchableOpacity, Alert } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import firebase from '@react-native-firebase/app'
 import database from '@react-native-firebase/database'
 import auth from '@react-native-firebase/auth'
 import {myTheme} from '../../src/assets/styles/Theme'
+import { sendNotification } from '../../src/utils/PushNotifications'
 
 export class SolicitudesF extends Component {
 
@@ -21,11 +22,18 @@ export class SolicitudesF extends Component {
             solicitudes: [],
             item: {},
             publicaciones:{},
-            usuarios: {}
+            usuarios: {},
+            tokens: {}
         }
     }
 
     componentDidMount(){
+        // var hoy = new Date()
+        // var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+        // var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+        // var fechaYHora = fecha + ' ' + hora;
+       
+
         let id = firebase.auth().currentUser.uid;
         let refSolicitudes = firebase.database().ref('solicitudes/'+id);
         refSolicitudes.on('value',(snapshot)=>{
@@ -68,6 +76,26 @@ export class SolicitudesF extends Component {
             //alert(JSON.stringify(arrayPublicaciones,null,4))
             this.setState({usuarios: arrayUsuarios})
         })
+
+        let refTokens= firebase.database().ref('tokens')
+        
+
+        refTokens.on('value',(snapshot)=>{
+            var arrayTokens = {};
+            snapshot.forEach((child)=>{
+                arrayTokens[String(child.key)] = child.val()
+            })
+            //alert(JSON.stringify(arrayPublicaciones,null,4))
+            this.setState({tokens: arrayTokens})
+        })
+
+
+        // var idFoundation = this.state.idFoundation;
+        //         //alert(idFoundation)
+        //         let refToken = firebase.database().ref('tokens/'+idFoundation);
+        //         refToken.on('value',(snapshot)=>{
+        //             this.setState({tokenFoundation: snapshot.val().token})
+        //         })
     }
 
     _keyExtractor = item => item.key;
@@ -81,13 +109,16 @@ export class SolicitudesF extends Component {
         let idFoundation = firebase.auth().currentUser.uid;
         let pet = this.state.publicaciones[data.idPet];
         let user = this.state.usuarios[data.idUser];
+        let objToken = this.state.tokens[data.idUser];
 
         //alert(JSON.stringify(pet,null,4))
         return(
             pet && user ? 
             (
                 <TouchableOpacity
-                onPress={()=>{}} 
+                onPress={()=>{
+                    //alert(JSON.stringify(data.idPet,null,4))
+                }} 
                  >
                     <ListItem
             title={'Mascota: '+pet.name}
@@ -99,40 +130,106 @@ export class SolicitudesF extends Component {
             }}
             bottomDivider
             chevron
-            rightElement={data.status_request === 'NEW REQUEST' ? 
-            <TouchableOpacity
-                onPress={data.status_request === 'NEW REQUEST' || 'IN REVIEW' ? 
-                ()=>this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key}) : ()=>{}}
+            rightElement={
+               ()=>{
+                   switch (data.status_request) {
+                       case 'NEW REQUEST':
+                           return(
+                            <TouchableOpacity
+                            onPress={
+                            ()=>{
+                                let arrayTokens = [objToken.token];
+                                if(data.status_request === 'NEW REQUEST'){
+                                    sendNotification(
+                                        arrayTokens,
+                                        'Solicitud de Adopción',
+                                        'La solicitud de adopción de mascota que enviaste está en revisión'
+                                        )
+                                }
+                                this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key, token: objToken.token}) 
             
+                            }}
+                            
+            
+                        ><Text style={style.new}>Revisar</Text></TouchableOpacity>
+                           )
+                           break;
+                        case 'IN REVIEW':
+                            return(
+                                <TouchableOpacity
+                                    onPress={data.status_request === 'NEW REQUEST' || 'IN REVIEW' ? 
+                                    ()=>this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key, token: objToken.token}) : ()=>{}}
+                            
+                                ><Text style={style.review}>En Revisión</Text></TouchableOpacity>
+                            )
+                            break;
+                        case 'REJECTED':
+                            return(
+                                <Text style={style.rejected}>Rechazada</Text> 
+                            )
+                            break;
+                        case 'APPROVED':
+                            return(
+                                <TouchableOpacity
+                                onPress={
+                                    ()=>this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key, token: objToken.token}) 
+                                }
+                            >
+                                <Text style={style.approved}>Aprobada</Text> 
+                             </TouchableOpacity>  
+                            )
+                            break;
+                        case 'SUCCESS':
+                            return(
+                                <Text style={style.approved}>Adoptado</Text>
+                            )
 
-            ><Text style={style.new}>Revisar</Text></TouchableOpacity> : 
-            data.status_request === 'REJECTED' ? 
-            <Text style={style.rejected}>Rechazada</Text> : data.status_request === 'APPROVED' ?  
-            <Text style={style.approved}>Aprobada</Text> : 
-            <TouchableOpacity
-            onPress={data.status_request === 'NEW REQUEST' || 'IN REVIEW' ? 
-            ()=>this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data, idFoundation, key}) : ()=>{}}
-    
-        ><Text style={style.review}>En Revisión</Text></TouchableOpacity>
+                   
+                       default:
+                           break;
+                   }
+
+               }
             }
-            
-            
-           
-        /> 
-                </TouchableOpacity>
-            ): null
-        )
+            />
+
+        </TouchableOpacity>
+            ): null )
+    
+    
+
+        
     }
 
     render() {
         return (
             <View style={style.main}>
-                <FlatList 
+                {
+                    this.state.solicitudes.length > 0 ?
+                    (
+                        <FlatList 
                     style={{flex:1}}
                     data={this.state.solicitudes}
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                 />
+
+                    ):
+                    (
+                    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{
+                            fontWeight: 'bold', 
+                            fontSize: 22, 
+                            color: '#999999'
+                            }}>No se encontraron solicitudes</Text>
+                    </View>
+
+                    )
+                }
+
+                
+
+
             </View>
         )
     }

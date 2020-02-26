@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView,TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView,TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
 import {Icon} from 'react-native-elements';
 import SendIntentAndroid from 'react-native-send-intent';
 import { firebase } from '@react-native-firebase/auth';
+import {myTheme} from '../../src/assets/styles/Theme';
+import {withStyles} from 'react-native-ui-kitten'
+import {sendNotification} from '../../src/utils/PushNotifications';
+import AlertConfirmCustom from '../../components/AlertConfirmCustom'
+import AlertCustom from '../../components/AlertCustom'
+import { Dialog } from 'react-native-simple-dialogs';
+
 
 export class InfoSolicitud extends Component {
 
@@ -22,13 +29,23 @@ export class InfoSolicitud extends Component {
         const request = navigation.getParam('request',null)
         const key = navigation.getParam('key',null)
         const idFoundation = navigation.getParam('idFoundation',null)
-        
+        const token = navigation.getParam('token',null)
         this.state = {
             user,
             pet,
             request,
             key,
-            idFoundation
+            idFoundation,
+            token,
+            status: request.status_request,
+            modalApproved: false,
+            loadingNotificacion: false,
+            modalSuccess: false,
+            modalMotivo: false,
+            modalRejected: false,
+            motivo: 'No cumple los requisitos',
+            modalAdopted: false,
+            modalSuccessAdopted: false
         }
     }
 
@@ -94,7 +111,7 @@ export class InfoSolicitud extends Component {
     }
 
     componentDidMount(){
-
+        //alert(new Date())
         const {idFoundation, key, request} = this.state;
         const status = request.status_request;
         if(status === 'NEW REQUEST'){
@@ -102,8 +119,13 @@ export class InfoSolicitud extends Component {
             refRequest.update({
                 "status_request" : "IN REVIEW"
             })
+            this.setState({status: 'IN REVIEW'})
         }
         
+    }
+
+    changeMotivo= (text) => {
+        this.setState({motivo: text})
     }
 
 
@@ -112,6 +134,292 @@ export class InfoSolicitud extends Component {
         //alert(JSON.stringify(idFoundation,null,4))
         return (
             <ScrollView style={style.main}>
+                 <AlertConfirmCustom 
+                        modalVisible={this.state.modalApproved}
+                        onBackdropPress={()=>{this.setState({modalApproved: false}); }}
+                        source={require('../../assets/img/successgif.gif')}
+                        title='Aprobación de solicitud de adopción de mascota'
+                        subtitle='Al presionar Aceptar, la fundación declara haber revisado toda la información del adoptante, y procede a aprobar su solicitud. Se enviará una notificación al adoptante de la mascota'
+                        textOK='Aceptar'
+                        textCancel='Cancelar'
+                        onPressOK={()=>{
+                            this.setState({loadingNotificacion: true, modalApproved: false})
+                            const {idFoundation, key, request} = this.state;
+                            const status = request.status_request;
+                            if(status === 'IN REVIEW' || 'NEW REQUEST'){
+                                // sendNotification(
+                                //     arrayTokens,
+                                //     'Solicitud de Adopción de Mascota Aprobada',
+                                //     'La solicitud de adopción de mascota que enviaste ha sido aprobada, la fundación pronto se contactará contigo'
+                                //     )
+                                //alert(status)
+                                
+                                //alert(this.state.token)
+                                let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
+                                refRequest.update({
+                                    "status_request" : "APPROVED"
+                                }).then(()=>{
+                                    
+                                    sendNotification(
+                                        [this.state.token],
+                                        'Solicitud de Adopción de Mascota Aprobada',
+                                        'La solicitud de adopción de mascota que enviaste ha sido aprobada, la fundación pronto se contactará contigo.'
+                                        )
+                                       setTimeout(()=>{
+                                        this.setState({
+                                            status: 'APPROVED',
+                                            loadingNotificacion: false,
+                                            modalSuccess: true,
+                                            
+                                        })
+                                       },1500)
+                                })
+                                
+                            }
+                            //this.setState({modalApproved: false})
+
+                        }}
+                        onPressCancel = {()=>{
+                            this.setState({modalApproved: false})
+                        }}
+
+                    />
+
+                <Dialog title={"Enviando notificación....."}
+                    animationType="fade"
+                    onTouchOutside={ () => this.setState({loadingNotificacion: false}) }
+                    
+                    visible={ this.state.loadingNotificacion } 
+                    titleStyle={
+                        {
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            
+                            
+                        }
+                    }
+                    dialogStyle={
+                        {
+                            borderRadius: 10,
+                            backgroundColor: 'white',
+                            
+                        }
+                    }>
+                        <ActivityIndicator size="large" color={myTheme['color-primary-700']} />
+                    </Dialog>
+
+                    <Dialog title={"Motivo de Rechazo de Solicitud"}
+                    animationType="fade"
+                    onTouchOutside={ () => this.setState({modalMotivo: false}) }
+                    
+                    visible={ this.state.modalMotivo } 
+                    titleStyle={
+                        {
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            
+                            
+                        }
+                    }
+                    dialogStyle={
+                        {
+                            borderRadius: 10,
+                            backgroundColor: 'white',
+                            
+                        }
+                    }>
+                         <TextInput style = {[style.inputArea,{ borderColor: '#999999',}]}
+                            returnKeyType='next'
+                            underlineColorAndroid = "transparent"
+                            multiline={true}
+                            numberOfLines={10}
+                            textAlignVertical='top'
+                            textAlign='left'
+                            //placeholder = "Nombre de la mascota"
+                            //placeholderTextColor = {themedStyle.text.primary}
+                            autoCapitalize = "none"
+                            value={this.state.motivo}
+                            onChangeText = {this.changeMotivo}/>
+                        <View style={{width: '100%', height: 50}}>
+                        <View style={style.boxbuttons}>
+                    <TouchableOpacity 
+                    style={[style.btn,{
+                        backgroundColor: myTheme['color-danger-500'],
+                        borderTopStartRadius: 10,
+                        borderBottomStartRadius: 10
+                        }]}
+                        onPress={()=>{
+                            this.setState({
+                               
+                                modalMotivo: false
+                            })
+
+                        }}
+                        >
+                        <Text style={style.txtbtn}>Cancelar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[style.btn,{
+                        backgroundColor: myTheme['color-success-600'],
+                        borderTopEndRadius: 10,
+                        borderBottomEndRadius: 10
+                    }]}
+                        onPress={()=>{
+                            this.setState({loadingNotificacion: true, modalMotivo: false})
+                            const {idFoundation, key, request} = this.state;
+                            //const status = request.status_request;
+                                let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
+                                refRequest.update({
+                                    "comment" : this.state.motivo,
+                                    "status_request": 'REJECTED'
+                                }).then(()=>{
+                                    
+                                    sendNotification(
+                                        [this.state.token],
+                                        'Solicitud de Adopción de Mascota Rechazada',
+                                        'La solicitud de adopción de mascota que enviaste ha sido rechazada. Revisa tus solicitudes enviadas para ver mas detalles.'
+                                        )
+                                       setTimeout(()=>{
+                                        this.setState({
+                                            status: 'REJECTED',
+                                            loadingNotificacion: false,
+                                            modalRejected: true,
+                                            
+                                        })
+                                       },1500)
+                                })
+                                
+    
+                        
+                        }}
+                        >
+                        <Text style={style.txtbtn}>Enviar</Text>
+                    </TouchableOpacity>
+                    
+                </View>
+                        </View>
+                        
+                    </Dialog>
+
+                <AlertCustom 
+                    modalVisible={this.state.modalSuccess}
+                    onBackdropPress={()=>{this.setState({modalSuccess: false}); this.props.navigation.navigate('SolicitudesF')}}
+                    source={require('../../assets/img/successgif.gif')}
+                    title='Genial!'
+                    subtitle='La aprobación se ha realizado con éxito'
+                    textButton='Aceptar'
+                    onPress={()=>{
+                        this.setState({modalSuccess: false})
+                        //this.setModalVisible(false)
+                        this.props.navigation.navigate('SolicitudesF')
+                    }}
+
+                />
+
+                <AlertCustom 
+                    modalVisible={this.state.modalSuccessAdopted}
+                    onBackdropPress={()=>{this.setState({modalSuccessAdopted: false}); this.props.navigation.navigate('SolicitudesF')}}
+                    source={require('../../assets/img/done1.gif')}
+                    title='Genial!'
+                    subtitle='La mascota ha sido dada en adopción'
+                    textButton='Aceptar'
+                    onPress={()=>{
+                        this.setState({modalSuccessAdopted: false})
+                        //this.setModalVisible(false)
+                        this.props.navigation.navigate('SolicitudesF')
+                    }}
+
+                />
+
+<AlertConfirmCustom 
+                        modalVisible={this.state.modalAdopted}
+                        onBackdropPress={()=>{this.setState({modalAdopted: false}); }}
+                        source={require('../../assets/img/successgif.gif')}
+                        title='Finalizar proceso de adopción'
+                        subtitle='Al presionar Aceptar, declara que el adoptante ha cumplido con todos los requisitos solicitados y dará en adopción a la mascota'
+                        textOK='Aceptar'
+                        textCancel='Cancelar'
+                        onPressOK={()=>{
+                            this.setState({loadingNotificacion: true, modalAdopted: false})
+                            const {idFoundation, key, request} = this.state;
+                            const status = request.status_request;
+                            if(status === 'APPROVED'){
+                                // sendNotification(
+                                //     arrayTokens,
+                                //     'Solicitud de Adopción de Mascota Aprobada',
+                                //     'La solicitud de adopción de mascota que enviaste ha sido aprobada, la fundación pronto se contactará contigo'
+                                //     )
+                                //alert(status)
+                                
+                                //alert(this.state.token)
+                                let refPet = firebase.database().ref('publicaciones/'+idFoundation+'/'+request.idPet)
+                                refPet.update({
+                                    "status": "ADOPTED"
+                                })
+                                let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
+                                refRequest.update({
+                                    "status_request" : "SUCCESS"
+                                }).then(()=>{
+                                    
+                                    sendNotification(
+                                        [this.state.token],
+                                        'Proceso de Adopción de Mascota',
+                                        'La mascota se te ha dado en adopción!, El proceso de adopción de mascota ha finalizado con éxito'
+                                        )
+
+                                        	
+                                        var hoy = new Date()
+                                        var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+                                        var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+                                        var fechaYHora = fecha + ' ' + hora;
+                                        
+                                        //creo un registro de log
+                                        let refLog= firebase.database().ref('adoptionLog/'+idFoundation);
+                                        refLog.push({
+                                            adoption_date: fechaYHora,
+                                            idPet: request.idPet,
+                                            idUser: request.idUser,
+                                            idRequest: key
+                                        })  
+
+                                       setTimeout(()=>{
+                                        this.setState({
+                                            status: 'SUCCESS',
+                                            loadingNotificacion: false,
+                                            modalSuccessAdopted: true,
+                                            
+                                        })
+                                       },1500)
+                                })
+                                
+                            }
+                            //this.setState({modalApproved: false})
+
+                        }}
+                        onPressCancel = {()=>{
+                            this.setState({modalAdopted: false})
+                        }}
+
+                    />
+
+
+                <AlertCustom 
+                    modalVisible={this.state.modalRejected}
+                    onBackdropPress={()=>{this.setState({modalRejected: false}); this.props.navigation.navigate('SolicitudesF')}}
+                    source={require('../../assets/img/denied.gif')}
+                    title='Solicitud rechazada!'
+                    subtitle='Se ha rechazado esta solicitud de adopción de mascota'
+                    textButton='Aceptar'
+                    onPress={()=>{
+                        this.setState({modalRejected: false})
+                        //this.setModalVisible(false)
+                        this.props.navigation.navigate('SolicitudesF')
+                    }}
+
+                />
+
                 <View style={[style.boxtitle]}>
                     <Text style={style.titletxt}>Mascota</Text>
                 </View>
@@ -134,7 +442,7 @@ export class InfoSolicitud extends Component {
                                     type='material'
                                     size={25}
                                     style={style.icondetails}
-                                    color={'orange'}
+                                    color={colorPrimary}
                                 ></Icon>
                                 </View>
                                 <View style={style.boxtitledetail}>
@@ -152,7 +460,7 @@ export class InfoSolicitud extends Component {
                                 name='palette'
                                 type='material'
                                 size={25}
-                                color={'orange'}
+                                color={colorPrimary}
                             ></Icon>
                             </View>
                                 <View style={style.boxtitledetail}>
@@ -170,7 +478,7 @@ export class InfoSolicitud extends Component {
                                 name='pets'
                                 type='material'
                                 size={25}
-                                color={'orange'}
+                                color={colorPrimary}
                             ></Icon>
                             </View>
                                 <View style={style.boxtitledetail}>
@@ -187,7 +495,7 @@ export class InfoSolicitud extends Component {
                                  name='gender-male-female'
                                  type='material-community'
                                 size={25}
-                                color={'orange'}
+                                color={colorPrimary}
                             ></Icon>
                             </View>
                                 <View style={style.boxtitledetail}>
@@ -269,12 +577,51 @@ export class InfoSolicitud extends Component {
                 {          
                     this.renderItemNotIcon('Tiene recursos económicos suficientes para mantener la mascota', request.has_resources ? 'SI' : 'NO')
                 }
+
+                <View style={style.boxbuttons}>
+                    <TouchableOpacity style={[style.btn,{
+                        backgroundColor: myTheme['color-danger-500']
+                        }]}
+                        onPress={()=>{
+                            this.setState({modalMotivo: true})
+                        }}
+                        >
+                        <Text style={style.txtbtn}>Rechazar Solicitud</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[style.btn,{
+                        backgroundColor: myTheme['color-primary-700'],
+                        display: this.state.status === ('APPROVED' || 'REJECTED' || 'SUCCESS') ? 'none' : 'flex'
+                        }]}
+                        onPress={()=>{
+                            this.setState({modalApproved: true})
+                        }}
+                        >
+                        <Text style={style.txtbtn}>Aprobar Solicitud</Text>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity style={[style.btn, { 
+                        backgroundColor: myTheme['color-success-500'],
+                        display: this.state.status === ('IN REVIEW' || 'NEW REQUEST' || 'REJECTED') ? 'none' : 'flex'
+                        }]}
+                        //disabled={true}
+                        onPress={()=>{
+                            //GUARDAR UN LOG DE FUNDACION
+                            //NOTIFICAR QUE LA MASCOTA HA SIDO DADA EN ADOPCION
+                            this.setState({modalAdopted: true})
+                        }}
+                        >
+                        <Text style={style.txtbtn}>Dar en Adopción </Text>
+                    </TouchableOpacity>
+                </View>
                 
 
             </ScrollView>
         )
     }
 }
+
+const colorPrimary = myTheme['color-primary-600'];
 
 const style = StyleSheet.create({
     main:{
@@ -292,7 +639,7 @@ const style = StyleSheet.create({
     boxiconinfo:{
         width: '15%',
         justifyContent: 'center',
-        backgroundColor: 'orange',
+        backgroundColor: colorPrimary,
         overflow: 'hidden',
         borderBottomLeftRadius: 15,
         borderTopStartRadius: 15
@@ -301,7 +648,7 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         //alignItems: 'center',
         borderWidth:1,
-        borderColor:'orange',
+        borderColor: colorPrimary,
         flex:1,
         borderTopEndRadius: 15,
         paddingVertical: 10
@@ -310,7 +657,7 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         //alignItems: 'center',
         borderWidth:1,
-        borderColor:'orange',
+        borderColor: colorPrimary,
         flex:1,
         //borderTopEndRadius: 15,
         paddingVertical: 10
@@ -319,7 +666,7 @@ const style = StyleSheet.create({
        
         width: '25%',
         justifyContent: 'center',
-        backgroundColor: 'orange',
+        backgroundColor: colorPrimary,
         overflow: 'hidden',
         borderTopEndRadius: 15,
     },
@@ -345,7 +692,7 @@ const style = StyleSheet.create({
         marginHorizontal: '5%'
     },
     boxtitle:{
-        backgroundColor: 'orange',
+        backgroundColor: colorPrimary,
         paddingVertical: '5%'
     },
     titletxt:{
@@ -358,7 +705,7 @@ const style = StyleSheet.create({
         
     },
     petdetails:{
-        flex:1,
+        flex:2,
         //alignItems: 'center'
     },
     img:{
@@ -401,7 +748,47 @@ const style = StyleSheet.create({
         marginVertical: '3%',
         //color: myTheme['color-material-primary-500'],
     },
+    boxvaluedetail:{
+        flex:2,
+        //justifyContent: 'center'
+    },
+    boxtitledetail: {
+        flex:1,
+        justifyContent: 'center'
+    },
+    boxbuttons:{
+        height: 60,
+        flex:1,
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    btn:{
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    txtbtn:{
+        color: '#fff'
+    },
+    inputArea:{
+        backgroundColor: myTheme['color-material-primary-100'],
+        fontSize: 15,
+        color: myTheme['color-primary-700'],
+        marginTop: 5,
+        height: 120,
+        alignSelf: 'center',
+        width: '100%',
+        
+        borderWidth: 1,
+        borderRadius: 10,
+        textAlign: 'center'
+    
+    },
 
 })
 
-export default InfoSolicitud
+export default withStyles(InfoSolicitud, myTheme => ({
+    colors:{
+        primary: myTheme['color-primary-500']
+    }
+}))

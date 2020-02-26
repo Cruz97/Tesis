@@ -113,7 +113,7 @@ Login = () => {
                //source={require('../assets/img/gradient2.jpg')}
               style={{width: '100%', height: '100%', flex: 1, backgroundColor: '#fff', }}
             >
-                 <Text style={{
+                 {/* <Text style={{
                      color: '#fff', 
                      fontSize: 25 ,
                      zIndex: 10000, 
@@ -123,10 +123,10 @@ Login = () => {
                      alignSelf: 'center',
                      fontWeight: 'bold'
                      }}
-                     >SIGN IN</Text>
+                     >SIGN IN</Text> */}
                 <View style={style.boxheader}>
                    
-                    <View style={{
+                    {/* <View style={{
                         width: '110%',
                         height: '30%',
                         backgroundColor: '#780C88',
@@ -136,8 +136,8 @@ Login = () => {
                         paddingHorizontal: 20,
                         marginHorizontal: 20,
                         transform: [{ rotate: '180deg'}]
-                        //overflow: 'hidden'
-                    }} ></View>
+                        
+                    }} ></View> */}
 
                     {/* <View style={style.boxlogo}>
                         
@@ -294,7 +294,7 @@ Login = () => {
                         </View>
                        
                     </View>
-                    <View style={{
+                    {/* <View style={{
                         width: '110%',
                         height: '30%',
                         backgroundColor: '#780C88',
@@ -305,7 +305,7 @@ Login = () => {
                         marginHorizontal: 20,
                         transform: [{ rotate: '180deg'}]
                         //overflow: 'hidden'
-                    }} ></View>
+                    }} ></View> */}
                      <View style={style.forgetpass}>
                             <TouchableOpacity onPress={()=>{
                                 this.props.navigation.navigate('ForgetPass')
@@ -423,7 +423,7 @@ const style = StyleSheet.create({
         borderRadius: 5
       },
       forgettext:{
-          color: 'white',
+          color: '#000',
           fontSize: 17,
           textAlign: 'center'
       },

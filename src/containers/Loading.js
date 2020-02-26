@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Load} from '../components';
 import Odoo from 'react-native-odoo-promise-based'
-import { Alert } from 'react-native';
+import { Alert , View} from 'react-native';
 import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
+import messaging from '@react-native-firebase/messaging'
 
 const schemaName = 'User';
 // const firebaseConfig = {
@@ -103,22 +104,38 @@ export default class Loading extends Component {
     const {navigation} = this.props;
     const email = navigation.getParam('email','');
     const password = navigation.getParam('password','');
-    //const typelogin = navigation.getParam('typelogin','');
 
-    
+   
 
-    // alert(password)
     if(email == '' || password == '' ){
       setTimeout(()=>{
         if(firebase.auth().currentUser){
-          //alert(JSON.stringify(firebase.auth().currentUser,null,4))
           const uid = firebase.auth().currentUser.uid
 
-          //let refString = typelogin == 'foundation' ? 'fundaciones/'+uid : 'usuarios/'+uid;
-          //alert(refString)
+          firebase.messaging().getToken()
+          .then(fcmToken => {
+            if (fcmToken) {
+              let refToken = firebase.database().ref('tokens/'+uid);
+              refToken.set({
+                token:fcmToken
+              });
+            } else {
+              // user doesn't have a device token yet
+            } 
+          });
+
+          firebase.messaging().onTokenRefresh((fcmToken)=>{
+            let refToken = firebase.database().ref('tokens/'+uid);
+              refToken.set({
+                token:fcmToken
+              });
+          })
+
+         
+
+
           let refUser = firebase.database().ref('usuarios/'+uid)
           refUser.on('value',(snapshot)=>{
-            // alert(JSON.stringify(snapshot,null,4))
             let tipo = snapshot.val().typeUser;
             if(tipo == "adopter")
               this.props.navigation.navigate('AppAdoptante',{user: snapshot.val()})
@@ -141,8 +158,18 @@ export default class Loading extends Component {
               
                 setTimeout(() => {
                   const uid = userCredential.user.uid
-                  //let refString = typelogin == 'foundation' ? 'fundaciones/'+uid : 'usuarios/'+uid;
-                  //alert(refString)
+                  firebase.messaging().getToken()
+                  .then(fcmToken => {
+                    if (fcmToken) {
+                      let refToken = firebase.database().ref('tokens/'+uid);
+                      refToken.set({
+                        token:fcmToken
+                      });
+                    } else {
+                      // user doesn't have a device token yet
+                    } 
+                  });
+
                   let refUser = firebase.database().ref('usuarios/'+uid)
                   refUser.on('value',(snapshot)=>{
                     let tipo = snapshot.val().typeUser;
@@ -201,6 +228,10 @@ export default class Loading extends Component {
   }
 
   render() {
-    return <Load loading={true} />;
+    return (
+      <View style={{flex:1}}>
+        <Load loading={true} />
+      </View>
+    );
   }
 }

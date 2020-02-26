@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet,TextInput, Picker, ImageBackground, Image, Alert, TouchableHighlight, TouchableOpacity} from 'react-native'
-
+import { Text, 
+    View, 
+    StyleSheet,
+    TextInput, 
+    ActivityIndicator,
+    Picker, 
+    ImageBackground, 
+    Image, 
+    Alert, 
+    TouchableHighlight, 
+    TouchableOpacity} from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 import { SafeAreaView } from 'react-navigation'
 import { ButtonGroup, Icon, Overlay} from 'react-native-elements'
 import { RadioButton,Title,Headline } from 'react-native-paper';
@@ -18,6 +28,7 @@ import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Dialog } from 'react-native-simple-dialogs';
 import AlertCustom from '../../components/AlertCustom';
 import LoadingCustom from '../../components/LoadingCustom';
+import Slider from '@react-native-community/slider';
 
 
 
@@ -39,12 +50,15 @@ export class Publication extends Component {
 
     constructor(props){
         super(props)
-       
+        const {navigation} = this.props;
+        let pet = navigation.getParam('pet',null)
       
 
         this.state = {
             selectedIndexGender: -1,
             selectedIndexType: -1,
+            selectedIndexEdad:-1,
+            slider: 1,
             especie: null,
             genero: null,
             // name: 'Skilled',
@@ -64,10 +78,15 @@ export class Publication extends Component {
             modalVisible: false,
             loadVisible: false,
             action: '',
-            key: null
+            value_ini: 1,
+            value_fin:12,
+            key: null,
+            loading: false,
+            pet
           }
           this.updateIndexGender = this.updateIndexGender.bind(this)
           this.updateIndexType = this.updateIndexType.bind(this)
+          this.updateIndexEdad= this.updateIndexEdad.bind(this)
     }
 
     componentDidMount(){
@@ -105,6 +124,16 @@ export class Publication extends Component {
             let description = pet.value.description;
             let color = pet.value.color;
             let age = pet.value.age;
+            let arrayAge = age.split(' ');
+            let indexEdad = -1
+            let slider = parseInt(arrayAge[0])
+
+            if(arrayAge[1] === 'Días')
+                indexEdad = 0
+            if(arrayAge[1] === 'Semanas')
+                indexEdad = 1
+            if(arrayAge[1] === 'Meses')
+                indexEdad = 2
             //let typepublish = pet.value.typepublish;
             //alert(spice+ ' => '+gender)
             //alert(description)
@@ -122,6 +151,8 @@ export class Publication extends Component {
                     
                     var r = reader.result.replace('data:application/octet-stream;base64,','')
                     images.push(r)
+
+                    this.updateIndexEdad(indexEdad)
                     // alert(r)
                     this.setState({
                         images,
@@ -131,11 +162,16 @@ export class Publication extends Component {
                         edad: age,
                         selectedIndexGender: gender,
                         selectedIndexType: spice,
+                        selectedIndexEdad: indexEdad,
                         color,
+                        slider,
                         //typepublish, 
-                        key: pet.key
+                        key: pet.key,
+                        pet
 
                     })
+
+                    
                 });
             });
             //this.updateIndexGender(gender)
@@ -162,12 +198,27 @@ export class Publication extends Component {
     }
 
     savePetPublish = () => {
-        const {name, especie, genero, color, edad, description, typepublish, selectedIndexGender, selectedIndexType} = this.state;
+        const {name, especie, genero, color, edad, slider, description, typepublish, selectedIndexGender, selectedIndexType, selectedIndexEdad} = this.state;
         const imagen = this.state.images[0];    
         const fundacion = firebase.auth().currentUser;
         let date = new Date();
+        const msgAge = selectedIndexEdad === 0 ? (slider === 1 ? ' Dia' : ' Días' ) : 
+        selectedIndexEdad === 1 ? (slider === 1 ? ' Semana' : ' Semanas' ):
+        selectedIndexEdad === 2 ? (slider === 1 ? ' Mes' : ' Meses' ) : ''
+
+        //alert(slide+' '+msgAge)
+
+        if(name == '' || imagen == null || selectedIndexGender == -1 || selectedIndexType == -1 ||
+        color == '' || selectedIndexEdad == -1 || description == '' ){
+            alert('Llene toda la información requerida')
+            return;
+        }
+
+        this.setState({loading: true});
+
         var storageRef = firebase.storage().ref('/petphotos/'+fundacion.uid+'/'+date+'_'+name);
         //alert(storageRef)
+        
 
         if(this.state.key != null){
             let refEditPublish = firebase.database().ref('publicaciones/'+fundacion.uid+'/'+this.state.key);
@@ -178,18 +229,25 @@ export class Publication extends Component {
                 spice: selectedIndexType,
                 gender: selectedIndexGender,
                 color: color,
-                age: edad,
+                age: slider+msgAge,
                 description: description,
+                status: 'FOR_ADOPTION'
                 //typepublish: typepublish
             }).then(()=>{
                // setTimeout(() => {
                 
                     this.setState({
                         loadVisible: false,
-                        modalVisible: true
+                        modalVisible: true,
+                        loading: false
                     })
 
             }).catch(error=>{
+                this.setState({
+                    // loadVisible: false,
+                    // modalVisible: true,
+                    loading: false
+                })
                 alert(error.message)
             });
 
@@ -206,7 +264,7 @@ export class Publication extends Component {
                 cont++;
                 var num = this.state.uploadValue + lote;
                 //setTimeout(()=>{
-                    this.setState({loadVisible: true,uploadValue: num})
+                    //this.setState({loadVisible: true,uploadValue: num})
                // },300)
             }
             
@@ -227,15 +285,17 @@ export class Publication extends Component {
                     spice: selectedIndexType,
                     gender: selectedIndexGender,
                     color: color,
-                    age: edad,
+                    age: slider+msgAge,
                     description: description,
+                    status: 'FOR_ADOPTION'
                     //typepublish: typepublish
                 }).then(()=>{
                    // setTimeout(() => {
                     
                         this.setState({
                             loadVisible: false,
-                            modalVisible: true
+                            modalVisible: true,
+                            loading: false
                         })
 
                 }).catch(error=>{
@@ -308,19 +368,43 @@ export class Publication extends Component {
     }
 
  
-    
+    updateIndexEdad (selectedIndexEdad) {
+        if(selectedIndexEdad == 0 ){
+            this.setState({selectedIndexEdad, value_ini: 1, value_fin: 30, slider: 1})
+        }
+        if(selectedIndexEdad == 1){
+            this.setState({selectedIndexEdad, value_ini: 1, value_fin: 36, slider: 1})
+        }
+        if(selectedIndexEdad == 2){
+            this.setState({selectedIndexEdad, value_ini: 1, value_fin: 36, slider: 1})
+        }
+       
+      }
 
     updateIndexGender (selectedIndexGender) {
+        //alert(selectedIndexGender)
         this.setState({selectedIndexGender})
       }
       updateIndexType (selectedIndexType) {
+          //alert(selectedIndexType)
         this.setState({selectedIndexType})
       }
-    handleName = (text) => {
-        this.setState({
-            name: text
-        })
-    }
+
+      handleName = (text) => {
+        if(this.validateOnlyText(text))
+          this.setState({name: text,alertNombres: false})
+        else 
+          {
+            this.setState({alertNombres: true})
+            //return 
+          }
+          
+      }
+
+      validateOnlyText = (text) => {
+        var re = /^[a-zA-Z\s]*$/;
+          return re.test(text);
+      };
 
     handleYears = (text) => {
         this.setState({
@@ -385,10 +469,34 @@ export class Publication extends Component {
        
         const buttonsGender = ['Hembra', 'Macho']
         const buttonsType = ['Canina', 'Felina']
+        const buttonsEdad = ['Días', 'Semanas','Meses']
         const { selectedIndexGender } = this.state
-        const { selectedIndexType } = this.state
+        const { selectedIndexType, selectedIndexEdad } = this.state
         return (
             <View style={style.main}>
+                <Dialog title={"Publicando....."}
+                    animationType="fade"
+                    onTouchOutside={ () => this.setState({loading: false}) }
+                    
+                    visible={ this.state.loading } 
+                    titleStyle={
+                        {
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            
+                            
+                        }
+                    }
+                    dialogStyle={
+                        {
+                            borderRadius: 10,
+                            backgroundColor: 'white',
+                            
+                        }
+                    }>
+                       <ActivityIndicator size="large" color={myTheme['color-primary-700']} />
+                    </Dialog>
                 <AlertCustom 
                     modalVisible={this.state.modalVisible}
                     onBackdropPress={()=>{this.setState({modalVisible: false}); this.props.navigation.navigate('MascotasF')}}
@@ -417,6 +525,7 @@ export class Publication extends Component {
                         <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                             value={this.state.name}
                             returnKeyType='next'
+                            maxLength={25}
                             underlineColorAndroid = "transparent"
                             //placeholder = "Nombre de la mascota"
                             placeholderTextColor = {themedStyle.text.primary}
@@ -456,7 +565,7 @@ export class Publication extends Component {
                     </View>
 
                     <View style={style.boxinput}>
-                        <Text style={style.label}>Género</Text>
+                        <Text style={style.label}>Sexo</Text>
                         <ButtonGroup
                             onPress={this.updateIndexGender}
                             selectedIndex={selectedIndexGender}
@@ -468,6 +577,8 @@ export class Publication extends Component {
                         />
 
                     </View>
+
+                   
 
                     <Text style={{marginVertical: 10, fontWeight: 'bold' ,color: themedStyle.text.primary}}>
                             Color/es</Text>
@@ -504,17 +615,46 @@ export class Publication extends Component {
                         </View> */}
 
 
-                        <Text style={{marginVertical: 10, fontWeight: 'bold' ,color: themedStyle.text.primary}}>
-                            Edad Aproximada</Text>
+                       
+                           
+     <Text style={{marginVertical: 10, fontWeight: 'bold' ,color: themedStyle.text.primary}}>
+                                Edad Aproximada de { this.state.selectedIndexEdad === -1 ? '' : this.state.slider }  
+                              { this.state.selectedIndexEdad === 0 ? (this.state.slider === 1 ? ' Dia' : ' Días' ) : 
+                                this.state.selectedIndexEdad === 1 ? (this.state.slider === 1 ? ' Semana' : ' Semanas' ):
+                                this.state.selectedIndexEdad === 2 ? (this.state.slider === 1 ? ' Mes' : ' Meses' ) : ''} </Text>
+                        <View style={style.boxinput}>
+                            
+                                    <ButtonGroup
+                                        onPress={this.updateIndexEdad}
+                                        selectedIndex={selectedIndexEdad}
+                                        buttons={buttonsEdad}
+                                        textStyle={style.txtbtngroup}
+                                        containerStyle={
+                                                style.buttongroup
+                                            }
+                                                />
 
-                        <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
+                                </View>
+                            <Slider
+                                style={{flex:1, display: this.state.selectedIndexEdad === -1 ? 'none': 'flex'}}
+                                minimumValue={this.state.value_ini}
+                                maximumValue={this.state.value_fin}
+                                minimumTrackTintColor="green"
+                                maximumTrackTintColor="red"
+                                value={this.state.slider}
+                                onValueChange={(n)=>{
+                                    this.setState({slider:parseInt(n)})
+                                }}
+                            />
+
+                        {/* <TextInput style = {[style.input,{ borderColor: themedStyle.colors.primary,}]}
                             value={this.state.edad}
                             returnKeyType='next'
                             underlineColorAndroid = "transparent"
                             //placeholder = "Nombre de la mascota"
                             placeholderTextColor = {themedStyle.text.primary}
                             autoCapitalize = "none"
-                            onChangeText = {this.handleYears}/>
+                            onChangeText = {this.handleYears}/> */}
 
                       
 
@@ -572,31 +712,27 @@ export class Publication extends Component {
 
                 </View>
                 <View style={{alignItems: 'center', width: '100%'}}>
-                   <ButtonCustom  
-                            title="Publicar"
-                            icon = {
-                                <Icon name='send' size={20} color={themedStyle.colors.icon} />
-                            }
-                            //iconName='send'
-                            colorcustom={'#780C88'}
-                            buttonStyle={
-                                {
-                                    marginTop:10,
-                                    borderRadius: 20,
-                                    width: 250,
-                                    height: 50,
-                                    marginBottom: 20   
 
-                                
-                                }}
-                            onPress={()=>{
-                              // alert(this.state.images.length)
-                             //this.uploadImage()  ;
-                             this.savePetPublish()
-                              //this.setModalVisible(true) 
-                            }}
-                            
-                           />
+                <TouchableOpacity 
+                //disabled= {this.state.pet.value.status === 'ADOPTED' ? true : false}
+                onPress={()=>{
+                    if(this.state.pet){
+                        if(this.state.pet.value.status === 'ADOPTED'){
+                            () => {}
+                        }
+                    }
+                    else{
+                        this.savePetPublish()
+                    }
+                }}>
+                    <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
+                        <Text style={style.buttonText}>
+                        Publicar
+                        </Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+
+                   
                            {/* <Image
                                 style={{ width: 150, height: 150, borderRadius: 10 }}
                                 resizeMode={'cover'}
@@ -756,6 +892,23 @@ const style = StyleSheet.create({
         color: myTheme['color-primary-700']
 
       },
+      linearGradient: {
+        //flex: 1,
+        marginTop: 20,
+        paddingLeft: 35,
+        paddingRight: 35,
+        paddingVertical: 5,
+        borderRadius: 25
+      },
+      buttonText: {
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+      },
+      
 })
 
 export default withStyles(Publication, myTheme => ({

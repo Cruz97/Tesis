@@ -10,6 +10,7 @@ import {myTheme} from '../src/assets/styles/Theme'
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import DatePicker from 'react-native-datepicker'
+import RNPicker from "search-modal-picker";
 
 const actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for
@@ -41,18 +42,30 @@ export class NewAccount extends Component {
 
         this.state={
             uid: '',
-            cedula: '0921839023',
-            nombres: 'Jose Alejandro',
-            fechanacimiento: '1997-01-01',
-            apellidos: 'Cruz Alvarado',
-            telefono: '0996802892',
-            telefono_convencional: '042706385',
-            correo: 'jose.cruzal@outlook.com',
-            contrasena: 'Barce@97',
+            // cedula: '0921839023',
+            // nombres: 'Jose Alejandro',
+            // fechanacimiento: '1997-01-01',
+            // apellidos: 'Cruz Alvarado',
+            // telefono: '0996802892',
+            // telefono_convencional: '042706385',
+            // correo: 'jose.cruzal@outlook.com',
+            // contrasena: 'Barce@97',
+            // estadocivil: '',
+            // direccion: 'Isidro Ayora - Via a Las mercedes',
+            // contrasena2: 'Barce@97',
+            // referencia: 'Entre callejon S/N a lado de Lubricadora',
+            cedula: '',
+            nombres: '',
+            fechanacimiento: '1980-01-01',
+            apellidos: '',
+            telefono: '',
+            telefono_convencional: '',
+            correo: '',
+            contrasena: '',
             estadocivil: '',
-            direccion: 'Isidro Ayora - Via a Las mercedes',
-            contrasena2: 'Barce@97',
-            referencia: 'Entre callejon S/N a lado de Lubricadora',
+            direccion: '',
+            contrasena2: '',
+            referencia: '',
             alertCedula: false,
             alertNombres: false,
             alertApellidos: false,
@@ -63,9 +76,40 @@ export class NewAccount extends Component {
             alertContrasena2: false,
             alertDireccion: false,
             alertReferencia: false,
+            alertOcupation: false,
 
             showPassword: false,
-            acceptTerms: false
+            acceptTerms: false,
+
+            existUser: false,
+
+            dataSource: [],
+            dataEstadoCivil: [
+              {
+                id: "0",
+                name: "Ninguno"
+              },
+              {
+                id: "1",
+                name: "Soltero"
+              },
+              {
+                id: "2",
+                name: "Casado"
+              },
+              {
+                id: "3",
+                name: "Divorciado"
+              },
+              {
+                id: "4",
+                name: "Viudo"
+              }
+            ],
+            placeHolderText: "Seleccione una ocupación",
+            selectedText: "",
+            placeHolderTextEstadoCivil: "Seleccione un estado civil",
+            selectedEstadoCivil: ""
             
         }
     }
@@ -79,6 +123,24 @@ export class NewAccount extends Component {
             longitudeDelta: 0.0421,
           },
         };
+      }
+
+      _selectedValue(index, item) {
+        //alert(item.name)
+        if(item.name == ""){
+          this.setState({ alertOcupation: true });
+          return;
+        }
+        this.setState({ selectedText: item.name, alertOcupation: false });
+      }
+
+      _selectedValueEstadoCivil(index, item) {
+        //alert(item.name)
+        if(item.name == ""){
+          this.setState({ alertEstadoCivil: true });
+          return;
+        }
+        this.setState({ selectedEstadoCivil: item.name, alertEstadoCivil: false });
       }
       
       onRegionChange(region) {
@@ -258,16 +320,34 @@ export class NewAccount extends Component {
         const card_identification = this.state.cedula;
         const phone_mobile = this.state.telefono;
         const address = this.state.direccion;
-        const marital_status = this.state.estadocivil;
+        const marital_status = this.state.selectedEstadoCivil;
         const email = this.state.correo;
         const password = this.state.contrasena;
+        const password2 = this.state.contrasena2;
         const name = this.state.nombres;
         const lastname = this.state.apellidos;
         const date_of_birth = this.state.fechanacimiento;
         const reference = this.state.referencia;
         const phone_conventional = this.state.telefono_convencional;
+        const ocupation = this.state.selectedText;
 
-        if(name == '' || lastname == '' || email == '' || password == ''){
+        if((name == '' || lastname == '' || email == '' || password == '' 
+        || card_identification === '' || date_of_birth === '1980-01-01' || phone_mobile === ''
+        || phone_conventional === '' || address === '' || reference === '' || marital_status === ''
+        || ocupation === '' || password2 === ''
+        )||
+        (this.state.alertCedula === true || 
+          this.state.alertNombres === true|| 
+          this.state.alertApellidos === true ||
+          this.state.alertTelefono === true || 
+          this.state.alertTelefonoConvencional === true  || 
+          this.state.alertDireccion === true || 
+          this.state.alertReferencia === true || 
+          this.state.alertCorreo === true ||
+          this.state.alertContrasena === true || 
+          this.state.alertContrasena2 === true 
+          ))
+          {
             Alert.alert('Información Requerida', 'Por favor ingrese toda la información')
             //this.props.navigation.navigate('RegisterSuccessfull')
             return
@@ -301,6 +381,7 @@ export class NewAccount extends Component {
                     phone: userCredentials.user.phoneNumber,
                     displayName: userCredentials.user.displayName,
                     typeUser: 'adopter',
+                    ocupation
                     
 
                     
@@ -362,6 +443,38 @@ export class NewAccount extends Component {
         })
     }
 
+
+    componentDidMount(){
+      let refOcupaciones = firebase.database().ref('ocupaciones');
+      refOcupaciones.on('value',(snapshot)=>{
+        var ocupaciones = [];
+        ocupaciones.push({id: "0", name: "OTRO"})
+        snapshot.forEach((child)=>{
+            
+            ocupaciones.push({id: child.key, name: child.val()})
+        })
+        this.setState({dataSource: ocupaciones})
+        //alert(JSON.stringify(ocupaciones,null,4))
+      })
+    }
+
+    
+
+    existeUsuario = (cedula) => {
+      this.setState({existUser: false})
+      let refUsuario = firebase.database().ref('usuarios');
+      refUsuario.on('value',(snapshot)=>{
+        snapshot.forEach((childUser)=>{
+          let user = childUser.val();
+          if(user.typeUser === 'adopter'){
+            if(user.card_identification === cedula){
+              this.setState({existUser: true})
+            }
+          }
+        })
+      })
+    }
+
     render() {
       const {themedStyle} = this.props;
       const msgRequirePassword  = 'La contraseña debe cumplir los siguientes requisitos: \n-Mínimo 8 carácteres\n-Letras mayúsculas\n-Letras minúsculas\n-Números\n-Caracteres especiales como: @$!#/)..etc, ';
@@ -373,39 +486,24 @@ export class NewAccount extends Component {
                     </View> */}
                     <KeyboardAwareScrollView>
                 <View style={style.form}>
+                <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Nombres
+                         </Text>
+                </View>
 
-                <Input
-                        placeholder=' Cédula'
-                        keyboardType='number-pad'
-                        maxLength={10}
-                        value={this.state.cedula}
-                        onChangeText={this.handleCedula.bind(this)}
-                        placeholderTextColor={myTheme['color-material-primary-400']}
-                        inputStyle={
-                            style.input
-                        }
-                        onBlur = {
-                          ()=>
-                         {
-                          if(this.state.cedula.length > 0){
-                            if (!this.validateCedula(this.state.cedula)) {
-                              this.setState({cedula: this.state.cedula, alertCedula: true})
-                              
-                            } else {
-                              this.setState({alertCedula: false })
-                            }
-                          }
-                         }
-                        }
-                        />
-                        <Text style={{
-                          textAlign:'center', 
-                          color: 'red', 
-                          display: this.state.alertCedula ? 'flex' : 'none'}}>
-                          La cédula no es válida
-                        </Text>
+                
+                        
                 <Input 
-                        placeholder=' Nombres'
+                        //placeholder=' Nombres'
                         keyboardType='ascii-capable'
                         // secureTextEntry={true}
                         value={this.state.nombres}
@@ -424,8 +522,21 @@ export class NewAccount extends Component {
                           display: this.state.alertNombres ? 'flex' : 'none'}}>
                           El Campo Nombre no permite números, caracteres especiales o tíldes
                         </Text>
+                        <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'5%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Apellidos
+                         </Text>
+                </View>
                 <Input
-                        placeholder=' Apellidos'
+                        //placeholder=' Apellidos'
                         keyboardType='ascii-capable'
                         // secureTextEntry={true}
                         value={this.state.apellidos}
@@ -446,8 +557,63 @@ export class NewAccount extends Component {
                           El Campo Apellidos no permite números, caracteres especiales o tíldes
                         </Text>
 
-                       <View style={{flexDirection:'row', marginLeft: '5%', marginRight: '2%', marginVertical: '1%', justifyContent: 'center', alignItems: 'center'}}>
+                       {/* <View style={{flexDirection:'row', marginLeft: '5%', marginRight: '2%', marginVertical: '1%', justifyContent: 'center', alignItems: 'center'}}> */}
+                       {/* <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}> */}
+
+                {/* </View> */}
+                      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                      {/* <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}> */}
+
+                {/* </View> */}
+                      <View style={{flex:1, marginLeft: '2%'}}>
+                      <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                            fontSize: 17,
+                            marginTop:'5%',
+                            marginRight:'5%'
+                          }}>
+                           Cédula
+                         </Text>
+                        
+                      <Input
+                        //placeholder=' Cédula'
+                        keyboardType='number-pad'
+                        maxLength={10}
+                        value={this.state.cedula}
+                        onChangeText={this.handleCedula.bind(this)}
+                        placeholderTextColor={myTheme['color-material-primary-400']}
+                        
+                        containerStyle={{
+                          flex:1
+                        }}
+                        inputStyle={
+                            {
+                              //flex:1,
+                              //width: 150
+                            }
+                        }
+                        onBlur = {
+                          ()=>
+                         {
+                          if(this.state.cedula.length > 0){
+                            if (!this.validateCedula(this.state.cedula)) {
+                              this.setState({cedula: this.state.cedula, alertCedula: true})
+                              
+                            } else {
+                              this.existeUsuario(this.state.cedula)
+                              this.setState({alertCedula: false })
+                            }
+                          }
+                         }
+                        }
+                        />
+                      </View>
+                        
+                        
+                         <View style={{alignItems: 'center', flex:1}}>
                          <Text style={{
+                          flex:1,
                            color: myTheme['color-material-primary-400'],
                             fontSize: 17,
                             marginTop:'5%',
@@ -455,10 +621,11 @@ export class NewAccount extends Component {
                           }}>
                            Fecha de Nacimiento
                          </Text>
-                       <DatePicker
+                      <DatePicker
                           style={{
                               flex:1,
-                              marginTop: '5%'
+                              //marginTop: '5%',
+                              
                           }}
                           customStyles={{
                               dateInput:{
@@ -467,11 +634,11 @@ export class NewAccount extends Component {
                               borderRadius: 5,
                               color: themedStyle.colors.primary,
                               borderColor: themedStyle.colors.primary,
-                              marginTop: 15   
+                              marginTop: 5   
                               },
                               dateText:{
                                   width: '100%',
-                                  color: myTheme['color-primary-700'],
+                                  color: '#000',
                                   marginLeft: 5,
                                   fontSize: 17,
                                  
@@ -487,7 +654,7 @@ export class NewAccount extends Component {
                                   
                               },
                               dateIcon:{
-                                  marginTop: 15,
+                                  marginTop: 5,
                               justifyContent: 'center'
                               }
                           
@@ -504,14 +671,50 @@ export class NewAccount extends Component {
                           
                           onDateChange={(date) => {this.setState({fechanacimiento: date})}}
                       />
-                       </View>
+                      </View>
+                       
+                      </View>
+                      <Text style={{
+                          textAlign:'center', 
+                          marginTop:5,
+                          color: 'red', 
+                          display: this.state.alertCedula ? 'flex' : 'none'}}>
+                          La cédula no es válida
+                        </Text>
 
-                        <Input
-                placeholder=' Teléfono Móvil'
+                      
+                         
+                       
+                       {/* </View> */}
+                <View style={{flexDirection: 'row', marginTop: '5%', }}>
+                <View style={{
+                  flex:1,
+                  flexDirection: 'column',
+                 
+                }}>
+                 <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Teléfono Móvil
+                         </Text>
+                </View>
+                <Input
+                //placeholder=' Teléfono Móvil'
                 keyboardType='phone-pad'
+                maxLength={10}
                 value={this.state.telefono}
                 onChangeText={this.handlePhone.bind(this)}
                 placeholderTextColor={myTheme['color-material-primary-400']}
+                containerStyle={{
+                  flex:1
+                }}
                 onBlur = {
                   ()=>
                  {
@@ -535,14 +738,36 @@ export class NewAccount extends Component {
                   display: this.state.alertTelefono ? 'flex' : 'none'}}>
                   El Campo Teléfono Móvil debe tener 10 dígitos
                 </Text>
+                </View>
 
 
+                <View style={{
+                  flex:1,
+                  flexDirection: 'column'
+                  }}>
+                      <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Telf Convencional
+                         </Text>
+                </View>
                 <Input
-                placeholder=' Teléfono Convencional'
+                //placeholder=' Teléfono Convencional'
                 keyboardType='phone-pad'
+                maxLength={10}
                 value={this.state.telefono_convencional}
                 onChangeText={this.handleTelephone.bind(this)}
                 placeholderTextColor={myTheme['color-material-primary-400']}
+                containerStyle={{
+                  flex:1
+                }}
                 onBlur = {
                   ()=>
                  {
@@ -566,9 +791,27 @@ export class NewAccount extends Component {
                   display: this.state.alertTelefonoConvencional ? 'flex' : 'none'}}>
                   El Campo Teléfono Convencional debe tener 10 dígitos
                 </Text>
+                </View>
+                </View>
+                <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Dirección
+                         </Text>
+                </View>
+
+                        
                 <Input
-                        placeholder=' Dirección del domicilio'
+                        //placeholder=' Dirección del domicilio'
                         keyboardType='ascii-capable'
+                        maxLength={150}
                         value={this.state.direccion}
                         onChangeText={this.handleAddress}
                         placeholderTextColor={myTheme['color-material-primary-400']}
@@ -585,9 +828,23 @@ export class NewAccount extends Component {
                           display: this.state.alertDireccion ? 'flex' : 'none'}}>
                           Ingrese la dirección de su domicilio
                         </Text>
+                        <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Referencia
+                         </Text>
+                </View>
                         <Input
-                        placeholder=' Referencia del domicilio'
+                        //placeholder=' Referencia del domicilio'
                         keyboardType='ascii-capable'
+                        maxLength={150}
                         value={this.state.referencia}
                         onChangeText={this.handleReference}
                         placeholderTextColor={myTheme['color-material-primary-400']}
@@ -605,7 +862,7 @@ export class NewAccount extends Component {
                           Ingrese la referencia de su domicilio
                         </Text>
 
-                <Picker
+                {/* <Picker
                 style={[style.internalPickerContainer,{marginTop:10}]}
                 mode='dialog'
                 iosHeader="Select Type "
@@ -619,10 +876,103 @@ export class NewAccount extends Component {
                   <Picker.Item label="* Casado" value="casado" />
                   <Picker.Item label="* Divorciado" value="divorciado" />
                   <Picker.Item label="* Viudo" value="viudo" />
-                </Picker>
+                </Picker> */}
+                <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginTop:'7%' ,marginVertical: '1%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'center',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Estado Civil
+                         </Text>
+                </View>
+
+                <RNPicker
+                  dataSource={this.state.dataEstadoCivil}
+                  ///dummyDataSource={this.state.dataSource}
+                  defaultValue={false}
+                  pickerTitle={"Estado Civil"}
+                  //showSearchBar={true}
+                  disablePicker={false}
+                  changeAnimation={"none"}
+                  searchBarPlaceHolder={"Buscar....."}
+                  showPickerTitle={true}
+                  searchBarContainerStyle={this.props.searchBarContainerStyle}
+                  pickerStyle={Styles.pickerStyle}
+                  pickerItemTextStyle={Styles.listTextViewStyle}
+                  selectedLabel={this.state.selectedEstadoCivil}
+                  placeHolderLabel={this.state.placeHolderTextEstadoCivil}
+                  selectLabelTextStyle={Styles.selectLabelTextStyle}
+                  placeHolderTextStyle={Styles.placeHolderTextStyle}
+                  dropDownImageStyle={Styles.dropDownImageStyle}
+                  //dropDownImage={require("./res/ic_drop_down.png")}
+                  selectedValue={(index, item) => this._selectedValueEstadoCivil(index, item)}
+                />
+                
+                <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginTop: '7%', marginVertical: '1%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'center',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Ocupación
+                         </Text>
+                </View>
+               
+
+                <RNPicker
+                  dataSource={this.state.dataSource}
+                  ///dummyDataSource={this.state.dataSource}
+                  defaultValue={false}
+                  pickerTitle={"Ocupaciones"}
+                  showSearchBar={true}
+                  disablePicker={false}
+                  changeAnimation={"none"}
+                  searchBarPlaceHolder={"Buscar....."}
+                  showPickerTitle={true}
+                  searchBarContainerStyle={this.props.searchBarContainerStyle}
+                  pickerStyle={Styles.pickerStyle}
+                  pickerItemTextStyle={Styles.listTextViewStyle}
+                  selectedLabel={this.state.selectedText}
+                  placeHolderLabel={this.state.placeHolderText}
+                  selectLabelTextStyle={Styles.selectLabelTextStyle}
+                  placeHolderTextStyle={Styles.placeHolderTextStyle}
+                  dropDownImageStyle={Styles.dropDownImageStyle}
+                  //dropDownImage={require("./res/ic_drop_down.png")}
+                  selectedValue={(index, item) => this._selectedValue(index, item)}
+                />
+
+            <Text style={{
+                  textAlign:'center', 
+                  color: 'red', 
+                  display: this.state.alertOcupation ? 'flex' : 'none'}}>
+                  Seleccione una ocupación
+                </Text>
+
+                <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Correo Electrónico
+                         </Text>
+                </View>
 
                 <Input
-                        placeholder=' Correo Electrónico'
+                        //placeholder=' Correo Electrónico'
                         keyboardType='email-address'
                         value={this.state.correo}
                         onChangeText={this.handleEmail}
@@ -652,9 +1002,23 @@ export class NewAccount extends Component {
                           El correo ingresado no es válido
                         </Text>
 
+                        <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Contraseña
+                         </Text>
+                </View>
+
                    <View style={{flexDirection: 'row', alignItems: 'center', marginRight: '10%'}}>
                    <Input
-                    placeholder=' Contraseña'
+                    //placeholder=' Contraseña'
                     secureTextEntry={!this.state.showPassword}
                     value={this.state.contrasena}
                     onChangeText={this.handlePassword}
@@ -687,7 +1051,7 @@ export class NewAccount extends Component {
                       <Icon 
                         name='remove-red-eye'
                         size={30}
-                        color={myTheme['color-material-primary-500']}
+                        color={this.state.showPassword ? myTheme['color-material-primary-700'] : myTheme['color-material-primary-400']}
                       />
 
                     </TouchableOpacity  >
@@ -700,8 +1064,21 @@ export class NewAccount extends Component {
                               msgRequirePassword
                             }
                         </Text>
+                        <View style={{flexDirection:'row', marginLeft: '2%', marginRight: '2%', marginVertical: '0%', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                          flex:1,
+                           color: myTheme['color-material-primary-400'],
+                           textAlign: 'left',
+                            fontSize: 17,
+                            marginTop:'3%',
+                            marginRight:'5%',
+                            
+                          }}>
+                           Confirmar Contraseña
+                         </Text>
+                </View>
                      <Input
-                    placeholder=' Confirmar Contraseña'
+                    //placeholder=' Confirmar Contraseña'
                     secureTextEntry={!this.state.showPassword}
                     value={this.state.contrasena2}
                     onChangeText={this.handlePassword2}
@@ -762,13 +1139,17 @@ export class NewAccount extends Component {
 
                             }
                             onPress={()=>{
-                                this.createUser()
+                              this.existeUsuario(this.state.cedula)
+                                if(this.state.existUser){
+                                  alert('Ya existe un usuario con esta identificacion');
+                                }
+                                else{
+                                  this.createUser()
+                                }
                                 
                             }}
                             
                            />
-
-
                 </View>
                 </KeyboardAwareScrollView>
                 
@@ -799,7 +1180,7 @@ const style = StyleSheet.create({
       input:{
         color: 'black',
         fontSize: 17,
-        marginTop:3
+        marginTop:0
       },
       button:{
         marginTop:20,
@@ -865,6 +1246,79 @@ const styles = StyleSheet.create({
         bottom: 0,
       },
    });
+
+   const Styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center"
+    },
+  
+    searchBarContainerStyle: {
+      marginBottom: 10,
+      flexDirection: "row",
+      height: 40,
+      shadowOpacity: 1.0,
+      shadowRadius: 5,
+      shadowOffset: {
+        width: 1,
+        height: 1
+      },
+      backgroundColor: "rgba(255,255,255,1)",
+      shadowColor: "#d3d3d3",
+      borderRadius: 10,
+      elevation: 3,
+      marginLeft: 10,
+      marginRight: 10
+    },
+  
+    selectLabelTextStyle: {
+      color: "#000",
+      textAlign: "left",
+      width: "99%",
+      padding: 10,
+      flexDirection: "row"
+    },
+    placeHolderTextStyle: {
+      color: "#D3D3D3",
+      padding: 10,
+      textAlign: "left",
+      width: "99%",
+      flexDirection: "row"
+    },
+    dropDownImageStyle: {
+      marginLeft: 10,
+      width: 10,
+      height: 10,
+      alignSelf: "center"
+    },
+    listTextViewStyle: {
+      color: "#000",
+      marginVertical: 10,
+      flex: 0.9,
+      marginLeft: 20,
+      marginHorizontal: 10,
+      textAlign: "left"
+    },
+    pickerStyle: {
+      marginLeft: 18,
+      elevation:3,
+      paddingRight: 25,
+      marginRight: 10,
+      marginBottom: 2,
+      shadowOpacity: 1.0,
+      shadowOffset: {
+        width: 1,
+        height: 1
+      },
+      borderWidth:0,
+      shadowRadius: 10,
+      backgroundColor: "rgba(255,255,255,1)",
+      shadowColor: "#d3d3d3",
+      borderRadius: 5,
+      flexDirection: "row"
+    }
+  });
 
 export default withStyles(NewAccount, myTheme => ({
   colors: {

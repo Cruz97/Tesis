@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity,ToastAndroid, ScrollView, FlatList, TextInput } from 'react-native'
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
-import {Image,Icon} from 'react-native-elements'
+import {Image,Icon, Overlay} from 'react-native-elements'
 import ActionButton from 'react-native-action-button'
 import { myTheme } from '../../src/assets/styles/Theme'
 import Selection from '../../src/components/Selection'
@@ -10,6 +10,9 @@ import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import { NavigationEvents } from 'react-navigation';
 import { withNavigationFocus } from 'react-navigation';
+import { RadioButton } from 'react-native-paper';
+import AlertCustom from '../../components/AlertCustom'
+
 
 
 const dropdownlist = [
@@ -26,9 +29,9 @@ const dropdownlist = [
 export class HomeAdoptante extends Component {
 
     static navigationOptions = {
-        header: null
-        // title: 'Mascotas',
-        // hideRightComponent: 'hide',
+        // header: null
+        title: 'Mascotas',
+        hideRightComponent: 'hide',
         //back: true
     }
 
@@ -37,7 +40,14 @@ export class HomeAdoptante extends Component {
        
         
         this.state = {
-            mascotas: []
+            mascotas: [],
+            checkedSpice: '-1',
+            checkedGender: '-1',
+            showFilter: false,
+            countAdoptions: 0,
+            modalVisible: false,
+            titleAlert: '',
+            msgAlert: ''
         }
        
 
@@ -104,60 +114,26 @@ export class HomeAdoptante extends Component {
                         var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
                         
                         
-                        arraymascotasstate.push(objMascota)
+                        if(dataMascota.status === 'FOR_ADOPTION'){
+                            arraymascotasstate.push(objMascota)
+                        }
                         
                     });
 
                     this.setState({mascotas: arraymascotasstate})
-
-                    //alert(JSON.stringify(arrayChilds,null,4))
-                    
                 })
-
-           
-
             })
-
-            //alert(JSON.stringify(arraymascotas,null,4))
-
-            // arrayKeyFoundation.map((keyfoundation)=>{
-                
-            //     let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
-            // refMascotas.on('value',(snapshot)=>{
-            //     //alert(JSON.stringify(snapshot,null,4))
-            //     //snapshot.forEach((childSnapshot) =>{
-            //         // key will be "ada" the first time and "alan" the second time
-            //         var key = snapshot.key;
-            //         // childData will be the actual contents of the child
-            //         var dataMascota = snapshot.val();
-            //         arraymascotas.push({key: key, value: dataMascota, keyfoundation: keyfoundation})
-            //    // });
-                
-            // })
-
-            // })
-
-
-            // this.setState({
-            //     mascotas: arraymascotas
-            // })
         })
-
-
-        //this.refs.SearchInput.focus();
         
     }
 
 
     Refresh = () => {
-        const fundacion = firebase.auth().currentUser;
-        //alert(JSON.stringify(this.props.navigation))
-        //ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
-        //let mascotas = [];
         let refFoundation = firebase.database().ref('publicaciones/')
         //alert(refFoundation.key);
         refFoundation.on('value',(snapshot) => {
-           
+            this.setState({mascotas: []})
+        //    alert(JSON.stringify(snapshot,null,4))
             var arrayKeyFoundation = [];
             snapshot.forEach((childSnapshot) =>{
                 // key will be "ada" the first time and "alan" the second time
@@ -166,34 +142,35 @@ export class HomeAdoptante extends Component {
                 var childData = childSnapshot.val();
                 arrayKeyFoundation.push(key)
             });
-            //alert(arrayKeyFoundation)
+            //alert(JSON.stringify(arrayKeyFoundation,null,4))
             let arraymascotas = [];
+
             arrayKeyFoundation.map((keyfoundation)=>{
                 
-            let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
-            refMascotas.on('value',(snapshot)=>{
-                //alert(JSON.stringify(snapshot,null,4))
-                snapshot.forEach((childSnapshot) =>{
-                    // key will be "ada" the first time and "alan" the second time
-                    var key = childSnapshot.key;
-                    // childData will be the actual contents of the child
-                    var dataMascota = childSnapshot.val();
-                    var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
-                    arraymascotas.push(objMascota)
-                });
-                
-            })
+                let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
+                refMascotas.on('value',(snapshot)=>{
+                    //alert(snapshot)
+                    //alert(JSON.stringify(snapshot,null,4))
+                    //let arrayChilds = [];
+                    var arraymascotasstate = this.state.mascotas;
+                    snapshot.forEach((childSnapshot) =>{
+                        // key will be "ada" the first time and "alan" the second time
+                        var key = childSnapshot.key;
+                        //alert(key)
+                        // childData will be the actual contents of the child
+                        var dataMascota = childSnapshot.val();
+                        //alert(JSON.stringify(childSnapshot,null,4))
+                        var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
+                        
+                        if(dataMascota.status === 'FOR_ADOPTION')
+                            arraymascotasstate.push(objMascota)
+                        
+                    });
 
-            })
-
-
-            this.setState({
-                mascotas: arraymascotas
+                    this.setState({mascotas: arraymascotasstate})
+                })
             })
         })
-
-
-        //this.refs.SearchInput.focus();
     }
 
 
@@ -204,16 +181,203 @@ export class HomeAdoptante extends Component {
     
     render() {
         const mascotas = this.state.mascotas
-        
+        const { checked } = this.state;
         //alert(JSON.stringify(mascotas.length,null,4))
         return (
         <View style={{flex:1}}>
-            <NavigationEvents
-                onDidFocus={() => {
+             <AlertCustom 
+                    modalVisible={this.state.modalVisible}
+                    onBackdropPress={()=>{this.setState({modalVisible: false}); }}
+                    source={require('../../assets/img/nopet3.jpg')}
+                    title={this.state.titleAlert}
+                    subtitle={this.state.msgAlert}
+                    textButton='Aceptar'
+                    onPress={()=>{
+                        this.setState({modalVisible: false})
+                        //this.setModalVisible(false)
+                        
+                    }}/>
+            <Overlay
+            isVisible={this.state.showFilter}
+            windowBackgroundColor="rgba(0, 0, 0, .6)"
+            overlayBackgroundColor="white"
+            onBackdropPress={()=>{
+                this.setState({
+                    checkedGender: '-1',
+                    checkedSpice: '-1',
+                    showFilter: false
+                })
+                this.Refresh()
+            }}
+            width={350}
+            height={230}
+            overlayStyle={{
+               
+                paddingHorizontal:5, 
+                paddingVertical:5, 
+                borderRadius: 20}}
+            >
+                <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{textAlign: 'center', fontWeight:'bold', fontSize: 20}}>Filtrar por: </Text>
+                        </View>
+                
+                <View style={{height: 70, 
+                    //flex:1,
+                    backgroundColor: '#fff', 
+                    flexDirection: 'row', 
+                    overflow: 'hidden'
+                    }}>
+                        
+                <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
                     
-                }}
-                />
-            <View style={style.header}>
+                    <RadioButton.Group
+                        onValueChange={value => this.setState({ checkedSpice: value })}
+                        value={this.state.checkedSpice}
+                    >
+                        <View style={{flexDirection: 'row', justifyContent: 'center', flex:1}}>
+                        <Text style={{fontWeight:'bold', fontSize: 16}}>Especie</Text>
+                        
+                        </View>
+                        
+                        <View style={{flexDirection: 'row', alignItems: 'center', flex:1}}>
+                        <Text>Canina</Text>
+                        <RadioButton value="0" />
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', flex:1}}>
+                        <Text>Felina</Text>
+                        <RadioButton value="1" />
+                        </View>
+                    </RadioButton.Group>
+                    </View>
+                    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                    <RadioButton.Group
+                        onValueChange={value => this.setState({ checkedGender: value })}
+                        value={this.state.checkedGender}
+                    >
+                        <View style={{flexDirection: 'row', justifyContent: 'center', flex:1}}>
+                        <Text style={{fontWeight:'bold', fontSize: 16}}>Sexo</Text>
+                        
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center',  flex:1}}>
+                        <Text>Macho</Text>
+                        <RadioButton value="1" />
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', flex:1}}>
+                        <Text>Hembra</Text>
+                        <RadioButton value="0" />
+                        </View>
+                    </RadioButton.Group>
+                    </View>
+                </View>
+
+                <View style={{height: 100, flexDirection: 'row' , justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity style={{
+                            backgroundColor: myTheme['color-danger-500'], 
+                            paddingHorizontal: 20, 
+                            borderRadius: 20,
+                            paddingVertical: 5
+                            }}
+                            onPress={()=>{
+                                this.setState({
+                                    checkedGender: '-1',
+                                    checkedSpice: '-1',
+                                    showFilter: false
+                                })
+                                this.Refresh()
+                            }}
+                            >
+                            <Text style={{color: '#fff'}}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{
+                            backgroundColor: myTheme['color-success-500'], 
+                            paddingHorizontal: 20,
+                            borderRadius:20,
+                            //marginTop: 5,
+                            paddingVertical: 5
+                            }}
+                            
+                            onPress={()=>{
+                                //let refSearch = firebase.database().ref(publicaciones)
+                                let indexEspecie = parseInt(this.state.checkedSpice) 
+                                let indexGenero = parseInt(this.state.checkedGender) 
+
+                                if(indexGenero == -1){
+                                    alert('Seleccione todos los parámetros')
+                                    return
+                                }
+
+                                //this.Refresh()
+
+                                let newarray = [...this.state.mascotas].filter(obj => obj.value.spice == indexEspecie && obj.value.gender == indexGenero)
+                                
+                                let refFoundation = firebase.database().ref('publicaciones/')
+        //alert(refFoundation.key);
+        refFoundation.on('value',(snapshot) => {
+            this.setState({mascotas: []})
+            var arrayKeyFoundation = [];
+            snapshot.forEach((childSnapshot) =>{
+                var key = childSnapshot.key;
+                var childData = childSnapshot.val();
+                arrayKeyFoundation.push(key)
+            });
+            let arraymascotas = [];
+
+            if(indexEspecie !== -1 && indexGenero !==-1){
+                arrayKeyFoundation.map((keyfoundation)=>{
+                
+                    let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
+                    refMascotas.on('value',(snapshot)=>{
+                        var arraymascotasstate = this.state.mascotas;
+                        snapshot.forEach((childSnapshot) =>{
+                            var key = childSnapshot.key;
+                            var dataMascota = childSnapshot.val();
+                            var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
+                            if(dataMascota.status === 'FOR_ADOPTION' && dataMascota.spice === indexEspecie && dataMascota.gender === indexGenero)
+                                arraymascotasstate.push(objMascota)
+                            
+                        });
+    
+                        this.setState({mascotas: arraymascotasstate, 
+                            checkedGender: '-1',
+                            checkedSpice: '-1',
+                            showFilter: false})
+                    })
+                })
+            }
+            else{
+                arrayKeyFoundation.map((keyfoundation)=>{
+                
+                    let refMascotas = firebase.database().ref('publicaciones/'+keyfoundation);
+                    refMascotas.on('value',(snapshot)=>{
+                        var arraymascotasstate = this.state.mascotas;
+                        snapshot.forEach((childSnapshot) =>{
+                            var key = childSnapshot.key;
+                            var dataMascota = childSnapshot.val();
+                            var objMascota = {key: key, value: dataMascota, keyfoundation: keyfoundation}
+                            //if(dataMascota.spice === indexEspecie)
+                            arraymascotasstate.push(objMascota)
+                            
+                        });
+    
+                        this.setState({mascotas: arraymascotasstate, 
+                            checkedGender: '-1',
+                            checkedSpice: '-1',
+                            showFilter: false})
+                    })
+                })
+            }
+        })
+                            }}
+                            
+                            >
+                            <Text style={{color: '#fff'}}>Buscar</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    
+
+            </Overlay>
+            {/* <View style={style.header}>
                     <TouchableOpacity  onPress={()=> this.props.navigation.openDrawer()} style={style.back}>
                         <Icon  name='menu' type='material' color='#FFF' size={28} />
                     </TouchableOpacity>
@@ -224,11 +388,15 @@ export class HomeAdoptante extends Component {
                     ref='SearchInput'
                     ></TextInput>
 
-                    <TouchableOpacity style={style.filter} onPress= {()=>{}}>
+                    <TouchableOpacity style={style.filter} onPress= {()=>{
+                        this.setState({showFilter: true})
+                    }}>
                         <Icon name='filter' type='material-community' color='#FFF' size={30}/>
                     </TouchableOpacity>
 
-                </View>
+                </View> */}
+                
+
                     {
                         mascotas.length > 0 ?
                         (
@@ -243,10 +411,27 @@ export class HomeAdoptante extends Component {
                         ):
                         (
                             <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontSize:20, marginHorizontal: '10%', textAlign: 'center'}}>
-                                    No existen publicaciones de mascotas
-                                </Text>
-                            </View>
+                        <Text style={{
+                            fontWeight: 'bold', 
+                            fontSize: 22, 
+                            color: '#999999'
+                            }}>No se encontraron resultados</Text>
+                            <TouchableOpacity style={{
+                                marginTop: 20,
+                                paddingVertical: 15,
+                                backgroundColor: myTheme['color-primary-transparent-500'],
+                                paddingHorizontal: 40,
+                                borderRadius: 25
+                            }}
+                                onPress={()=>{
+                                    this.Refresh()
+                                }}
+                            >
+                                <Text style={{
+                                    color: '#fff'
+                                }}>Actualizar</Text>
+                            </TouchableOpacity>
+                    </View>
                         )
                         
                         
@@ -284,13 +469,65 @@ export class HomeAdoptante extends Component {
                     offsetY={5}
                     
                     /> */}
+                   
+                  
+                       <ActionButton
+                       buttonColor={'#780C88'}
+                       onPress={() => this.setState({showFilter: true}) }
+                       renderIcon={()=>{
+                           return <Icon name='filter' type='material-community' color='#FFF' size={20}/>
+                       }}
+                       size={40}
+                       
+                       position='right'
+                       offsetX={15}
+                       offsetY={20}
+                       
+                       />
+                   
             
             </View>
         )
     }
 
+    goToDetails = (item) => {
+        const {key, value, keyfoundation} = item;
+        const idUser = firebase.auth().currentUser.uid;
+        let refLog = firebase.database().ref('adoptionLog/'+keyfoundation);
+                        var aux = -1;
+                        var fecha = '';
+                        refLog.on('value',(snapshot)=>{
+                            var count = 0;
+                            snapshot.forEach((child)=>{
+                                let log = child.val()
+                                let idUserLog = log.idUser;
+                                
+                                if(idUserLog === idUser)
+                                    {
+                                        count++;
+                                        fecha = log.adoption_date
+                                        aux = count
+                                    }
+                            })
+                            if(count>0){
+                                var arrayFecha = fecha.split(' ');
+                                this.setState({
+                                    titleAlert: 'Por el momento no puede adoptar ésta mascota.',
+                                    msgAlert: 'Usted ya registra una adopción con ésta fundación. El '+arrayFecha[0]+' a las '+arrayFecha[1],
+                                    modalVisible: true
+                                })
+
+                                
+                                return
+                            }
+                            this.props.navigation.push('PetDetails',{pet: item})
+                            //alert(JSON.stringify(snapshot,null,4))
+                        })
+    }
+
     renderItemPet = (item) => {
         const {key, value, keyfoundation} = item;
+        const idUser = firebase.auth().currentUser.uid;
         return(
             <View style={style.boxitem}>
            
@@ -301,12 +538,23 @@ export class HomeAdoptante extends Component {
                        <TouchableOpacity 
                        style={{width: '100%', height: '100%'}} 
                        onPress={()=> {
-                           this.props.navigation.push('PetDetails',{pet: item})}} >
+                        this.goToDetails(item)
+                        }
+                        
+                        } 
+                           >
                            <Image style={style.img} source={{uri: value.picture}}  />
                        </TouchableOpacity>
                </View>
                <View style={style.boxinfo}>
-                    <Text style={style.title}>{value.name}</Text>
+                    <TouchableOpacity 
+                        onPress={()=>{
+                            this.goToDetails(item)
+                            
+                        }}
+                    >
+                        <Text style={style.title}>{value.name}</Text>
+                    </TouchableOpacity>
                </View>
                
                
@@ -369,7 +617,7 @@ const style = StyleSheet.create({
         marginLeft: 2,
         marginRight:2,
         marginTop: 2,
-        borderRadius: 0,
+        borderRadius: 10,
         //resizeMode: 'c',
         overflow: 'hidden',
         height: 190,

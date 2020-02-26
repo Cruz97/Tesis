@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
 import {Card, Button, Divider} from 'react-native-paper';
 import { myTheme } from '../../src/assets/styles/Theme'
 import { Avatar, Icon } from "react-native-elements";
@@ -8,6 +8,10 @@ import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import LinearGradient from 'react-native-linear-gradient'
+
+
+const colorPrimary = myTheme['color-primary-600'];
+
 
 export class PetDetails extends Component {
 
@@ -33,6 +37,27 @@ export class PetDetails extends Component {
         }
     }
 
+    renderItem = (icon,data, title, type) => {
+        return(
+            <View style={style.item}>
+                    <View style={style.boxiconinfo}>
+                        <Icon 
+                            name={icon}
+                            size={25}
+                            color='#fff'
+                            type={type}
+                            
+                        />
+                    </View>
+                    <View style={style.boxinfo}>
+                        <Text style={style.titleinfo}>{ title}</Text>
+                        <Text style={style.info}>{ data}</Text>
+                    </View>
+
+                </View>
+        )
+    }
+
     componentDidMount(){
         const {navigation} = this.props;
         const pet = navigation.getParam('pet', null)
@@ -55,126 +80,78 @@ export class PetDetails extends Component {
     render() {
         const pet = this.state.pet;
         const spice = pet.value.spice === 0 ? 'Canino' : 'Felino';
-        const gender = pet.value.gender === 0 ? 'Macho' : 'Hembra';
+        const gender = pet.value.gender === 0 ? 'Hembra' : 'Macho';
         //alert(this.state.foundation)
         // const foundation = this.state.foundation ? {} : ;
         //const {img} = this.state.foundation
         return (
-            <View style={style.main}>
+            <ScrollView style={style.main}>
+                 
+                 {/* <Text style={style.name}>{pet.value.name}</Text> */}
+                       
+                  
                  <View style={[style.boximg]}>
                       
                            <Image style={style.img} source={{uri: pet.value.picture}}  />
                        
                </View>
+{/*                
                <View style={[style.info]}>
-                   <View style={style.boxIconFoundation}>
-                    {/* <Text style={style.name}>{ pet.value.name }</Text> */}
+                   
+                  
+                  
+               </View>
+             */}
+               <View style={{flex:1}}>
+               <View style={style.boxname}>
+                            
+                            <View style={style.boxIconFoundation}>
+                    
                     <Avatar
                     size={90}
                     source={{uri: this.state.foundation === null ? 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' : this.state.foundation.img}}
                     rounded
                     containerStyle={{borderWidth:1, borderColor: myTheme['color-primary-800']}}
-                    //title="MT"
+                    
                     onPress={() => console.log("Works!")}
                     activeOpacity={0.7}
                     />
                    </View>
-                   <View style={style.boxdetails}>
-                       
-                       <View style={style.boxname}>
-                            <Text style={style.name}>{pet.value.name}</Text>
                        </View>
+                       
+               <View style={{flexDirection:'column', marginTop: '5%', }}>
+                {
+                    this.renderItem('account-card-details',pet.value.name.toUpperCase(), 'Nombre','material-community')
+                }
+              
+              
+               {
+                    this.renderItem('account-card-details',pet.value.description, 'Descripción','material-community')
+                }
+                <View style={{flex:1, flexDirection: 'row', marginTop: '3%', marginHorizontal: '5%'}}>
+                {
+                    this.renderItem('today',pet.value.age, 'Edad Apróx.')
+                }
+                 {
+                    this.renderItem('pets',spice, 'Especie')
+                }
+                
 
-                       <Card style={style.description}>
-                           <Text style={style.desc}>Descripción</Text>
-                            <View style={style.boxdescription}>
-                                <Text style={style.textdescription}>{pet.value.description}</Text>
-                            </View>
-                       </Card>
-                        <Card style={style.details}>
-                        <Text style={[style.desc,{textAlign: 'center'}]}>Características</Text>
-                            <View style={style.itemdetails}>
-                                <View style={style.boxicon}>
-                                <Icon
-                                    name='today'
-                                    type='material'
-                                    size={25}
-                                    style={style.icondetails}
-                                    color={myTheme['color-info-900']}
-                                ></Icon>
-                                </View>
-                                <View style={style.boxtitledetail}>
-                                        <Text style={style.titledetail}>Edad</Text>
-                                </View>
-                                <View style={style.boxvaluedetail}>
-                                        <Text style={style.valuedetails}>{pet.value.age}</Text>
-                                </View>
-                            </View>
-
-
-                            <View style={style.itemdetails}>
-                            <View style={style.boxicon}>
-                            <Icon
-                                name='palette'
-                                type='material'
-                                size={25}
-                                color={myTheme['color-info-900']}
-                            ></Icon>
-                            </View>
-                                <View style={style.boxtitledetail}>
-                                        <Text style={style.titledetail}>Color</Text>
-                                </View>
-                                <View style={style.boxvaluedetail}>
-                                        <Text style={style.valuedetails}>{pet.value.color}</Text>
-                                </View>
-                            </View>
-
-
-                            <View style={style.itemdetails}>
-                            <View style={style.boxicon}>
-                            <Icon
-                                name='pets'
-                                type='material'
-                                size={25}
-                                color={myTheme['color-info-900']}
-                            ></Icon>
-                            </View>
-                                <View style={style.boxtitledetail}>
-                                        <Text style={style.titledetail}>Especie</Text>
-                                </View>
-                                <View style={style.boxvaluedetail}>
-                                        <Text style={style.valuedetails}>{spice}</Text>
-                                </View>
-                            </View>
-
-                            <View style={style.itemdetails}>
-                            <View style={style.boxicon}>
-                            <Icon
-                                 name='gender-male-female'
-                                 type='material-community'
-                                size={25}
-                                color={myTheme['color-info-900']}
-                            ></Icon>
-                            </View>
-                                <View style={style.boxtitledetail}>
-                                        <Text style={style.titledetail}>Sexo</Text>
-                                </View>
-                                <View style={style.boxvaluedetail}>
-                                        <Text style={style.valuedetails}>{gender}</Text>
-                                </View>
-                            </View>
-
-                        </Card>
-                   </View>
-
-                 
-
-                  
-                   
+                </View>
+                <View style={{flex:1 ,flexDirection: 'row', marginTop: '3%', marginHorizontal: '5%'}}>
+                {
+                    this.renderItem('palette',pet.value.color, 'Color')
+                }
+                {
+                    this.renderItem('gender-male-female',gender, 'Sexo','material-community')
+                }
+                
+                </View>
+                
                </View>
                <View style={style.boxbuttons}>
                      
-                <View style={{width: '100%', alignItems: 'center'}}>
+                {/* <View style={{width: '100%', alignItems: 'center'}}> */}
                 
                 <TouchableOpacity onPress={()=>{
                 this.props.navigation.push('PersonalInformation',{idPet: pet.key, idFoundation: pet.keyfoundation})
@@ -191,36 +168,14 @@ export class PetDetails extends Component {
                 </Text>
               </LinearGradient>
               </TouchableOpacity>
-
-
-                     {/* <ButtonCustom
-                        onPress={()=>{this.props.navigation.push('PersonalInformation',{idPet: pet.key, idFoundation: pet.keyfoundation})}}
-                       title='Adoptar' 
-                       colorcustom={'#8B038C'}
-                       buttonStyle={
-                        {
-                            //width: '60%',
-                            width: 220,
-                            height: 50,
-                            borderRadius: 25,
-                            //marginHorizontal: 10
-                        }
-                    }
-                       icon={
-                        <Icon
-                        name='open-in-new'
-                        type='material-community'
-                        size={25}
-                        color='#fff'
-                    ></Icon>
-                       }
-
-                       /> */}
                      </View>
+               
 
 
                    </View>
-            </View>
+
+               {/* </View> */}
+            </ScrollView>
         )
     }
 }
@@ -231,17 +186,19 @@ const style = StyleSheet.create({
         backgroundColor: '#f2f2f2'
     },
     boximg:{
-        width: '100%',
-        height: 200,
-        paddingTop: 30,
+        //width: '100%',
+        //flex:1,
+        height: 220,
+        //paddingTop: 30,
         //borderBottomWidth: 2,
         //borderColor: myTheme['color-primary-800'],
-        backgroundColor: myTheme['color-info-800']
+        backgroundColor: colorPrimary
         
        },
        img:{
            flex:1, 
            borderRadius: 5,
+           //paddingBottom: 30,
            //width: undefined,
            //height: undefined,
            //resizeMode: 'stretch',
@@ -271,7 +228,7 @@ const style = StyleSheet.create({
         position: 'absolute',
         top: -50,
         right: 20,
-        zIndex: 1000
+        //zIndex: 1001
         //marginHorizontal: 10,
         //marginVertical: 20,
         //alignContent: 'center'
@@ -281,12 +238,13 @@ const style = StyleSheet.create({
         fontSize: 22,
         color: '#fff',
         marginHorizontal: 30,
-        marginVertical: '3%'
+        //zIndex: 999
+       // marginVertical: '3%'
     },
     boxname:{
-        height: '13%',
+        height: '5%',
         width: '100%',
-        backgroundColor: myTheme['color-info-800']
+        //backgroundColor: colorPrimary
     },
     boxdetails:{
         //backgroundColor: 'red',
@@ -359,9 +317,13 @@ const style = StyleSheet.create({
         justifyContent: 'center'
     },
     boxbuttons:{
-        //marginTop: 20,
-        flexDirection: 'row',
-        paddingBottom: 20,
+        marginVertical: '10%',
+        //flex:1,
+        
+        justifyContent: 'center',
+        alignItems: 'center',
+        //flexDirection: 'row',
+        //paddingBottom: 20,
     },
     linearGradient: {
         //flex: 1,
@@ -381,6 +343,46 @@ const style = StyleSheet.create({
         color: '#ffffff',
         backgroundColor: 'transparent',
       },
+      item:{
+        flex:1,
+        //height: 60,
+        backgroundColor: '#FFF',
+        borderRadius: 15,
+        marginHorizontal: '2%',
+        marginTop: 10,
+        flexDirection: 'row'
+    },
+    boxiconinfo:{
+        width: '15%',
+        justifyContent: 'center',
+        backgroundColor: colorPrimary,
+        overflow: 'hidden',
+        borderBottomLeftRadius: 15,
+        //borderTopStartRadius: 15
+    },
+    boxinfo:{
+        justifyContent: 'center',
+        //alignItems: 'center',
+        borderWidth:1,
+        borderColor: colorPrimary,
+        flex:1,
+        borderTopEndRadius: 15,
+        paddingVertical: 10
+    },
+    info:{
+        fontSize: 14,
+        textAlign: 'left',
+        //marginVertical: '3%',
+        marginHorizontal: '5%'
+    },
+    titleinfo:{
+        fontSize: 14,
+        textAlign: 'left',
+        fontWeight: 'bold',
+        color: '#999999',
+        //marginVertical: '3%',
+        marginHorizontal: '5%'
+    },
 
 })
 

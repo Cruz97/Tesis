@@ -185,6 +185,6 @@ class Header extends Component {
 export default withStyles(Header, theme => ({
   navStyle: {
     text: theme['color-basic-100'],
-    backgroundColor: theme['color-info-800']
+    backgroundColor: theme['color-primary-700']
   }
 }));
