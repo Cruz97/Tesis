@@ -209,7 +209,30 @@ export class SolicitudesF extends Component {
                     (
                         <FlatList 
                     style={{flex:1}}
-                    data={this.state.solicitudes}
+                    data={this.state.solicitudes.sort((a)=>{
+                        if(a.data.status_request === 'REJECTED'){
+                            return -1
+                        }
+                    }).sort((a)=>{
+                        if(a.data.status_request === 'SUCCESS'){
+                            return -1
+                        }
+                    }).sort((a)=>{
+                        if(a.data.status_request === 'APPROVED'){
+                            return -1
+                        }
+                    }).sort((a)=>{
+                        if(a.data.status_request === 'IN REVIEW'){
+                            return -1
+                        }
+                    }).sort((a)=>{
+                        if(a.data.status_request === 'NEW REQUEST'){
+                            return -1
+                        }
+
+                    })
+                
+                }
                     renderItem={this._renderItem}
                     keyExtractor={this._keyExtractor}
                 />

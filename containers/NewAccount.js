@@ -153,6 +153,22 @@ export class NewAccount extends Component {
       //this.setState({cedula: text})
     }
 
+    verifyCedula = (cedula) => {
+      const ced = cedula;
+  
+      let [suma, mul, index] = [0, 1, ced.length];
+      while (index--) {
+        let num = ced[index] * mul;
+        suma += num - (num > 9) * 9;
+        mul = 1 << index % 2;
+      }
+      
+      if ((suma % 10 === 0) && (suma > 0)) {
+        return true;
+      } else {
+        return false;
+      }}
+
     onBlurCedula = (text) => {
       alert(text)
      
@@ -597,7 +613,7 @@ export class NewAccount extends Component {
                           ()=>
                          {
                           if(this.state.cedula.length > 0){
-                            if (!this.validateCedula(this.state.cedula)) {
+                            if (!this.validateCedula(this.state.cedula) || !this.verifyCedula(this.state.cedula)) {
                               this.setState({cedula: this.state.cedula, alertCedula: true})
                               
                             } else {

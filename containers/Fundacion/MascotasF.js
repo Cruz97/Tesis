@@ -71,10 +71,13 @@ export class MascotasF extends Component {
             let newarray = []
           snapshot.forEach((data)=>{
               let mascota = data.val()
-              newarray.push({key: data.key, value: mascota})
+              if(mascota.status !== 'DELETED'){
+                newarray.push({key: data.key, value: mascota})
+              }
+              
           })  
           this.setState ( {
-              mascotas: Array.from(newarray),
+              mascotas: Array.from(newarray).sort((a)=>a.value.status === 'ADOPTED'),
               refresh: true
           })
           //alert(JSON.stringify(newarray,null,4))
@@ -84,11 +87,14 @@ export class MascotasF extends Component {
 
 
 
-        refFoundation.on('child_added',snapshot => {        
-            arraymascotas.push({key: snapshot.key,value: snapshot.val()})
-         this.setState ( {
-             mascotas: Array.from(arraymascotas)
-         })
+        refFoundation.on('child_added',snapshot => {    
+            if(snapshot.val().status !== 'DELETED')   
+            {
+                arraymascotas.push({key: snapshot.key,value: snapshot.val()})
+            }
+            this.setState ( {
+                mascotas: Array.from(arraymascotas).sort((a)=>a.value.status === 'ADOPTED')
+            })
         // alert('added => '+JSON.stringify(this.state.mascotas,null,4))
         })
 
@@ -138,8 +144,10 @@ export class MascotasF extends Component {
         const key = this.state.key;
         const fundacion = firebase.auth().currentUser;
         let refPet = firebase.database().ref('publicaciones/'+fundacion.uid+'/'+key);
-                   
-        refPet.remove().then(()=>{
+
+        refPet.update({
+            "status": "DELETED"
+        }).then(()=>{
             // setTimeout(() => {
              
                  this.setState({
@@ -152,6 +160,20 @@ export class MascotasF extends Component {
          }).catch(error=>{
              alert(error.message)
          });
+                   
+        // refPet.remove().then(()=>{
+        //     // setTimeout(() => {
+             
+        //          this.setState({
+        //              key: '',
+        //              modalVisible: false
+        //          })
+
+                 
+ 
+        //  }).catch(error=>{
+        //      alert(error.message)
+        //  });
 
         //this.setState({modalVisible: false})
     }

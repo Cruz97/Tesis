@@ -40,7 +40,7 @@
                 const idFoundation = navigation.getParam('idFoundation','');
                 
                 const idUser = firebase.auth().currentUser.uid;
-                let refUser = firebase.database().ref('usuarios/'+idUser);
+                //let refUser = firebase.database().ref('usuarios/'+idUser);
                 
 
 
@@ -72,6 +72,7 @@
                     numero_personas: 0,
                     value_ini:1,
                     value_fin: 15,
+                    esterilizar: -1,
                     
                     alergia: -1,
                     deacuerdo: -1,
@@ -97,6 +98,7 @@
                 this.updateIndexDeAcuerdo = this.updateIndexDeAcuerdo.bind(this)
                 this.updateIndexTieneEspacio = this.updateIndexTieneEspacio.bind(this)
                 this.updateIndexTieneRecursos = this.updateIndexTieneRecursos.bind(this)
+                this.updateIndexEsterilizar= this.updateIndexEsterilizar.bind(this)
 
             
                 //this.updateIndexType = this.updateIndexType.bind(this)
@@ -116,6 +118,11 @@
             }
 
             sendSolicitud = () =>{
+                var hoy = new Date()
+                var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+                var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+                var fechaYHora = fecha + ' ' + hora;
+
                 let refSolicitud= firebase.database().ref('solicitudes/'+this.state.idFoundation);
                    
                 refSolicitud.push({
@@ -134,15 +141,17 @@
                     conventional_telephone: this.state.telefono,
                     home_type: this.state.tipo_inmueble.toUpperCase(),
                     home_origin: this.state.origen_inmueble.toUpperCase(),
-                    has_patio: this.state.tiene_patio == 0 ? true : false,
+                    has_patio: this.state.tiene_patio == 1 ? true : false,
                     adoption_reason: this.state.motivo.toUpperCase(),
                     cohabiting_number: this.state.numero_personas,
-                    agreement: this.state.deacuerdo  == 0 ? true : false,
-                    allergy: this.state.alergia == 0 ? true : false,
-                    space: this.state.tiene_espacio  == 0 ? true : false,
+                    agreement: this.state.deacuerdo  == 1 ? true : false,
+                    allergy: this.state.alergia == 1 ? true : false,
+                    space: this.state.tiene_espacio  == 1 ? true : false,
                     time_alone: this.state.tiempo_solo.toUpperCase(),
-                    has_resources: this.state.tiene_recursos  == 0 ? true : false,
-                    status_request: 'NEW REQUEST'
+                    has_resources: this.state.tiene_recursos  == 1 ? true : false,
+                    status_request: 'NEW REQUEST', 
+                    sterilize: this.state.esterilizar == 1 ? true : false,
+                    date: fechaYHora
                     //typepublish: typepublish
                 }).then((value)  =>{
                    let keyNewRequest = value.key;
@@ -265,7 +274,10 @@
             setModalVisible(visible) {
                 this.setState({modalVisible: visible});
             }
-        
+            
+            updateIndexEsterilizar (selectedIndex) {
+                this.setState({esterilizar: selectedIndex})
+            }
 
             updateIndexTienePatio (selectedIndex) {
                 this.setState({tiene_patio: selectedIndex})
@@ -929,11 +941,11 @@
                                    <Text style={
                                                 [style.label,
                                                 {alignSelf: 'center', marginTop: 10}]
-                                                }>¿Está usted                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         de acuerdo, en realizar el proceso de esterilización de la mascota?</Text>
+                                                }>¿Está usted de acuerdo, en realizar el proceso de esterilización de la mascota?</Text>
                                    <View style={{alignItems: 'center'}}>
                                    <ButtonGroup
-                                        onPress={this.updateIndexTieneRecursos}
-                                        selectedIndex={this.state.tiene_recursos}
+                                        onPress={this.updateIndexEsterilizar}
+                                        selectedIndex={this.state.esterilizar}
                                         buttons={response}
                                         textStyle={style.txtbtngroup}
                                         containerStyle={
@@ -1063,14 +1075,14 @@
             label:{
                 fontSize: 18,
                 //fontWeight: 'bold',
-                color:myTheme['color-material-primary-400']
+                color:myTheme['color-material-primary-600']
                 
             },
             labelTitle:{
                 fontSize: 18,
                 marginTop: '3%',
                 //fontWeight: 'bold',
-                color:myTheme['color-material-primary-400']
+                color:myTheme['color-material-primary-600']
                 
             },
             pickerRaza:{

@@ -477,7 +477,7 @@ export class HomeAdoptante extends Component {
                        renderIcon={()=>{
                            return <Icon name='filter' type='material-community' color='#FFF' size={20}/>
                        }}
-                       size={40}
+                       size={50}
                        
                        position='right'
                        offsetX={15}
@@ -490,40 +490,42 @@ export class HomeAdoptante extends Component {
         )
     }
 
-    goToDetails = (item) => {
-        const {key, value, keyfoundation} = item;
-        const idUser = firebase.auth().currentUser.uid;
-        let refLog = firebase.database().ref('adoptionLog/'+keyfoundation);
-                        var aux = -1;
-                        var fecha = '';
-                        refLog.on('value',(snapshot)=>{
-                            var count = 0;
-                            snapshot.forEach((child)=>{
-                                let log = child.val()
-                                let idUserLog = log.idUser;
+    // goToDetails = (item) => {
+    //     const {key, value, keyfoundation} = item;
+    //     const idUser = firebase.auth().currentUser.uid;
+    //     let refLog = firebase.database().ref('adoptionLog/'+keyfoundation);
+    //                     var aux = -1;
+    //                     var fecha = '';
+    //                     refLog.on('value',(snapshot)=>{
+    //                         var count = 0;
+    //                         snapshot.forEach((child)=>{
+    //                             let log = child.val()
+    //                             let idUserLog = log.idUser;
                                 
-                                if(idUserLog === idUser)
-                                    {
-                                        count++;
-                                        fecha = log.adoption_date
-                                        aux = count
-                                    }
-                            })
-                            if(count>0){
-                                var arrayFecha = fecha.split(' ');
-                                this.setState({
-                                    titleAlert: 'Por el momento no puede adoptar ésta mascota.',
-                                    msgAlert: 'Usted ya registra una adopción con ésta fundación. El '+arrayFecha[0]+' a las '+arrayFecha[1],
-                                    modalVisible: true
-                                })
+    //                             if(idUserLog === idUser)
+    //                                 {
+    //                                     count++;
+    //                                     fecha = log.adoption_date
+    //                                     aux = count
+    //                                 }
+    //                         })
+    //                         if(count>0){
+    //                             var arrayFecha = fecha.split(' ');
+    //                             this.setState({
+    //                                 titleAlert: 'Por el momento no puede adoptar ésta mascota.',
+    //                                 msgAlert: 'Usted ya registra una adopción con ésta fundación. El '+arrayFecha[0]+' a las '+arrayFecha[1],
+    //                                 modalVisible: true
+    //                             })
 
                                 
-                                return
-                            }
-                            this.props.navigation.push('PetDetails',{pet: item})
-                            //alert(JSON.stringify(snapshot,null,4))
-                        })
-    }
+    //                             return
+    //                         }
+    //                         this.props.navigation.push('PetDetails',{pet: item})
+    //                         //alert(JSON.stringify(snapshot,null,4))
+    //                     })
+
+    //                     refLog.off('value',()=>{})
+    // }
 
     renderItemPet = (item) => {
         const {key, value, keyfoundation} = item;
@@ -538,7 +540,8 @@ export class HomeAdoptante extends Component {
                        <TouchableOpacity 
                        style={{width: '100%', height: '100%'}} 
                        onPress={()=> {
-                        this.goToDetails(item)
+                        //this.goToDetails(item)
+                        this.props.navigation.push('PetDetails',{pet: item})
                         }
                         
                         } 
@@ -549,7 +552,8 @@ export class HomeAdoptante extends Component {
                <View style={style.boxinfo}>
                     <TouchableOpacity 
                         onPress={()=>{
-                            this.goToDetails(item)
+                            this.props.navigation.push('PetDetails',{pet: item})
+                            //this.goToDetails(item)
                             
                         }}
                     >

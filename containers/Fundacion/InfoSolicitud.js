@@ -45,7 +45,8 @@ export class InfoSolicitud extends Component {
             modalRejected: false,
             motivo: 'No cumple los requisitos',
             modalAdopted: false,
-            modalSuccessAdopted: false
+            modalSuccessAdopted: false,
+            contadorAdopciones: 0
         }
     }
 
@@ -54,6 +55,18 @@ export class InfoSolicitud extends Component {
             <View style={style.item}>
                 <View style={style.boxinfo}>
                         <Text style={style.titleinfo}>{title}</Text>
+                    <Text style={style.info}>{ data}</Text>
+                </View>
+
+             </View>
+        )
+    }
+
+    renderItemAlert= (title, data) => {
+        return(
+            <View style={[style.item,{marginBottom: 10, marginHorizontal: '2%', backgroundColor: myTheme['color-danger-100']}]}>
+                <View style={[style.boxinfo, {borderColor: 'red', borderWidth: 2}]}>
+                        <Text style={[style.titleinfo,{color: 'red'}]}>{title}</Text>
                     <Text style={style.info}>{ data}</Text>
                 </View>
 
@@ -114,13 +127,32 @@ export class InfoSolicitud extends Component {
         //alert(new Date())
         const {idFoundation, key, request} = this.state;
         const status = request.status_request;
+        // var hoy = new Date()
+        // var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+        // var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+        // var fechaYHora = fecha + ' ' + hora;
         if(status === 'NEW REQUEST'){
             let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
             refRequest.update({
-                "status_request" : "IN REVIEW"
+                "status_request" : "IN REVIEW",
+                "comment": "La solicitud de adopción de mascota que enviaste está siendo revisada. Pronto se te notificará si la solicitud fue aprobada o rechazada"
             })
             this.setState({status: 'IN REVIEW'})
         }
+
+        let idUser = request.idUser;
+        let refLogAdopciones = firebase.database().ref('adoptionLog/'+idFoundation);
+        refLogAdopciones.on('value',(snapshot)=>{
+            var contadorAdopciones = 0;
+            snapshot.forEach((child)=>{
+                let log = child.val();
+
+                let idUserLog = log.idUser;
+                if(idUserLog === idUser)
+                    contadorAdopciones++;
+            })
+            this.setState({contadorAdopciones})
+        })
         
     }
 
@@ -154,10 +186,12 @@ export class InfoSolicitud extends Component {
                                 //     )
                                 //alert(status)
                                 
+                                
                                 //alert(this.state.token)
                                 let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
                                 refRequest.update({
-                                    "status_request" : "APPROVED"
+                                    "status_request" : "APPROVED",
+                                    "comment": 'La solicitud de adopción de mascota que enviaste ha sido Aprobada, la fundación pronto se contactará contigo, para coordinar una visita/inspección del futuro hogar de la mascota'
                                 }).then(()=>{
                                     
                                     sendNotification(
@@ -358,9 +392,14 @@ export class InfoSolicitud extends Component {
                                 refPet.update({
                                     "status": "ADOPTED"
                                 })
+                                var hoy = new Date()
+                                var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+                                var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+                                var fechaYHora = fecha + ' ' + hora;
                                 let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
                                 refRequest.update({
-                                    "status_request" : "SUCCESS"
+                                    "status_request" : "SUCCESS",
+                                    "comment": "Ésta mascota se te dió en adopción el "+fecha+" a las "+hora
                                 }).then(()=>{
                                     
                                     sendNotification(
@@ -419,10 +458,20 @@ export class InfoSolicitud extends Component {
                     }}
 
                 />
+                {
+                    this.state.contadorAdopciones>0 ? (
+                               
+                            this.renderItemAlert('Importante!', 'Este usuario ya ha realizado '+this.state.contadorAdopciones+ (this.state.contadorAdopciones>1 ? ' adopciones': ' adopción')+ ' \nEs su responsabilidad dar en adopción varias mascotas a una misma persona')
+                        
+                            
+                        
+                    ) : null
+                }
 
                 <View style={[style.boxtitle]}>
                     <Text style={style.titletxt}>Mascota</Text>
                 </View>
+                
 
                 <View style={{flex:1, flexDirection: 'row'}}>
                     <View style={style.boximage}>
@@ -508,13 +557,16 @@ export class InfoSolicitud extends Component {
                         
                     </View>
                 </View>
+                {
+                    this.renderItem('description',request.date, 'Fecha y Hora de solicitud','material-icons')
+                }
 
                 <View style={[style.boxtitle,{marginTop: 20}]}>
                     <Text style={style.titletxt}>Informacion del Adoptante</Text>
                 </View>
                 
                 {
-                    this.renderItem('account-circle',user.name + ' '+user.lastname, 'Nombres y Apellidos')
+                    this.renderItem('account-circle',user.name.toUpperCase() + ' '+user.lastname.toUpperCase(), 'Nombres y Apellidos')
                 }
                 {
                     this.renderItem('account-card-details',request.identification, 'Cédula','material-community')
@@ -569,13 +621,16 @@ export class InfoSolicitud extends Component {
                 }
 
                 {          
-                    this.renderItemNotIcon('Alergias', request.allergy)
+                    this.renderItemNotIcon('Alergias', request.allergy ? 'SI' : 'NO')
                 }
                 {          
                     this.renderItemNotIcon('Tiempo que la mascota permanecerá solo', request.time_alone)
                 }
                 {          
                     this.renderItemNotIcon('Tiene recursos económicos suficientes para mantener la mascota', request.has_resources ? 'SI' : 'NO')
+                }
+                {          
+                    this.renderItemNotIcon('De acuerdo con la esterilización de la mascota', request.sterilize ? 'SI' : 'NO')
                 }
 
                 <View style={style.boxbuttons}>
@@ -693,7 +748,7 @@ const style = StyleSheet.create({
     },
     boxtitle:{
         backgroundColor: colorPrimary,
-        paddingVertical: '5%'
+        paddingVertical: '3%'
     },
     titletxt:{
         color: '#fff',

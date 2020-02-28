@@ -8,6 +8,7 @@ import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import LinearGradient from 'react-native-linear-gradient'
+import AlertCustom from '../../components/AlertCustom'
 
 
 const colorPrimary = myTheme['color-primary-600'];
@@ -16,7 +17,9 @@ const colorPrimary = myTheme['color-primary-600'];
 export class PetDetails extends Component {
 
     static navigationOptions = {
-        header: null
+        title: 'Información de la mascota',
+        back: true,
+        hideRightComponent: 'hide'
     }
 
     constructor(props){
@@ -33,7 +36,12 @@ export class PetDetails extends Component {
         //this.setState({pet})
         this.state={
             pet: pet,
-            foundation: foundation
+            foundation: foundation,
+            modalVisible: false,
+            titleAlert: '',
+            msgAlert: '',
+            existRequest: false,
+           
         }
     }
 
@@ -70,12 +78,62 @@ export class PetDetails extends Component {
             this.setState({foundation})
             
         })
-        //alert(JSON.stringify(foundation))
         this.setState({pet})
-        //al
-        //alert(JSON.stringify(pet,null,4))
+
+                const idUser = firebase.auth().currentUser.uid;
+              let refSolicitudes = firebase.database().ref('solicitudes/'+pet.keyfoundation);
+                        var aux = -1;
+                        //var fecha = '';
+                        refSolicitudes.on('value',(snapshot)=>{
+                            var count = 0;
+                            snapshot.forEach((child)=>{
+                                let solicitud = child.val()
+                                let idUserSolicitud = solicitud.idUser;
+                                let idPetSolicitud = solicitud.idPet;
+                                let statusSolicitud = solicitud.status_request
+                                
+                                if((idUserSolicitud === idUser && idPetSolicitud === pet.key && (statusSolicitud !== 'REJECTED' && statusSolicitud !== 'SUCCESS')  )||(idUserSolicitud === idUser && (statusSolicitud !== 'REJECTED' && statusSolicitud !== 'SUCCESS')))
+                                    {
+                                        count++;
+
+                                    }
+                            })
+                            if(count>0){
+                                //var arrayFecha = fecha.split(' ');
+                                this.setState({existRequest: true})
+                                // this.setState({
+                                //     titleAlert: 'Usted ya tiene una solicitud de adopción de mascota en proceso. '+count,
+                                //     msgAlert: '',
+                                //     modalVisible: true
+                                // })
+
+                                
+                                return
+                            }
+                            else{
+                                this.setState({existRequest: false})
+                            }
+                            //this.props.navigation.push('PersonalInformation',{idPet: key, idFoundation: keyfoundation})
+                            //this.setState({modalVisible: false})
+                            //alert(JSON.stringify(snapshot,null,4))
+                        })
         
     }
+
+    goToForm = (item) => {
+        const {key, value, keyfoundation} = item;
+       
+            if(!this.state.existRequest)
+                this.props.navigation.push('PersonalInformation',{idPet: key, idFoundation: keyfoundation})
+            else{
+                this.setState({
+                                titleAlert: 'Usted ya tiene una solicitud de adopción de mascota en proceso. ',
+                                msgAlert: '',
+                                modalVisible: true
+                                })
+            }
+    }
+
 
     render() {
         const pet = this.state.pet;
@@ -86,22 +144,25 @@ export class PetDetails extends Component {
         //const {img} = this.state.foundation
         return (
             <ScrollView style={style.main}>
+                <AlertCustom 
+                    modalVisible={this.state.modalVisible}
+                    onBackdropPress={()=>{this.setState({modalVisible: false}); this.props.navigation.navigate('HomeAdoptante') }}
+                    source={require('../../assets/img/nopet3.jpg')}
+                    title={this.state.titleAlert}
+                    subtitle={this.state.msgAlert}
+                    textButton='Aceptar'
+                    onPress={()=>{
+                        this.setState({modalVisible: false})
+                        this.props.navigation.navigate('HomeAdoptante')
+                        //this.setModalVisible(false)
+                        
+                    }}/>
                  
-                 {/* <Text style={style.name}>{pet.value.name}</Text> */}
-                       
-                  
                  <View style={[style.boximg]}>
                       
                            <Image style={style.img} source={{uri: pet.value.picture}}  />
                        
                </View>
-{/*                
-               <View style={[style.info]}>
-                   
-                  
-                  
-               </View>
-             */}
                <View style={{flex:1}}>
                <View style={style.boxname}>
                             
@@ -119,14 +180,19 @@ export class PetDetails extends Component {
                    </View>
                        </View>
                        
-               <View style={{flexDirection:'column', marginTop: '5%', }}>
+               <View style={{flexDirection:'column', marginTop: '0%', }}>
+                {
+                    this.renderItem('today',pet.value.date.split(' ')[0], 'Publicada desde el:')
+                }
                 {
                     this.renderItem('account-card-details',pet.value.name.toUpperCase(), 'Nombre','material-community')
                 }
+
+    
               
               
                {
-                    this.renderItem('account-card-details',pet.value.description, 'Descripción','material-community')
+                    this.renderItem('description',pet.value.description, 'Descripción','material-icons')
                 }
                 <View style={{flex:1, flexDirection: 'row', marginTop: '3%', marginHorizontal: '5%'}}>
                 {
@@ -154,9 +220,10 @@ export class PetDetails extends Component {
                 {/* <View style={{width: '100%', alignItems: 'center'}}> */}
                 
                 <TouchableOpacity onPress={()=>{
-                this.props.navigation.push('PersonalInformation',{idPet: pet.key, idFoundation: pet.keyfoundation})
+                // this.props.navigation.push('PersonalInformation',{idPet: pet.key, idFoundation: pet.keyfoundation})
+                this.goToForm(pet)
               }}>
-              <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
+              <LinearGradient colors={['#c015da', '#ad13c5', '#9b10b0', '#890e9c', '#780c88']} style={style.linearGradient}>
                         <Icon
                         name='open-in-new'
                         type='material-community'
@@ -164,7 +231,7 @@ export class PetDetails extends Component {
                         color='#fff'
                     />
                 <Text style={style.buttonText}>
-                  Quiero Adoptar
+                  Iniciar proceso de adopción
                 </Text>
               </LinearGradient>
               </TouchableOpacity>
@@ -226,7 +293,7 @@ const style = StyleSheet.create({
     },
     boxIconFoundation:{
         position: 'absolute',
-        top: -50,
+        top: -100,
         right: 20,
         //zIndex: 1001
         //marginHorizontal: 10,
@@ -317,7 +384,8 @@ const style = StyleSheet.create({
         justifyContent: 'center'
     },
     boxbuttons:{
-        marginVertical: '10%',
+        marginTop: '5%',
+        marginBottom: '10%',
         //flex:1,
         
         justifyContent: 'center',
@@ -353,7 +421,7 @@ const style = StyleSheet.create({
         flexDirection: 'row'
     },
     boxiconinfo:{
-        width: '15%',
+        width: '20%',
         justifyContent: 'center',
         backgroundColor: colorPrimary,
         overflow: 'hidden',

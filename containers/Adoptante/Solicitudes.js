@@ -5,6 +5,7 @@ import firebase from '@react-native-firebase/app'
 import database from '@react-native-firebase/database'
 import auth from '@react-native-firebase/auth'
 import {myTheme} from '../../src/assets/styles/Theme'
+import {Dialog} from 'react-native-simple-dialogs'
 
 export class Solicitudes extends Component {
 
@@ -25,7 +26,10 @@ export class Solicitudes extends Component {
             keysSolicitudes: [],
             keysFoundations:[],
             myrequests: [],
-            fundaciones: {}
+            fundaciones: {},
+            message: '',
+            showDialog: false,
+            estado: ''
             
         }
     }
@@ -36,6 +40,7 @@ export class Solicitudes extends Component {
         let refFoundations = firebase.database().ref('usuarios/'+id)
         let refRequests = refFoundations.child('myrequests')
         refRequests.on('value',(snapshot)=>{
+            //this.setState({solicitudes: []})
             var requests = [];
             snapshot.forEach((childSnapshot)=>{
                 let value = childSnapshot.val();
@@ -50,9 +55,10 @@ export class Solicitudes extends Component {
             })
 
             let solicitudes = this.state.solicitudes;
-
+            //this.setState({myrequests: []})
             solicitudes.map((request)=>{
                 let refRequest = firebase.database().ref('solicitudes/'+request.idFoundation+'/'+request.idRequest);
+                
                 refRequest.on('value',(snapshot)=>{
                     let myrequests = this.state.myrequests;
                     let obj = {key: snapshot.key, data: snapshot.val(), idFoundation: request.idFoundation}
@@ -125,20 +131,47 @@ export class Solicitudes extends Component {
             pet && user && foundation ? 
             (
                 <TouchableOpacity 
-                //      onPress={()=>{
-                // this.props.navigation.navigate('InfoSolicitud',{user,pet, request: data})
+                     onPress={()=>{
+                         var estado = '';
+                         switch (data.status_request) {
+                            case 'NEW REQUEST':
+                                estado = 'Enviada'
+                                break;
+                             case 'IN REVIEW':
+                                estado = 'En Revisión'
+                                 break;
+                             case 'REJECTED':
+                                estado = 'Rechazada'
+                                 break;
+                             case 'APPROVED':
+                                estado = 'Aprobada'
+                                 break;
+                             case 'SUCCESS':
+                                estado = 'Finalizada'
+                            default:
+                                break;
+                        }
+                     if(data.status_request == 'REJECTED' || data.status_request == 'IN REVIEW' || data.status_request == 'APPROVED'
+                     || data.status_request == 'SUCCESS'){
+                        this.setState({
+                            message: data.comment,
+                            showDialog: true,
+                            estado
+                        })
+                     }
+                     }}
             
                 >
                     <ListItem
-            title={'Mascota: '+pet.name}
-            subtitle={'Fundación: '+foundation.name}
+            title={'Nombre: '+pet.name}
+            subtitle={'Fundación: '+foundation.name +'\nFecha y hora de envío: '+data.date}
             leftAvatar={{
                 source: {uri: pet.picture},
                 title: item.name,
-                size: 'large'
+                size: 100
             }}
             bottomDivider
-            chevron
+            
             rightElement={
                 ()=>{
                     switch (data.status_request) {
@@ -149,7 +182,7 @@ export class Solicitudes extends Component {
                             break;
                          case 'IN REVIEW':
                              return(
-                                <Text style={style.review}>Revisada</Text>
+                                <Text style={style.review}>En revisión</Text>
                              )
                              break;
                          case 'REJECTED':
@@ -165,7 +198,7 @@ export class Solicitudes extends Component {
                              break;
                          case 'SUCCESS':
                              return(
-                                 <Text style={style.approved}>Adoptado</Text>
+                                 <Text style={style.approved}>Finalizada exitosamente</Text>
                              )
  
                     
@@ -187,6 +220,53 @@ export class Solicitudes extends Component {
         //alert(JSON.stringify(this.state.myrequests,null,4))
         return (
             <View style={style.main}>
+
+            <Dialog title={"Detalles"}
+                    animationType="fade"
+                    onTouchOutside={ () => this.setState({showDialog: false}) }
+                    
+                    visible={ this.state.showDialog } 
+                    titleStyle={
+                        {
+                            fontSize: 17,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            
+                            
+                        }
+                    }
+                    dialogStyle={
+                        {
+                            borderRadius: 10,
+                            backgroundColor: 'white',
+                            
+                        }
+                    }>
+                        {/* <Text style={style.Titlemessage}>Fecha: </Text>
+                        <Text style={style.message}>2020-01-01</Text> */}
+                        <Text style={style.Titlemessage}>Estado de la solicitud: </Text>
+                        <Text style={style.message}>{ this.state.estado }</Text>
+                        <Text style={style.Titlemessage}>Descripción: </Text>
+                        <Text style={style.message}>{ this.state.message }</Text>
+                       <View style={{height: 30, width: '100%', justifyContent: 'center', alignSelf: 'center', marginTop: '15%', marginBottom: '5%'}}>
+                       <TouchableOpacity 
+                    style={[style.btn,{
+                        backgroundColor: myTheme['color-success-500'],
+                        borderRadius: 10
+                        }]}
+                        onPress={()=>{
+                            this.setState({
+                               
+                                showDialog: false
+                            })
+
+                        }}
+                        >
+                        <Text style={style.txtbtn}>OK</Text>
+                        
+                    </TouchableOpacity>
+                       </View>
+                    </Dialog>
                 {
                     this.state.myrequests.length > 0 ?
                     (
@@ -215,33 +295,60 @@ const style = StyleSheet.create({
     main: {
         flex:1
     },
+    btn:{
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     approved:{
         paddingHorizontal: 5,
         paddingVertical: 5,
         borderRadius:10,
         backgroundColor: myTheme['color-success-500'],
-        color: '#fff'
+        color: '#fff',
+        flex:1,
+        textAlign: 'center'
     },
     rejected:{
         paddingHorizontal: 5,
         paddingVertical: 5,
         borderRadius:10,
         backgroundColor: myTheme['color-danger-500'],
-        color: '#fff'
+        color: '#fff',
+        flex:1,
+        textAlign: 'center'
     },
     new:{
         paddingHorizontal: 5,
         paddingVertical: 5,
         borderRadius:10,
         backgroundColor: myTheme['color-primary-700'],
-        color: '#fff'
+        color: '#fff',
+        flex:1,
+        textAlign: 'center'
     },
     review:{
         paddingHorizontal: 5,
         paddingVertical: 5,
         borderRadius:10,
         backgroundColor: myTheme['color-warning-600'],
+        color: '#fff',
+        flex:1,
+        textAlign: 'center'
+    },
+    txtbtn:{
         color: '#fff'
+    },
+    message:{
+        fontSize: 17,
+        textAlign: 'center',
+        marginTop: '3%'
+        //fontWeight: 'bold',
+    },
+    Titlemessage:{
+        fontSize: 17,
+        fontWeight: 'bold',
+        
     }
 })
 

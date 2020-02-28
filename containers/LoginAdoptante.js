@@ -20,6 +20,8 @@ import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import {myTheme} from '../src/assets/styles/Theme'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import LinearGradient from 'react-native-linear-gradient'
 
 
 
@@ -74,21 +76,6 @@ Login = () => {
     this.props.navigation.navigate('Loading',{
        email: email, password: password
     })
-
-
-    // firebase.auth().signInWithEmailAndPassword(email,password).then(
-    //     userCredential =>{
-    //         if(userCredential.user){
-    //             setTimeout(() => {
-    //                 this.props.navigation.navigate('Loading')
-    //             }, 2000);
-    //             // setTimeout(()=>{
-    //             //     this.props.navigation.navigate('AppAdoptante')
-    //             // },2000)
-    //         }
-    //         // alert(JSON.stringify(userCredential,null,4))
-    //     }
-    // )
 }
 
 
@@ -109,52 +96,19 @@ Login = () => {
     render() {
         return (
             <View style={style.main}>
-              <ImageBackground
-               //source={require('../assets/img/gradient2.jpg')}
+                 <KeyboardAwareScrollView>
+              <View
               style={{width: '100%', height: '100%', flex: 1, backgroundColor: '#fff', }}
             >
-                 {/* <Text style={{
-                     color: '#fff', 
-                     fontSize: 25 ,
-                     zIndex: 10000, 
-                     position: 'absolute', 
-                     top: 40,
-                     letterSpacing: 1, 
-                     alignSelf: 'center',
-                     fontWeight: 'bold'
-                     }}
-                     >SIGN IN</Text> */}
-                <View style={style.boxheader}>
-                   
-                    {/* <View style={{
-                        width: '110%',
-                        height: '30%',
-                        backgroundColor: '#780C88',
-                        borderRadius: 150,
-                        position: 'absolute',
-                        top: -120,
-                        paddingHorizontal: 20,
-                        marginHorizontal: 20,
-                        transform: [{ rotate: '180deg'}]
-                        
-                    }} ></View> */}
+                    
+                <View style={style.boxcontainer}>
+        
 
-                    {/* <View style={style.boxlogo}>
+                    <View style={style.boxlogo}>
                         
                         <Image source={require('../assets/img/img_menu.jpeg')} style={style.logo}/>
-                    </View> */}
-                
-
-                    {/* <Image 
-                    source={require('../assets/img/Mascotas-Felices-1.jpg')} 
-                    style={style.picture}
-                    resizeMode='cover'   
-                    resizeMethod='auto'
-                    /> */}
-                     {/* <View style={style.box}>
-                    
-
-                    </View> */}
+                    </View>
+            
 
                     <View style={style.form}>
                     <Input
@@ -245,31 +199,30 @@ Login = () => {
 
                         <View style={{marginTop: '10%'}}>
 
-                        <ButtonCustom  
-                            title="Ingresar"
-                            titleStyle={{
-                                fontSize: 18
-                            }}
-                            //primary
-                            colorcustom='#780C88'
-                            buttonStyle={
-                                {
-                                    marginTop:20,
-                                    borderRadius: 20,
-                                    
-                                    
-                                
-                                }
+                <TouchableOpacity onPress={()=>{
+                 this.Login()
+                }}>
+                  {/*background-image: radial-gradient(circle, #c015da, #ad13c5, #9b10b0, #890e9c, #780c88);*/}
+              <LinearGradient colors={['#c015da', '#ad13c5', '#9b10b0', '#890e9c', '#780c88']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Ingresar
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
 
-                            }
-                            onPress={()=>{
-                                this.Login()
-                            }}
-                            
-                           />
+              <TouchableOpacity onPress={()=>{
+                 this.props.navigation.navigate('NewAccount')
+                }}>
+                  {/*background-image: radial-gradient(circle, #42aee7, #3593c7, #2779a7, #186189, #08496b);*/}
+              <LinearGradient colors={['#42aee7', '#3593c7', '#2779a7', '#186189', '#08496b']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Registrarse
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
 
 
-                    <ButtonCustom  
+                    {/* <ButtonCustom  
                             title="Registrarse"
                             colorcustom='#fff'
                             titleStyle={{
@@ -278,7 +231,7 @@ Login = () => {
                             }}
                             buttonStyle={
                                 {
-                                    marginTop:20,
+                                    marginTop:'3%',
                                     borderRadius: 20,
                                     borderColor: '#780C88',
                                     borderWidth: 1
@@ -290,23 +243,12 @@ Login = () => {
                                 this.props.navigation.navigate('NewAccount')
                             }}
                             
-                           />
+                           /> */}
                         </View>
                        
                     </View>
-                    {/* <View style={{
-                        width: '110%',
-                        height: '30%',
-                        backgroundColor: '#780C88',
-                        borderRadius: 150,
-                        position: 'absolute',
-                        bottom: -120,
-                        paddingHorizontal: 20,
-                        marginHorizontal: 20,
-                        transform: [{ rotate: '180deg'}]
-                        //overflow: 'hidden'
-                    }} ></View> */}
-                     <View style={style.forgetpass}>
+
+                    <View style={style.forgetpass}>
                             <TouchableOpacity onPress={()=>{
                                 this.props.navigation.navigate('ForgetPass')
                             }}>
@@ -315,10 +257,15 @@ Login = () => {
                             </Text>
                             </TouchableOpacity>
                         </View>
+                    
 
                 </View>
-                </ImageBackground>
- 
+              
+                
+                
+               
+                </View>
+                </KeyboardAwareScrollView>
             </View>
         )
     }
@@ -329,8 +276,9 @@ const style = StyleSheet.create({
     main:{
         flex:1,
     },
-    boxheader:{
+    boxcontainer:{
         flex:1,
+        marginTop: '25%',
         //width: '50%',
         //backgroundColor: 'skyblue',
         //borderBottomStartRadius: 70,
@@ -381,7 +329,7 @@ const style = StyleSheet.create({
 
     },
     box:{
-        position: 'absolute',
+        //position: 'absolute',
         width: '100%',
         height: '100%',
         // backgroundColor: 'rgba(0,31,77,0.78)',
@@ -414,9 +362,11 @@ const style = StyleSheet.create({
       },
       form:{
         // position: 'absolute',
+        flex:1,
+        marginTop: '10%',
         width: '75%',
-        height: '30%',
-        marginTop: 0,
+        //height: '100%',
+        //marginTop: 0,
         //top: 150,
         ///backgroundColor: 'rgba(255,255,255,0.8)',
         //backgroundColor: 'rgba(0,31,77,0.9)',
@@ -453,10 +403,26 @@ const style = StyleSheet.create({
         marginTop: 5
       },
       forgetpass:{
-          //marginTop: '10%'
-          position: 'absolute',
-          bottom: 40
-      }
+          marginTop: '15%'
+        //   position: 'absolute',
+        //   bottom: 0
+      },
+      linearGradient: {
+        //flex: 1,
+        marginTop: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingVertical: 5,
+        borderRadius: 25
+      },
+      buttonText: {
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+      },
       
     
 })

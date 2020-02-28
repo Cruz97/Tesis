@@ -124,7 +124,7 @@ class DrawerCustom extends Component {
      <Drawer.Section>
        
        <Text style={style.info}>
-          {user.name+' '+user.lastname }
+          {user ? user.name+' '+user.lastname  : ''}
        </Text>
        {/* <Text style={style.info}>
           {user.email}
@@ -135,8 +135,8 @@ class DrawerCustom extends Component {
          {/* <Item label="Inicio" icon="menu1" selected={routeName === 'Membresy'} onPress={() => { this.setState({ active: 'MyMembresy' });  this.props.navigation.navigate('MyMembresy')}}/> */}
          <Item label="Inicio" icon="home" selected={routeName === 'Masc'} onPress={() => { this.setState({ active: 'HomeAdoptante' }); this.props.navigation.navigate('HomeAdoptante') }}/>
          <Item label="Mascotas" icon="mascota" selected={routeName === 'HomeAdoptante'} onPress={() => { this.setState({ active: 'HomeAdoptante' }); this.props.navigation.navigate('HomeAdoptante') }}/>
-         <Item label="Fundaciones" icon="fundacion" selected={routeName === 'Fundaciones'} onPress={() => { this.setState({ active: 'Fundaciones' }); this.props.navigation.navigate('Fundaciones')}}/>
          <Item label="Mis Solicitudes" icon="solicitud" selected={routeName === 'Solicitudes'} onPress={() => { this.setState({ active: 'Solicitudes' }); this.props.navigation.navigate('Solicitudes') }}/>
+         <Item label="Fundaciones" icon="fundacion" selected={routeName === 'Fundaciones'} onPress={() => { this.setState({ active: 'Fundaciones' }); this.props.navigation.navigate('Fundaciones')}}/>
          <Item label="Donaciones" icon="donacion" selected={routeName === 'Donaciones'} onPress={() => { this.setState({ active: 'Donaciones' }); this.props.navigation.navigate('Donaciones') }}/>
          <Item label="Cerrar Sesión" icon="cerrar" selected={routeName === 'Transactions'} onPress={()=>this.singOut()}/>
 

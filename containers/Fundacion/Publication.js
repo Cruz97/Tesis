@@ -29,6 +29,7 @@ import { Dialog } from 'react-native-simple-dialogs';
 import AlertCustom from '../../components/AlertCustom';
 import LoadingCustom from '../../components/LoadingCustom';
 import Slider from '@react-native-community/slider';
+import {sendNotification} from '../../src/utils/PushNotifications';
 
 
 
@@ -82,7 +83,8 @@ export class Publication extends Component {
             value_fin:12,
             key: null,
             loading: false,
-            pet
+            pet,
+            arrayTokens: []
           }
           this.updateIndexGender = this.updateIndexGender.bind(this)
           this.updateIndexType = this.updateIndexType.bind(this)
@@ -95,6 +97,18 @@ export class Publication extends Component {
         //alert(JSON.stringify(pet,null,4))
         let action = navigation.getParam('action',null)
         var image = null
+
+
+        let refTokens = firebase.database().ref('tokens');
+        refTokens.on('value',(snapshot)=>{
+            var arrayTokens = []
+            snapshot.forEach((child) => {
+                let childToken = child.val()
+
+                arrayTokens.push(childToken.token)
+            });
+            this.setState({arrayTokens})
+        })
         
         // var spice = this.state.especie;
         // var gender = this.state.genero;
@@ -174,26 +188,8 @@ export class Publication extends Component {
                     
                 });
             });
-            //this.updateIndexGender(gender)
-        //     this.setState({
-               
-        //         //pet
-        //    })
-        }
 
-        //alert(this.state.images.length)
-       
-        // if(action === null && pet === null){
-        //     this.setState({
-        //         action: 'create'
-        //     })
-        // }else{
-        //     this.setState({
-        //         action: action,
-        //         name: pet.value.name,
-        //         //pet
-        //     })
-        // }
+        }
 
     }
 
@@ -204,9 +200,15 @@ export class Publication extends Component {
         let date = new Date();
         const msgAge = selectedIndexEdad === 0 ? (slider === 1 ? ' Dia' : ' Días' ) : 
         selectedIndexEdad === 1 ? (slider === 1 ? ' Semana' : ' Semanas' ):
-        selectedIndexEdad === 2 ? (slider === 1 ? ' Mes' : ' Meses' ) : ''
+        selectedIndexEdad === 2 ? (slider === 1 ? ' Mes' : ' Meses' ) : '';
+
+        var hoy = new Date()
+        var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+        var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+        var fechaYHora = fecha + ' ' + hora;
 
         //alert(slide+' '+msgAge)
+        //alert(imagen)
 
         if(name == '' || imagen == null || selectedIndexGender == -1 || selectedIndexType == -1 ||
         color == '' || selectedIndexEdad == -1 || description == '' ){
@@ -216,45 +218,85 @@ export class Publication extends Component {
 
         this.setState({loading: true});
 
-        var storageRef = firebase.storage().ref('/petphotos/'+fundacion.uid+'/'+date+'_'+name);
+       
         //alert(storageRef)
         
 
         if(this.state.key != null){
-            let refEditPublish = firebase.database().ref('publicaciones/'+fundacion.uid+'/'+this.state.key);
+            var storageRef = firebase.storage().ref('/petphotos/'+fundacion.uid+'/'+this.state.key);
+            let task = storageRef.putString(imagen,'base64');
+            task.on('state_changed', (taskSnapshot) => {
+                var progress = (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100;
+                var lote = progress/10;
+                //var num = this.state.uploadValue;
+                var cont = 0
+                while(cont < lote){
+                    cont++;
+                    var num = this.state.uploadValue + lote;
+                }                           
+              });
+              task.then(() => {
+                storageRef.getDownloadURL().then((imageUrl)=>{
+                    let refEditPublish = firebase.database().ref('publicaciones/'+fundacion.uid+'/'+this.state.key);
                    
-            refEditPublish.update({
-                name: name,
-                //picture: imagen,
-                spice: selectedIndexType,
-                gender: selectedIndexGender,
-                color: color,
-                age: slider+msgAge,
-                description: description,
-                status: 'FOR_ADOPTION'
-                //typepublish: typepublish
-            }).then(()=>{
-               // setTimeout(() => {
-                
-                    this.setState({
-                        loadVisible: false,
-                        modalVisible: true,
-                        loading: false
-                    })
+                    refEditPublish.update({
+                        name: name,
+                        picture: imageUrl,
+                        spice: selectedIndexType,
+                        gender: selectedIndexGender,
+                        color: color,
+                        age: slider+msgAge,
+                        description: description,
+                        date: fechaYHora
+                        //status: 'FOR_ADOPTION'
+                        //typepublish: typepublish
+                    }).then(()=>{
+                    // setTimeout(() => {
+                        
+                            this.setState({
+                                loadVisible: false,
+                                modalVisible: true,
+                                loading: false
+                            })
 
-            }).catch(error=>{
-                this.setState({
-                    // loadVisible: false,
-                    // modalVisible: true,
-                    loading: false
+                    }).catch(error=>{
+                        this.setState({
+                            // loadVisible: false,
+                            // modalVisible: true,
+                            loading: false
+                        })
+                        alert(error.message)
+                    });
+                }).catch((error)=>{
+                    alert(error.message);
                 })
-                alert(error.message)
-            });
-
+              })
+              .catch((error) => {
+                alert(error.message);
+              });
             return;
         }
+
+        let refPublish = firebase.database().ref('publicaciones/'+fundacion.uid);
+                   
+        let keyPublish = refPublish.push({
+                        name: name,
+                        //picture: imageUrl,
+                        spice: selectedIndexType,
+                        gender: selectedIndexGender,
+                        color: color,
+                        age: slider+msgAge,
+                        description: description,
+                        status: 'FOR_ADOPTION',
+                        date: fechaYHora
+                        //typepublish: typepublish
+                    }).key
+
+
+         //= refPublish.key;
+        var storageRef2 = firebase.storage().ref('/petphotos/'+fundacion.uid+'/'+keyPublish);
         
-        let task = storageRef.putString(imagen,'base64');
+        let task = storageRef2.putString(imagen,'base64');
         task.on('state_changed', (taskSnapshot) => {
             var progress = (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100;
             var lote = progress/10;
@@ -263,34 +305,26 @@ export class Publication extends Component {
             while(cont < lote){
                 cont++;
                 var num = this.state.uploadValue + lote;
-                //setTimeout(()=>{
-                    //this.setState({loadVisible: true,uploadValue: num})
-               // },300)
-            }
-            
-           
-                  
+            }     
                                 
           });
 
         
            
           task.then(() => {
-            storageRef.getDownloadURL().then((imageUrl)=>{
-                let refPublish = firebase.database().ref('publicaciones/'+fundacion.uid);
+            storageRef2.getDownloadURL().then((imageUrl)=>{
+                let refPublish2 = firebase.database().ref('publicaciones/'+fundacion.uid+'/'+keyPublish);
                    
-                refPublish.push({
-                    name: name,
-                    picture: imageUrl,
-                    spice: selectedIndexType,
-                    gender: selectedIndexGender,
-                    color: color,
-                    age: slider+msgAge,
-                    description: description,
-                    status: 'FOR_ADOPTION'
+                refPublish2.update({
+                    "picture": imageUrl
                     //typepublish: typepublish
                 }).then(()=>{
                    // setTimeout(() => {
+                    sendNotification(
+                        this.state.arrayTokens,
+                        'Una mascota ha sido publicada!',
+                        'Hay una mascota que espera un hogar!.'
+                        )
                     
                         this.setState({
                             loadVisible: false,
@@ -716,14 +750,18 @@ export class Publication extends Component {
                 <TouchableOpacity 
                 //disabled= {this.state.pet.value.status === 'ADOPTED' ? true : false}
                 onPress={()=>{
-                    if(this.state.pet){
-                        if(this.state.pet.value.status === 'ADOPTED'){
-                            () => {}
-                        }
-                    }
-                    else{
+                    // if(this.state.pet){
+                    //     //alert(JSON.stringify(this.state.pet,null,4))
+                    //     if(this.state.pet.value.status === 'ADOPTED'){
+                    //         //NO SE ACTUALIZA
+                    //         () => {}
+                    //     }else{
+
+                    //     }
+                    // }
+                    // else{
                         this.savePetPublish()
-                    }
+                    //}
                 }}>
                     <LinearGradient colors={['#24254c', '#1c4068', '#075b7f', '#017691', '#28929d']} style={style.linearGradient}>
                         <Text style={style.buttonText}>
