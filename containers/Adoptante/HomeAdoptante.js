@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity,ToastAndroid, ScrollView, FlatList, TextInput } from 'react-native'
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
-import {Image,Icon, Overlay} from 'react-native-elements'
+import {  Button, Card, Title, Paragraph } from 'react-native-paper';
+import {Image,Icon, Overlay, Avatar} from 'react-native-elements'
 import ActionButton from 'react-native-action-button'
 import { myTheme } from '../../src/assets/styles/Theme'
 import Selection from '../../src/components/Selection'
@@ -47,7 +47,8 @@ export class HomeAdoptante extends Component {
             countAdoptions: 0,
             modalVisible: false,
             titleAlert: '',
-            msgAlert: ''
+            msgAlert: '', 
+            fundaciones: []
         }
        
 
@@ -74,7 +75,22 @@ export class HomeAdoptante extends Component {
 
     componentDidMount(){
 
-       
+        let arrayfoundation = {}
+        let refFound = firebase.database().ref('fundaciones')
+        refFound.on('value',snapshot => {
+         //    alert(JSON.stringify(snapshot.child('amigosconcola').val()))
+         snapshot.forEach((data)=>{
+             arrayfoundation[data.key] = data.val()
+
+             
+             
+             // alert(JSON.stringify(data.val(),null,4))
+         })
+    
+         this.setState ( {
+             fundaciones: arrayfoundation
+         })
+        })
         //alert('didmount')
         //const fundacion = firebase.auth().currentUser;
         //alert(JSON.stringify(this.props.navigation))
@@ -530,6 +546,7 @@ export class HomeAdoptante extends Component {
     renderItemPet = (item) => {
         const {key, value, keyfoundation} = item;
         const idUser = firebase.auth().currentUser.uid;
+        const fund = this.state.fundaciones[keyfoundation]
         return(
             <View style={style.boxitem}>
            
@@ -548,9 +565,25 @@ export class HomeAdoptante extends Component {
                            >
                            <Image style={style.img} source={{uri: value.picture}}  />
                        </TouchableOpacity>
+                       <View style={style.boximgfundacion}>
+
+                        <Avatar
+                                size={30}
+                                source={{uri: fund.img === null ? 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' : fund.img}}
+                                rounded
+                                containerStyle={{borderWidth:0, borderColor: myTheme['color-primary-800']}}
+                                
+                                onPress={() => console.log("Works!")}
+                                activeOpacity={0.7}
+                                />
+
+                       </View>
+
+                       
                </View>
                <View style={style.boxinfo}>
                     <TouchableOpacity 
+                    style={{flex:1}}
                         onPress={()=>{
                             this.props.navigation.push('PetDetails',{pet: item})
                             //this.goToDetails(item)
@@ -559,6 +592,29 @@ export class HomeAdoptante extends Component {
                     >
                         <Text style={style.title}>{value.name}</Text>
                     </TouchableOpacity>
+                    <View style={style.boximgsexo}>
+
+                        <Avatar
+                                size={30}
+                                
+                                overlayContainerStyle={{
+                                    backgroundColor: '#fff'
+                                }}
+                                icon={{
+                                    name: value.gender === 1 ? 'gender-male' : 'gender-female',
+                                    size: 20,
+                                    type: 'material-community',
+                                    color: value.gender === 1 ?  myTheme['color-primary-500'] :  myTheme['color-danger-400']
+                                }}
+                               
+                                rounded
+                                containerStyle={{borderWidth:0, borderColor: myTheme['color-primary-800']}}
+                                
+                                onPress={() => console.log("Works!")}
+                                activeOpacity={0.7}
+                                />
+
+                       </View>
                </View>
                
                
@@ -648,7 +704,9 @@ const style = StyleSheet.create({
            
         flex:1,
         backgroundColor: myTheme['color-primary-600'],
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row'
         //paddingBottom: 60,
         //marginTop: 10
        },
@@ -674,6 +732,16 @@ const style = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10
     },
+    boximgfundacion:{
+        position: 'absolute',
+        bottom: 2,
+        right:0,
+    },boximgsexo:{
+        // position: 'absolute',
+        // bottom: 4,
+        // right:0,
+        marginHorizontal: '2%'
+    }
 })
 
 export default withNavigationFocus(HomeAdoptante);

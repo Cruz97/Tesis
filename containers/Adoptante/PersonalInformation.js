@@ -10,7 +10,7 @@
         import { Layout, withStyles, Button } from 'react-native-ui-kitten';
         import ImagenPicker from '../../src/components/ImagePicker'
         import firebase from '@react-native-firebase/app'
-        import auth from '@react-native-firebase/auth'
+        import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
         import database from '@react-native-firebase/database'
         import storage from '@react-native-firebase/storage'
         import * as Progress from 'react-native-progress';
@@ -22,6 +22,8 @@
         import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
         import {sendNotification} from '../../src/utils/PushNotifications';
         import Slider from '@react-native-community/slider';
+        import firestore from '@react-native-firebase/firestore'
+import moment from 'moment';
 
 
 
@@ -113,7 +115,7 @@
                   }
                 });
 
-                if(status_pet) alert('Usted ya se encuentra en un proceso de adopción')
+                if(status_pet) Alert.alert('Información','Usted ya se encuentra en un proceso de adopción.')
                 else alert('vacio')
             }
 
@@ -123,8 +125,13 @@
                 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
                 var fechaYHora = fecha + ' ' + hora;
 
+                var now = new Date();
+                var utc = new Date(now.getTime());
+                var timestamp = (utc.getTime()/1000 |0)
+
                 let refSolicitud= firebase.database().ref('solicitudes/'+this.state.idFoundation);
-                   
+                // var date =  moment().format('YYYY-MM-DD')
+                // let dateTimestamp = (new Date(moment().format('YYYY-MM-DD'))).getTime()/1000   
                 refSolicitud.push({
                     idUser: this.state.idUser,
                     idPet: this.state.idPet,
@@ -151,8 +158,11 @@
                     has_resources: this.state.tiene_recursos  == 1 ? true : false,
                     status_request: 'NEW REQUEST', 
                     sterilize: this.state.esterilizar == 1 ? true : false,
-                    date: fechaYHora
-                    //typepublish: typepublish
+                    date: fechaYHora,
+                    dateProcess:  (new Date(moment().format('YYYY-MM-DD'))).getTime()/1000,
+                    list_status: {
+                        new: timestamp
+                    } 
                 }).then((value)  =>{
                    let keyNewRequest = value.key;
                    let refUser = firebase.database().ref('usuarios/'+firebase.auth().currentUser.uid);
@@ -168,7 +178,6 @@
                        'Alguien quiere adoptar una mascota, revisa su solicitud pronto!'
                        )
                        this.setState({
-                        //loadVisible: false,
                         modalVisible: true
                     })
              
@@ -177,7 +186,6 @@
                 }).catch(error=>{
                     alert(error.message)
                 });
-               // alert(refSolicitud.key);
             }
 
         showState = () => {
@@ -772,7 +780,7 @@
                 }}
                 onSubmit={()=>{
                     if(this.validaInfoAdicional()){
-                        alert('hay campos vacios')
+                        Alert.alert('Advertencia','Existen campos vacios por completar.')
                     }
                     else{
                         this.setState({modalConfirm:true})

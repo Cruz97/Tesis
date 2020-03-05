@@ -131,12 +131,21 @@ export class InfoSolicitud extends Component {
         // var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
         // var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
         // var fechaYHora = fecha + ' ' + hora;
+        var now = new Date();
+                var utc = new Date(now.getTime());
+                var timestamp = (utc.getTime()/1000 |0)
         if(status === 'NEW REQUEST'){
             let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
             refRequest.update({
+                
                 "status_request" : "IN REVIEW",
                 "comment": "La solicitud de adopción de mascota que enviaste está siendo revisada. Pronto se te notificará si la solicitud fue aprobada o rechazada"
             })
+
+            refRequest.child('list_status').update({
+                "review": timestamp
+            })
+
             this.setState({status: 'IN REVIEW'})
         }
 
@@ -178,17 +187,17 @@ export class InfoSolicitud extends Component {
                             this.setState({loadingNotificacion: true, modalApproved: false})
                             const {idFoundation, key, request} = this.state;
                             const status = request.status_request;
+                           
                             if(status === 'IN REVIEW' || 'NEW REQUEST'){
-                                // sendNotification(
-                                //     arrayTokens,
-                                //     'Solicitud de Adopción de Mascota Aprobada',
-                                //     'La solicitud de adopción de mascota que enviaste ha sido aprobada, la fundación pronto se contactará contigo'
-                                //     )
-                                //alert(status)
-                                
-                                
-                                //alert(this.state.token)
                                 let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
+                                
+                                var now = new Date();
+                                var utc = new Date(now.getTime());
+                                var timestamp = (utc.getTime()/1000 |0)
+                                refRequest.child('list_status').update({
+                                    "approved": timestamp
+                                })
+                                
                                 refRequest.update({
                                     "status_request" : "APPROVED",
                                     "comment": 'La solicitud de adopción de mascota que enviaste ha sido Aprobada, la fundación pronto se contactará contigo, para coordinar una visita/inspección del futuro hogar de la mascota'
@@ -210,7 +219,6 @@ export class InfoSolicitud extends Component {
                                 })
                                 
                             }
-                            //this.setState({modalApproved: false})
 
                         }}
                         onPressCancel = {()=>{
@@ -305,6 +313,14 @@ export class InfoSolicitud extends Component {
                             const {idFoundation, key, request} = this.state;
                             //const status = request.status_request;
                                 let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
+                                var now = new Date();
+                                var utc = new Date(now.getTime());
+                                var timestamp = (utc.getTime()/1000 |0)
+
+                                refRequest.child('list_status').update({
+                                    "rejected": timestamp
+                                })
+
                                 refRequest.update({
                                     "comment" : this.state.motivo,
                                     "status_request": 'REJECTED'
@@ -389,14 +405,25 @@ export class InfoSolicitud extends Component {
                                 
                                 //alert(this.state.token)
                                 let refPet = firebase.database().ref('publicaciones/'+idFoundation+'/'+request.idPet)
+                                
+                                
                                 refPet.update({
                                     "status": "ADOPTED"
                                 })
                                 var hoy = new Date()
                                 var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
                                 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
-                                var fechaYHora = fecha + ' ' + hora;
+                               
                                 let refRequest = firebase.database().ref('solicitudes/'+idFoundation+'/'+key);
+                                
+                                var now = new Date();
+                                var utc = new Date(now.getTime());
+                                var timestamp = (utc.getTime()/1000 |0)
+
+                                refRequest.child('list_status').update({
+                                    "adopted": timestamp
+                                })
+
                                 refRequest.update({
                                     "status_request" : "SUCCESS",
                                     "comment": "Ésta mascota se te dió en adopción el "+fecha+" a las "+hora

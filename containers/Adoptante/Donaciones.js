@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ScrollView } from 'react-native'
 import { List } from 'react-native-paper';
 import {myTheme} from '../../src/assets/styles/Theme'
 import {ListItem, Avatar} from 'react-native-elements'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const RenderItem = props => {
     const {title,source} = props;
@@ -68,7 +69,13 @@ export class Donaciones extends Component {
     render() {
         return (
             <ScrollView style={style.main}>
-                <List.Section title="Artículos que se pueden donar a las fundaciones" 
+                <Text style={{fontSize: 15, color: myTheme['color-material-primary-700'],marginHorizontal: 10, textAlign: 'left'}}>
+                Para realizar cualquier tipo de donaciones, por favor contáctese directamente con la fundación, para coordinar lugar, hora y fecha de entrega de su donación. 
+                </Text>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('Fundaciones')}>
+                    <Text style={{fontSize: 15, color: myTheme['color-info-700'],marginHorizontal: 10, textAlign: 'center'}}>Ir a fundaciones </Text></TouchableOpacity>
+                <List.Section 
+                title="Artículos que se pueden donar a las fundaciones" 
                     theme={{
                         colors:{
                             primary: myTheme['color-primary-700']
@@ -87,9 +94,9 @@ export class Donaciones extends Component {
                 onPress={this._handlePress1}
                 >
                     <View style={{paddingLeft: -64}}>
-                    <RenderItem title={'Balanceados'} source={require('../../assets/img/balanceado.jpg')}  />
-                    <RenderItem title={'Comidas enlatadas'} source={require('../../assets/img/enlatadas.jpg')}  />
-                    <RenderItem title={'Croquetas (perros) / Wiskas (gatos)'} source={require('../../assets/img/croquetas.jpg')}  />
+                    <RenderItem title={'Balanceados (perros/gatos)'} source={require('../../assets/img/balanceado.jpg')}  />
+                    <RenderItem title={'Comidas enlatadas (perros/gatos)'} source={require('../../assets/img/enlatadas.jpg')}  />
+                    {/* <RenderItem title={'Croquetas (perros) / Wiskas (gatos)'} source={require('../../assets/img/croquetas.jpg')}  /> */}
                     <RenderItem title={'Barritas jugosas'} source={require('../../assets/img/barritas.png')}  />
 
                    </View>

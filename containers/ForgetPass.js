@@ -7,7 +7,7 @@ import {Dialog} from 'react-native-simple-dialogs'
 import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
-
+import LinearGradient from 'react-native-linear-gradient';
 
 const actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for
@@ -63,11 +63,9 @@ export class ForgetPass extends Component {
             catch((error)=>{
                 this.openModalLoading(false);
                 this.setState({email: ''})
-                Alert.alert('Error de reestablecimiento', 'No se ha podido validar el correo electrónico. No hay un usuario que corresponda al correo proporcionado/ El usuario pudo haber sido eliminado')
+                Alert.alert('Advertencia', 'No se ha podido validar el correo electrónico. No hay un usuario que corresponda al correo proporcionado/ El usuario pudo haber sido eliminado.')
             })
         },2500)
-        //this.openModalLoading(false);
-       
     }
 
     validateEmail = (email) => {
@@ -129,7 +127,7 @@ export class ForgetPass extends Component {
                 </View>
 
                 <View style={style.btn}>
-                <ButtonCustom  
+                {/* <ButtonCustom  
                             title="Reestablecer"
                             colorcustom={myTheme['color-success-600']}
                             buttonStyle={
@@ -141,12 +139,32 @@ export class ForgetPass extends Component {
 
                             }
                             onPress={()=>{
-                                this.ResetPassword()
-                                //this.props.navigation.navigate('ResetSuccessfull')
+                                let value = this.state.email;
+                                if(value === ''){
+                                    Alert.alert('Información requerida','Por favor ingrese un correo electrónico')
+                                }else{
+                                    this.ResetPassword()
+                                }
                                 
                             }}
                             
-                           />
+                           /> */}
+
+<TouchableOpacity onPress={()=>{
+                  let value = this.state.email;
+                  if(value === ''){
+                      Alert.alert('Información requerida','Por favor ingrese un correo electrónico.')
+                  }else{
+                      this.ResetPassword()
+                  }
+                }}>
+                  {/*background-image: linear-gradient(to right top, #31e257, #29c243, #20a331, #14851f, #06680d);*/}
+              <LinearGradient colors={['#31e257', '#29c243', '#20a331', '#14851f', '#06680d']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Reestablecer contraseña
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
 
                 </View>
                 <Dialog title={"Validando correo electrónico"}
@@ -197,9 +215,25 @@ const style = StyleSheet.create({
     },
     btn:{
         marginTop: '15%',
-        marginLeft: '20%',
-        marginRight: '20%',
-    }
+        marginLeft: '10%',
+        marginRight: '10%',
+    },
+    linearGradient: {
+        //flex: 1,
+        marginTop: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingVertical: 5,
+        borderRadius: 25
+      },
+      buttonText: {
+        fontSize: 16,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+      },
 })
 
 

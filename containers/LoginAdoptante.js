@@ -44,10 +44,10 @@ export class LoginAdoptante extends Component {
     
     
     this.state = {
-        usuario: 'jose.cruzal@outlook.com',
-        contrasena: 'Barce@97',
-        // usuario: '',
-        // contrasena: '',
+        // usuario: 'jose.cruzal@outlook.com',
+        // contrasena: 'Barce@97',
+        usuario: '',
+        contrasena: '',
         // usuario: 'josecruz@outlook.com',
         // contrasena: 'abc123',
         
@@ -69,7 +69,7 @@ Login = () => {
     let password = this.state.contrasena;
 
     if(email == '' || password == ''){
-        Alert.alert('Información requerida','Pro favor ingrese un correo y una contraseña')
+        Alert.alert('Información requerida','Por favor ingrese un correo y una contraseña.')
         return
     }
 
@@ -189,7 +189,7 @@ Login = () => {
                             <Icon 
                                 name='remove-red-eye'
                                 size={30}
-                                color={myTheme['color-material-primary-500']}
+                                color={this.state.showPassword ? myTheme['color-material-primary-700'] : myTheme['color-material-primary-200']}
                             />
 
                     </TouchableOpacity  >

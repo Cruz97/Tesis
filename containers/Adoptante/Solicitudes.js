@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, StyleSheet,TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, StyleSheet,TouchableOpacity, Alert } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import firebase from '@react-native-firebase/app'
 import database from '@react-native-firebase/database'
@@ -37,62 +37,114 @@ export class Solicitudes extends Component {
     componentDidMount(){
         let id = firebase.auth().currentUser.uid;
 
-        let refFoundations = firebase.database().ref('usuarios/'+id)
-        let refRequests = refFoundations.child('myrequests')
+        let refUsuario = firebase.database().ref('usuarios/'+id)
+        // refUsuario.on('value',(snapshot)=>{
+            
+        // })
+        let refRequests = refUsuario.child('myrequests')
+       
         refRequests.on('value',(snapshot)=>{
             //this.setState({solicitudes: []})
             var requests = [];
+            var dicRequest = [];
+            
+            // this.setState({solicitudes: []})
             snapshot.forEach((childSnapshot)=>{
+                
                 let value = childSnapshot.val();
                 let key = childSnapshot.key;
                 let idFoundation = value.idFoundation;
                 let idRequest = value.idRequest;
                 let obj = {key,idFoundation,idRequest}
                 //requests.push(obj)
-                let arrayRequest = this.state.solicitudes;
-                arrayRequest.push(obj)
-                this.setState({solicitudes: arrayRequest})
-            })
-
-            let solicitudes = this.state.solicitudes;
-            //this.setState({myrequests: []})
-            solicitudes.map((request)=>{
-                let refRequest = firebase.database().ref('solicitudes/'+request.idFoundation+'/'+request.idRequest);
+                //let arrayRequest = this.state.solicitudes;
+                dicRequest.push(obj)
                 
+            })
+            
+            this.setState({solicitudes: dicRequest})
+
+            // let solicitudes = this.state.solicitudes;
+            //this.setState({myrequests: []})
+            // alert(JSON.stringify(dicRequest,null,4))
+            
+            // alert(dicRequest.length)
+            dicRequest.map((request)=>{
+                let refRequest = firebase.database().ref('solicitudes/'+request.idFoundation+'/'+request.idRequest);
+                 this.setState({myrequests: []})
                 refRequest.on('value',(snapshot)=>{
                     let myrequests = this.state.myrequests;
                     let obj = {key: snapshot.key, data: snapshot.val(), idFoundation: request.idFoundation}
                     //alert(JSON.stringify(obj,null,4))
-                    myrequests.push(obj);
+                    var exist = false;
+                    var index = 0;
+                    myrequests.map((obj,i)=>{
+                        if(obj.key === snapshot.key){
+                            exist = true
+                            index = i
+                        }
+                    })
+                    if(!exist)
+                        myrequests.push(obj);
+                    else
+                        myrequests[index] = obj
                     this.setState({myrequests})
                 })
+
+                // let refRequest2 = firebase.database().ref('solicitudes/'+request.idFoundation)
+                // refRequest2.on('child_changed',(snapshot)=>{
+                //     alert(JSON.stringify(snapshot.val()))
+                // })
             })
+           
 
         })
 
+        
+
+
+
+        
         let refFundaciones = firebase.database().ref('fundaciones');
         refFundaciones.on('value',(snapshot)=>{
+            // this.setState({publicaciones: {}})
             var fundaciones = this.state.fundaciones;
+            var keysfundaciones = []
             snapshot.forEach((childSnapshot)=>{
                 fundaciones[String(childSnapshot.key)] = childSnapshot.val()
-
-                let idFoundation = childSnapshot.key;
-                let refPublicaciones = firebase.database().ref('publicaciones/'+idFoundation)
+                let obj = {key: childSnapshot.key}
+                keysfundaciones.push(obj)
                 
-                refPublicaciones.on('value',(snapshot)=>{
-                    var arrayPublicaciones = this.state.publicaciones;
-                    snapshot.forEach((child)=>{
-                        arrayPublicaciones[String(child.key)] = child.val()
-                        //alert(JSON.stringify(child))
-                    })
-                    //alert(JSON.stringify(arrayPublicaciones,null,4))
-                    this.setState({publicaciones: arrayPublicaciones})
-                })
+
+                // refPublicaciones.off('value')
 
             })
             //alert(JSON.stringify(fundaciones,null,4))
             this.setState({fundaciones})
+
+            keysfundaciones.map((item)=>{
+                let idFoundation = item.key;
+                let refPublicaciones = firebase.database().ref('publicaciones/'+idFoundation)
+                // var arrayPublicaciones = {}
+                // this.setState({solicitudes:{}})
+                refPublicaciones.on('value',(snapshot)=>{
+                    // alert(Array.from(snapshot).length)
+                    // alert('exue')
+                    var arrayPublicaciones = this.state.solicitudes;
+                    snapshot.forEach((child)=>{
+                        // alert(JSON.stringify(child))
+                        arrayPublicaciones[String(child.key)] = child.val()
+                        // arrayPublicaciones.push()
+                    })
+                    // alert(JSON.stringify(arrayPublicaciones))
+                    this.setState({publicaciones: arrayPublicaciones})
+                })
+
+            })
+            
+
         })
+
 
         
 
@@ -103,6 +155,10 @@ export class Solicitudes extends Component {
             //alert(JSON.stringify(snapshot,null,4))
             this.setState({usuario: snapshot.val()})
         })
+
+        
+
+       
 
 
 
@@ -218,6 +274,7 @@ export class Solicitudes extends Component {
 
     render() {
         //alert(JSON.stringify(this.state.myrequests,null,4))
+
         return (
             <View style={style.main}>
 

@@ -207,9 +207,6 @@ export class Publication extends Component {
         var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
         var fechaYHora = fecha + ' ' + hora;
 
-        //alert(slide+' '+msgAge)
-        //alert(imagen)
-
         if(name == '' || imagen == null || selectedIndexGender == -1 || selectedIndexType == -1 ||
         color == '' || selectedIndexEdad == -1 || description == '' ){
             alert('Llene toda la información requerida')
@@ -218,17 +215,12 @@ export class Publication extends Component {
 
         this.setState({loading: true});
 
-       
-        //alert(storageRef)
-        
-
         if(this.state.key != null){
             var storageRef = firebase.storage().ref('/petphotos/'+fundacion.uid+'/'+this.state.key);
             let task = storageRef.putString(imagen,'base64');
             task.on('state_changed', (taskSnapshot) => {
                 var progress = (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100;
                 var lote = progress/10;
-                //var num = this.state.uploadValue;
                 var cont = 0
                 while(cont < lote){
                     cont++;
@@ -248,10 +240,7 @@ export class Publication extends Component {
                         age: slider+msgAge,
                         description: description,
                         date: fechaYHora
-                        //status: 'FOR_ADOPTION'
-                        //typepublish: typepublish
                     }).then(()=>{
-                    // setTimeout(() => {
                         
                             this.setState({
                                 loadVisible: false,
@@ -261,8 +250,6 @@ export class Publication extends Component {
 
                     }).catch(error=>{
                         this.setState({
-                            // loadVisible: false,
-                            // modalVisible: true,
                             loading: false
                         })
                         alert(error.message)
@@ -281,7 +268,6 @@ export class Publication extends Component {
                    
         let keyPublish = refPublish.push({
                         name: name,
-                        //picture: imageUrl,
                         spice: selectedIndexType,
                         gender: selectedIndexGender,
                         color: color,
@@ -289,18 +275,14 @@ export class Publication extends Component {
                         description: description,
                         status: 'FOR_ADOPTION',
                         date: fechaYHora
-                        //typepublish: typepublish
                     }).key
 
-
-         //= refPublish.key;
         var storageRef2 = firebase.storage().ref('/petphotos/'+fundacion.uid+'/'+keyPublish);
         
         let task = storageRef2.putString(imagen,'base64');
         task.on('state_changed', (taskSnapshot) => {
             var progress = (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100;
             var lote = progress/10;
-            //var num = this.state.uploadValue;
             var cont = 0
             while(cont < lote){
                 cont++;
@@ -317,9 +299,7 @@ export class Publication extends Component {
                    
                 refPublish2.update({
                     "picture": imageUrl
-                    //typepublish: typepublish
                 }).then(()=>{
-                   // setTimeout(() => {
                     sendNotification(
                         this.state.arrayTokens,
                         'Una mascota ha sido publicada!',
@@ -342,8 +322,6 @@ export class Publication extends Component {
           .catch((error) => {
             alert(error.message);
           });
-
-       
     }
 
 
@@ -745,7 +723,7 @@ export class Publication extends Component {
                    </View>
 
                 </View>
-                <View style={{alignItems: 'center', width: '100%'}}>
+                <View style={{alignItems: 'center'}}>
 
                 <TouchableOpacity 
                 //disabled= {this.state.pet.value.status === 'ADOPTED' ? true : false}
@@ -933,8 +911,9 @@ const style = StyleSheet.create({
       linearGradient: {
         //flex: 1,
         marginTop: 20,
-        paddingLeft: 35,
-        paddingRight: 35,
+        paddingLeft: '15%',
+        paddingRight: '15%',
+        marginBottom: 20,
         paddingVertical: 5,
         borderRadius: 25
       },

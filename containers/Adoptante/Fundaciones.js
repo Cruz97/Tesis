@@ -38,7 +38,6 @@ export class Fundaciones extends Component {
      this.setState ( {
          fundaciones: arrayfoundation
      })
-    //  alert(JSON.stringify(arrayfoundation,null,4))
     })
 
    }

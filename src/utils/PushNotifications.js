@@ -2,7 +2,6 @@
 
 export function sendNotification(arrayTokens,title,body){
     const FIREBASE_API_KEY = "AAAAOwqljT4:APA91bF8EG_orGbo4DXJUmT5Tq6YS973pkFjPUE18DH_HOkkUiTKrBRTNYE64zq8joJGci3b_tFt_skS1ejMy2ukPYUL6nRX-c-itAtlPvRyNeTjTYYlpHmwr3mb3LWJodD0Zx75D-lH";
-    //var registrationToken = 'daUtcIhJM44:APA91bGtkGHDDQy9iSKBZNd33f-s6KYpbHgClFtYWrOb7oM18igH9QuUfF9XRlG0WsOIpFAech_L72TES1r9mHJbF0wSGly_hLFoFrTYi8LHAxcmhzkTZROCALBSTrX-DVPSzpibkuLq';
                           const message = {
                             registration_ids: arrayTokens, 
                              notification: {
@@ -22,15 +21,7 @@ export function sendNotification(arrayTokens,title,body){
                         });
                       
                         fetch("https://fcm.googleapis.com/fcm/send", { method: "POST", headers, body: JSON.stringify(message) }).then((value)=>{
-                            if(value.ok){
-                                //return true;
-                              //alert('Se han enviado las notificaciones')
-                            }else{
-                                //return false;
-                              //alert('ocurrio un error')
-                            }
                         }).catch(error=>{
-                            //return false;
                           alert(JSON.stringify(error,null,4))
                         });
 }

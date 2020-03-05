@@ -119,9 +119,7 @@ export default class Loading extends Component {
               refToken.set({
                 token:fcmToken
               });
-            } else {
-              // user doesn't have a device token yet
-            } 
+            }
           });
 
           firebase.messaging().onTokenRefresh((fcmToken)=>{
@@ -165,8 +163,6 @@ export default class Loading extends Component {
                       refToken.set({
                         token:fcmToken
                       });
-                    } else {
-                      // user doesn't have a device token yet
                     } 
                   });
 
@@ -181,11 +177,7 @@ export default class Loading extends Component {
                       this.props.navigation.navigate('Welcome')
                   })
                 }, 2000);
-                // setTimeout(()=>{
-                //     this.props.navigation.navigate('AppAdoptante')
-                // },2000)
             }
-            // alert(JSON.stringify(userCredential,null,4))
         }
     ).catch(error=>{
       let errorCode = error.code;
@@ -208,7 +200,6 @@ export default class Loading extends Component {
           mensaje = 'Ha ocurrido un error'
       }
       Alert.alert('Error de autenticación', mensaje)
-      //alert(JSON.stringify(error.code + '=> '+error.message,null,4))
       this.props.navigation.navigate('Welcome')
     })
 

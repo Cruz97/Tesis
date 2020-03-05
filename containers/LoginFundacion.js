@@ -26,10 +26,10 @@ export class LoginFundacion extends Component {
     const {navigation} = props;
     
     this.state = {
-        correo: 'gpaclaudiapoppe@gmail.com',
-        contrasena: 'gpaclaudiapoppe',
-        // correo: '',
-        // contrasena: '',
+        // correo: 'gpaclaudiapoppe@gmail.com',
+        // contrasena: 'gpaclaudiapoppe',
+        correo: '',
+        contrasena: '',
         // correo: 'amigosconcola@gmail.com',
         // contrasena: 'amigosconcola',
         // correo: 'refugiopana@gmail.com',
@@ -125,7 +125,7 @@ Login = () => {
     let password = this.state.contrasena;
 
     if(email == '' || password == ''){
-        Alert.alert('Información requerida','Pro favor ingrese un correo y una contraseña')
+        Alert.alert('Información requerida','PoR favor ingrese un correo y una contraseña.')
         return
     }
 

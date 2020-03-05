@@ -11,6 +11,7 @@ import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import DatePicker from 'react-native-datepicker'
 import RNPicker from "search-modal-picker";
+import LinearGradient from 'react-native-linear-gradient'
 
 const actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for
@@ -67,6 +68,7 @@ export class NewAccount extends Component {
             contrasena2: '',
             referencia: '',
             alertCedula: false,
+            alertCedulaExiste:false,
             alertNombres: false,
             alertApellidos: false,
             alertTelefono: false,
@@ -78,6 +80,8 @@ export class NewAccount extends Component {
             alertReferencia: false,
             alertOcupation: false,
 
+            snapshot: null,
+
             showPassword: false,
             acceptTerms: false,
 
@@ -85,10 +89,10 @@ export class NewAccount extends Component {
 
             dataSource: [],
             dataEstadoCivil: [
-              {
-                id: "0",
-                name: "Ninguno"
-              },
+              // {
+              //   id: "0",
+              //   name: "Ninguno"
+              // },
               {
                 id: "1",
                 name: "Soltero"
@@ -326,13 +330,6 @@ export class NewAccount extends Component {
     }
 
     createUser = () => {
-
-      if(!this.state.acceptTerms){
-        // if(!this.existAlert()) alert('no hay alertas')
-        Alert.alert('Importante!','Por favor acepte los Términos y condiciones de AdopcionPG');
-        return;
-      }
-
         const card_identification = this.state.cedula;
         const phone_mobile = this.state.telefono;
         const address = this.state.direccion;
@@ -346,43 +343,14 @@ export class NewAccount extends Component {
         const reference = this.state.referencia;
         const phone_conventional = this.state.telefono_convencional;
         const ocupation = this.state.selectedText;
-
-        if((name == '' || lastname == '' || email == '' || password == '' 
-        || card_identification === '' || date_of_birth === '1980-01-01' || phone_mobile === ''
-        || phone_conventional === '' || address === '' || reference === '' || marital_status === ''
-        || ocupation === '' || password2 === ''
-        )||
-        (this.state.alertCedula === true || 
-          this.state.alertNombres === true|| 
-          this.state.alertApellidos === true ||
-          this.state.alertTelefono === true || 
-          this.state.alertTelefonoConvencional === true  || 
-          this.state.alertDireccion === true || 
-          this.state.alertReferencia === true || 
-          this.state.alertCorreo === true ||
-          this.state.alertContrasena === true || 
-          this.state.alertContrasena2 === true 
-          ))
-          {
-            Alert.alert('Información Requerida', 'Por favor ingrese toda la información')
-            //this.props.navigation.navigate('RegisterSuccessfull')
-            return
-        }
-
-
         firebase.auth().createUserWithEmailAndPassword(
             email, password
         ).then(userCredentials => {
-            //Si es un nuevo usuario
             if(userCredentials.additionalUserInfo.isNewUser){
-                //Se guarda en la DB Real Time
                 let uid = userCredentials.user.uid;
                 let refUser = firebase.database().ref('usuarios/'+uid)
-    
-                //Crea un objeto usuario sino existe, y si existe modifica sus campos
+
                 refUser.set({
-                    // username: 'Josecruz',
-                    
                     card_identification,
                     name,
                     lastname,
@@ -399,61 +367,32 @@ export class NewAccount extends Component {
                     typeUser: 'adopter',
                     ocupation
                     
-
-                    
                   }).then(()=>{
-                    //firebase.auth().sen
-                    // firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-                    // .then(() => {
-                    //     alert('Se ha enviado el correo de verificacion')
-                    //   // Construct email verification template, embed the link and send
-                    //   // using custom SMTP server.
-                    //   //return sendCustomVerificationEmail(useremail, displayName, link);
-                    // })
-                    // .catch((error) => {
-                    //   alert('error: '+error.message)
-                    // });
-                  
                     this.props.navigation.navigate('RegisterSuccessfull')
-                    //   firebase.auth().signInWithEmailAndPassword(
-                    //       userCredentials.user.email,
-                    //       this.state.contrasena
-                    //   ).then(user =>{
-                    //     //   alert(JSON.stringify(user,null,4))
-                          
-                    //   }).catch(error => {
-                    //       alert(error.message)
-
-                    //   })
-
-                      //alert('Usuario creado en la BD Real Time')
                   }).catch(error =>{
                       alert('Ocurrio algo '+JSON.stringify(error.message,null,4))
                   });
 
             }
-
-            // let uid = userCredentials.user.uid
-            // alert(JSON.stringify(userCredentials.additionalUserInfo,null,4))
         }).catch(error => {
             let errorCode = error.code;
             let errorMessage = error.message;
             let mensaje = ''
             switch(errorCode){
               case 'auth/email-already-in-use':
-                mensaje = 'Ya existe una cuenta con ésta dirección de correo electrónico'
+                mensaje = 'Ya existe una cuenta con ésta dirección de correo electrónico.'
                 break;
               case 'auth/invalid-email':
                 mensaje = 'La dirección de correo electrónico no es válida.'
                 break;
               case 'auth/operation-not-allowed':
-                mensaje = 'La cuenta de correo electrónico / contraseña no están habilitadas';
+                mensaje = 'La cuenta de correo electrónico / contraseña no están habilitadas.';
                 break;
               case 'auth/weak-password':
-                mensaje = 'La contraseña no es lo suficientemente segura';
+                mensaje = 'La contraseña no es lo suficientemente segura.';
                 break;
               default:
-                mensaje = 'Ha ocurrido un error'
+                mensaje = 'Ha ocurrido un error.'
       }
       Alert.alert('Error al registrar', mensaje)
         })
@@ -464,7 +403,7 @@ export class NewAccount extends Component {
       let refOcupaciones = firebase.database().ref('ocupaciones');
       refOcupaciones.on('value',(snapshot)=>{
         var ocupaciones = [];
-        ocupaciones.push({id: "0", name: "OTRO"})
+        //ocupaciones.push({id: "0", name: "OTRO"})
         snapshot.forEach((child)=>{
             
             ocupaciones.push({id: child.key, name: child.val()})
@@ -472,24 +411,39 @@ export class NewAccount extends Component {
         this.setState({dataSource: ocupaciones})
         //alert(JSON.stringify(ocupaciones,null,4))
       })
+
+
+      let refcedula = firebase.database().ref('usuarios');
+                            refcedula.once('value',(snapshot)=>{
+                              // let exist = false;
+                              // snapshot.forEach((child)=>{
+                              //   let user = child.val();
+                              //   if(user.card_identification === this.state.cedula){
+                              //    this.setState({snap: true})
+                              //   }
+                              // })
+                              this.setState({snapshot: snapshot})
+                              
+                            })
+                            refcedula.off("value")
     }
 
     
 
-    existeUsuario = (cedula) => {
-      this.setState({existUser: false})
-      let refUsuario = firebase.database().ref('usuarios');
-      refUsuario.on('value',(snapshot)=>{
-        snapshot.forEach((childUser)=>{
-          let user = childUser.val();
-          if(user.typeUser === 'adopter'){
-            if(user.card_identification === cedula){
-              this.setState({existUser: true})
-            }
-          }
-        })
-      })
-    }
+    // existeUsuario = (cedula) => {
+    //   this.setState({existUser: false})
+    //   let refUsuario = firebase.database().ref('usuarios');
+    //   refUsuario.on('value',(snapshot)=>{
+    //     snapshot.forEach((childUser)=>{
+    //       let user = childUser.val();
+    //       if(user.typeUser === 'adopter'){
+    //         if(user.card_identification === cedula){
+    //           this.setState({existUser: true})
+    //         }
+    //       }
+    //     })
+    //   })
+    // }
 
     render() {
       const {themedStyle} = this.props;
@@ -614,11 +568,11 @@ export class NewAccount extends Component {
                          {
                           if(this.state.cedula.length > 0){
                             if (!this.validateCedula(this.state.cedula) || !this.verifyCedula(this.state.cedula)) {
-                              this.setState({cedula: this.state.cedula, alertCedula: true})
+                              this.setState({cedula: this.state.cedula, alertCedula: true, alertCedulaExiste: false})
                               
                             } else {
-                              this.existeUsuario(this.state.cedula)
-                              this.setState({alertCedula: false })
+                              //this.existeUsuario(this.state.cedula)
+                              this.setState({alertCedula: false, alertCedulaExiste: false })
                             }
                           }
                          }
@@ -680,8 +634,8 @@ export class NewAccount extends Component {
                           androidMode="spinner"
                           placeholder="select date"
                           format="YYYY-MM-DD"
-                          minDate="1900-01-01" 
-                          maxDate="2050-01-01"
+                          minDate="1950-01-01" 
+                          maxDate="2002-01-01"
                           confirmBtnText="Confirm"
                           cancelBtnText="Cancel"
                           
@@ -696,6 +650,13 @@ export class NewAccount extends Component {
                           color: 'red', 
                           display: this.state.alertCedula ? 'flex' : 'none'}}>
                           La cédula no es válida
+                        </Text>
+                        <Text style={{
+                          textAlign:'center', 
+                          marginTop:5,
+                          color: 'red', 
+                          display: this.state.alertCedulaExiste ? 'flex' : 'none'}}>
+                          Ésta cédula ya esta en uso
                         </Text>
 
                       
@@ -777,7 +738,7 @@ export class NewAccount extends Component {
                 <Input
                 //placeholder=' Teléfono Convencional'
                 keyboardType='phone-pad'
-                maxLength={10}
+                maxLength={9}
                 value={this.state.telefono_convencional}
                 onChangeText={this.handleTelephone.bind(this)}
                 placeholderTextColor={myTheme['color-material-primary-400']}
@@ -805,7 +766,7 @@ export class NewAccount extends Component {
                   textAlign:'center', 
                   color: 'red', 
                   display: this.state.alertTelefonoConvencional ? 'flex' : 'none'}}>
-                  El Campo Teléfono Convencional debe tener 10 dígitos
+                  El Campo Teléfono Convencional debe tener 9 dígitos
                 </Text>
                 </View>
                 </View>
@@ -1147,6 +1108,94 @@ export class NewAccount extends Component {
                         </Text>
                     </View>
 
+                    <TouchableOpacity 
+                     onPress={()=>{
+                      const card_identification = this.state.cedula;
+                      const phone_mobile = this.state.telefono;
+                      const address = this.state.direccion;
+                      const marital_status = this.state.selectedEstadoCivil;
+                      const email = this.state.correo;
+                      const password = this.state.contrasena;
+                      const password2 = this.state.contrasena2;
+                      const name = this.state.nombres;
+                      const lastname = this.state.apellidos;
+                      const date_of_birth = this.state.fechanacimiento;
+                      const reference = this.state.referencia;
+                      const phone_conventional = this.state.telefono_convencional;
+                      const ocupation = this.state.selectedText;
+                      
+                          if(!this.state.acceptTerms){
+                            // if(!this.existAlert()) alert('no hay alertas')
+                            Alert.alert('Importante!','Por favor acepte los Términos y condiciones de AdopciónPG.');
+                            return;
+                          }
+                    
+                           
+                    
+                            if((name == '' || lastname == '' || email == '' || password == '' 
+                            || card_identification === '' || date_of_birth === '1980-01-01' || phone_mobile === ''
+                            || phone_conventional === '' || address === '' || reference === '' || marital_status === ''
+                            || ocupation === '' || password2 === ''
+                            )||
+                            (this.state.alertCedula === true || 
+                              this.state.alertNombres === true|| 
+                              this.state.alertApellidos === true ||
+                              this.state.alertTelefono === true || 
+                              this.state.alertTelefonoConvencional === true  || 
+                              this.state.alertDireccion === true || 
+                              this.state.alertReferencia === true || 
+                              this.state.alertCorreo === true ||
+                              this.state.alertContrasena === true || 
+                              this.state.alertContrasena2 === true 
+                              ))
+                              {
+                                Alert.alert('Información Requerida', 'Por favor ingrese toda la información solicitada.')
+                                //this.props.navigation.navigate('RegisterSuccessfull')
+                                return
+                            }
+                            let exist = false;
+                            this.state.snapshot.forEach(child => {
+                              let user = child.val();
+                              
+                              if(user.card_identification === this.state.cedula){
+                                exist = true;
+                                //break;
+                              }
+                            });
+
+                            if(exist){
+                              Alert.alert('Advertencia','Ya existe un usuario registrado con esta cédula.')
+                              this.setState({alertCedulaExiste: true})
+                              return;
+                            }
+                            else{
+                              const arrayDate = date_of_birth.split('-');
+                              const anio = parseInt(arrayDate[0]);
+                              var hoy = new Date()
+                              const anioactual = parseInt(hoy.getFullYear());
+                              const edad = anioactual - anio
+                              if(edad < 18){
+                                Alert.alert('Advertencia', 'No se puede proceder con el registro, usted es menor de edad.')
+                              }
+                              else{
+                                this.createUser()
+                              }
+                             
+                            }
+                          
+                          
+                        // }
+                        
+                    }}
+                    >
+                  {/*background-image: linear-gradient(to right top, #439d16, #3e840e, #386c09, #305606, #264004);*/}
+              <LinearGradient colors={['#439d16', '#3e840e', '#386c09', '#305606', '#264004']} style={style.linearGradient}>
+                <Text style={style.buttonText}>
+                  Registrarse
+                </Text>
+              </LinearGradient>
+              </TouchableOpacity>
+{/* 
                     <ButtonCustom  
                             title="Registrarse"
                             colorcustom={myTheme['color-success-700']}
@@ -1165,7 +1214,7 @@ export class NewAccount extends Component {
                                 
                             }}
                             
-                           />
+                           /> */}
                 </View>
                 </KeyboardAwareScrollView>
                 
@@ -1241,7 +1290,24 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         color: myTheme['color-primary-700']
 
-    }
+    },
+    linearGradient: {
+      //flex: 1,
+      marginTop: 10,
+      paddingLeft: 15,
+      paddingRight: 15,
+      marginBottom: 20,
+      paddingVertical: 5,
+      borderRadius: 25
+    },
+    buttonText: {
+      fontSize: 18,
+      fontFamily: 'Gill Sans',
+      textAlign: 'center',
+      margin: 10,
+      color: '#ffffff',
+      backgroundColor: 'transparent',
+    },
 })
 
 const styles = StyleSheet.create({
@@ -1261,6 +1327,7 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
       },
+      
    });
 
    const Styles = StyleSheet.create({
@@ -1333,7 +1400,8 @@ const styles = StyleSheet.create({
       shadowColor: "#d3d3d3",
       borderRadius: 5,
       flexDirection: "row"
-    }
+    },
+    
   });
 
 export default withStyles(NewAccount, myTheme => ({
