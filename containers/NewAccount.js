@@ -108,6 +108,10 @@ export class NewAccount extends Component {
               {
                 id: "4",
                 name: "Viudo"
+              },
+              {
+                id: "5",
+                name: "Unión de hecho"
               }
             ],
             placeHolderText: "Seleccione una ocupación",
@@ -476,6 +480,7 @@ export class NewAccount extends Component {
                         //placeholder=' Nombres'
                         keyboardType='ascii-capable'
                         // secureTextEntry={true}
+                        maxLength={30}
                         value={this.state.nombres}
                         onChangeText={this.handleName}
                         placeholderTextColor={myTheme['color-material-primary-400']}
@@ -509,6 +514,7 @@ export class NewAccount extends Component {
                         //placeholder=' Apellidos'
                         keyboardType='ascii-capable'
                         // secureTextEntry={true}
+                        maxLength={30}
                         value={this.state.apellidos}
                         onChangeText={this.handleLastName}
                         placeholderTextColor={myTheme['color-material-primary-400']}
